@@ -1,13 +1,87 @@
 /* .FracValues{
     text-align: left;
     margin-left: 10px;
-}
-.FracCanvas{
-    text-align: center;
-    width: 300;
-    height: 300;
 } */
+.FracCanvas{
+    /* text-align: center; */
+}
 
 .FractionVisual{
     text-align: center;
 }
+
+.catimg{
+    max-width: 4vw;
+}
+
+.cats{
+    display: inline-block;
+    max-width: 12vw;
+}
+
+.result-cats{
+    display: inline-block;
+    max-width: 12vw;
+    animation: wiggle 3s linear;
+
+}
+
+.equals-button{
+    cursor: pointer;
+    border: 0ch;
+    background-color: white;
+}
+
+.AddSubtVisual{
+    display: flex;
+    justify-content: space-between;
+    width: 40vw;
+}
+
+.AddSubtDesc{
+    justify-content: center;
+    margin-bottom: 2px;
+    /* animation-duration: 2s;
+    animation-name: slidein;
+    margin-left: 31%; */
+
+
+}
+
+/* Keyframes */
+@keyframes wiggle {
+    0%, 7% {
+      transform: rotateZ(0);
+    }
+    15% {
+      transform: rotateZ(-15deg);
+    }
+    20% {
+      transform: rotateZ(10deg);
+    }
+    25% {
+      transform: rotateZ(-10deg);
+    }
+    30% {
+      transform: rotateZ(6deg);
+    }
+    35% {
+      transform: rotateZ(-4deg);
+    }
+    40%, 100% {
+      transform: rotateZ(0);
+    }
+  }
+
+  /* @keyframes slidein {
+    from {
+      margin-left: 2%;
+      /* width: 300%; */
+      /* width: 100%;
+    }
+   */
+    /* to {
+      margin-left: 31%;
+      width: 50%;
+    }
+  } */
