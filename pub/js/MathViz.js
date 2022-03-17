@@ -12,7 +12,6 @@ console.log('MathViz: Math Learning Visualisations!!')
 
 
 // 1. FRACTION PIE CHARTS
-// TODO: INTERACTIONS (add radius!!!!!!!!!!!!) 
 // TODO: Mixed Numbers
 
 // this.slices = [  [slice, angles] , [slice, angles] .... ] -> angles = [start_angle, end_angle]
@@ -208,7 +207,6 @@ FractionVisual.prototype = {
 // maybe a custom choice b/w cats,dogs,stars etc?
 // deal with negative numbers, do results
 // what if some addition some subtraction? maybe add a list of signs?
-// separate out description box functionality
 
 function makeCat(){
     var cat = document.createElement('span');

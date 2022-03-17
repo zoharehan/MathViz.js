@@ -13,5 +13,9 @@ check.makeFractionVisual();
 // makeCatGroup(5);
 // makeCatGroup(5);
 
-const check2 = new AddSubtVisualisation([4,2],true);
+const check2 = new AddSubtVisualisation([4,2],false);
 check2.makeVisual();
+
+// deal w negatives
+// const check3 = new AddSubtVisualisation([2,4],false);
+// check3.makeVisual();
