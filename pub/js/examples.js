@@ -22,3 +22,6 @@ check2.addExplanation("when you have 2 and take away 4, you have negative 2 left
 
 const check4 = new MatrixScalarMultiplication(2,3,3,[1,2,3,4,1,2,3,4,5]);
 check4.makeVisual();
+
+const check5 = new MatrixMatrixMultiplication([2,2], [2,2], [1,2,3,4], [1,2,3,4]);
+check5.makeVisual();

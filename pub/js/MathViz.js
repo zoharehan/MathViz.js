@@ -525,3 +525,80 @@ MatrixScalarMultiplication.prototype = {
 
 }
 
+function MatrixMatrixMultiplication(dims1, dims2, vals1=null, vals2=null){
+    this.dims1 = dims1;
+    this.dims2 = dims2;
+    this.vals1 = vals1;
+    this.vals2 = vals2;
+
+    // cols of 1st should eq. rows of 2nd
+    if(this.dims1[1] != this.dims2[0]){
+        alert("Invalid Dimensions: the number of columns in the first matrix must be equal to the number of rows in the second matrix!");
+        return;
+    }
+
+    if(this.vals1 == null){
+        this.vals1 = GenerateRandomMatrixValues(this.dims1[0],this.dims1[1]);
+    }
+    if(this.vals2 == null){
+        this.vals2 = GenerateRandomMatrixValues(this.dims1[0],this.dims1[1]);
+    }
+
+}
+
+// write result function 
+function MatrixMatrixResult(dims1, dims2, vals1, vals2){
+    // calculate the result
+    var res = []
+    for(let row = 0; row<rows1; row++){
+        // row multiplied by every column 
+        // 2x3 -> [1,2,3  
+        //         4,5,6]
+        // 3x2 -> [1,2  
+        //         3,4  
+        //         5,6]
+        var temp_row = null;
+
+    }
+}
+
+MatrixMatrixMultiplication.prototype = {
+    makeVisual: function(){
+
+        // check for valid calculation
+        if(this.dims1[1] != this.dims2[0]){
+            alert("Invalid Dimensions: the number of columns in the first matrix must be equal to the number of rows in the second matrix!");
+            return;
+        }
+
+        var mat_mat_container = document.createElement('div');
+        mat_mat_container.className = "MatrixScalarVisual";
+
+        var matrix_div_one = document.createElement('div');
+        matrix_div_one.className = "MatrixDiv";
+        var matrix_one = GenerateMatrix(this.dims1[0],this.dims1[1],this.vals1);
+        matrix_div_one.appendChild(matrix_one);
+
+        var mult_sign = document.createElement('h3');
+        mult_sign.innerText = "x";
+        mult_sign.className = "ScalarMultSign";
+
+        var matrix_div_two = document.createElement('div');
+        matrix_div_two.className = "MatrixDiv";
+        var matrix_two = GenerateMatrix(this.dims2[0],this.dims2[1],this.vals2);
+        matrix_div_two.appendChild(matrix_two);
+
+        var eq_sign = document.createElement('h3');
+        eq_sign.innerText = "=";
+        eq_sign.className = "ScalarMultSign";
+
+        mat_mat_container.appendChild(matrix_div_one);
+        mat_mat_container.appendChild(mult_sign);
+        mat_mat_container.appendChild(matrix_div_two);
+        mat_mat_container.appendChild(eq_sign);
+        document.body.appendChild(mat_mat_container);
+
+
+
+    }
+}
