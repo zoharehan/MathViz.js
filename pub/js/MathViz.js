@@ -205,7 +205,7 @@ FractionVisual.prototype = {
 
 // 2. ADDITION/SUBTRACTION STUFF
 // maybe a custom choice b/w cats,dogs,stars etc?
-// deal with negative numbers, do results
+// for negative numbers, add crossed out cats
 // what if some addition some subtraction? maybe add a list of signs?
 
 function makeCat(){
@@ -248,7 +248,7 @@ function makeCatGroup(num, res=false){
     else{
         cats.className = "cats"
     }
-    for(let i = 0; i < num; i++){
+    for(let i = 0; i < Math.abs(num); i++){
         var cat = makeCat();
         cats.appendChild(cat);
     }
@@ -263,14 +263,15 @@ function AddSubtVisualisation(numbers, add){
     this.numbers = numbers
     this.add = add
     // might need might not?
-    this.canvas = document.getElementById('canvas');
-    this.ctx = canvas.getContext('2d');
+    // this.canvas = document.getElementById('canvas');
+    // this.ctx = canvas.getContext('2d');
+    this.container = null
 
     // result calculation
     this.result = 0
     for(let i = 0; i<this.numbers.length; i++){
         if(this.add){
-            this.result+= this.numbers[i]
+            this.result += this.numbers[i]
         }
         else{
             if(i == 0){
@@ -281,12 +282,15 @@ function AddSubtVisualisation(numbers, add){
             }
         }
     }
+    // checking result
+    // console.log("result: ", this.result);
 
 
 }
 
 AddSubtVisualisation.prototype = {
     makeVisual: function(){
+        const container = document.createElement('div');
         const visual = document.createElement('span');
         visual.className = "AddSubtVisual"
         //  do the last one manually bec it doesnt need a plus
@@ -309,7 +313,8 @@ AddSubtVisualisation.prototype = {
         visual.appendChild(last_cats);
         var equals = document.createElement('button');
         equals.innerText = '=';
-        equals.className = "equals-button"
+        equals.className = "button"
+
 
         var result_cats = makeCatGroup(this.result, true, this.numbers);
 
@@ -319,21 +324,204 @@ AddSubtVisualisation.prototype = {
             if(result_cats.style.display == "none"){
                 console.log("clik")
                 result_cats.style.display = "inline-block"
+                r_sign.style.display = "inline-block"
             }
             else if(result_cats.style.display == "inline-block"){
                 console.log("clik block")
                 result_cats.style.display = "none"
+                r_sign.style.display = "none"
 
             }
 
         })
         visual.appendChild(equals);
+        if(this.result < 0){
+            var r_sign = document.createElement('p');
+            r_sign.innerText = '-';
+            r_sign.style.display = "none";
+            visual.appendChild(r_sign);
+
+        }
+       
 
         // add a cat group for result here
        
         visual.appendChild(result_cats);
 
-        document.body.appendChild(visual);
+        container.appendChild(visual);
+
+        this.container = container;
+
+        document.body.appendChild(container);
+
+    },
+
+    // make sure this doesn't exceed the width of the span above
+    addExplanation: function(exp){
+        var explain = document.createElement('p');
+        explain.className = "AddSubtExplanation";
+        explain.innerText = exp;
+        this.container.appendChild(explain);
 
     }
 }
+
+
+// make matrix mult visualisation
+// make division visualisation
+
+// 3. matrix visualisation
+// add long brackets around matrix
+function GenerateMatrix(row,col,vals,res=false){
+    var matrix = document.createElement('div');
+    matrix.className = "matrix";
+    matrix.style.setProperty('--grid-rows', row);
+    matrix.style.setProperty('--grid-cols', col);
+    for(let i = 0; i<(row*col); i++){
+        var element = document.createElement('div');
+        var element_text = document.createElement('div');
+        element_text.innerText = vals[i];
+        element_text.className = "grid-text"
+        if(res){
+            element_text.style.display = "none";
+        }
+        element.appendChild(element_text);
+        element.className = 'grid-item';
+        // if(i==0){
+        //     element_text.style.display = "none";
+        // }
+        matrix.appendChild(element);
+    }
+    // document.body.appendChild(matrix);
+    return matrix;
+
+}
+
+function GenerateRandomMatrixValues(r,c){
+    var ret = []
+    for(let i = 0; i<(r*c); i++){
+        ret.push(i);
+    }
+    return ret;
+}
+
+function CalculateMatrixScalarResults(s,r,c,vals){
+    var ret = []
+    for(let i = 0; i<(r*c); i++){
+        ret.push(vals[i]*s);
+    }
+    return ret;
+
+}
+
+function MatrixScalarMultiplication(scalar, mat_rows, mat_cols, mat_vals=null){
+    this.scalar = scalar;
+    this.rows = mat_rows;
+    this.cols = mat_cols;
+    this.vals = mat_vals;
+    this.clicks = 0;
+    this.num_steps = this.rows*this.cols;
+
+    if(this.vals == null){
+        this.vals = GenerateRandomMatrixValues(this.rows,this.cols);
+    }
+
+    this.results = CalculateMatrixScalarResults(this.scalar,this.rows,this.cols,this.vals);
+
+    //TODO: calculations 
+}
+
+function ChangeBackgrounds(c,el){
+    for(let i = 0; i < el.length; i++){
+        if(i == c){
+            el[i].style.backgroundColor = "aliceblue";
+        }
+        else{
+            el[i].style.backgroundColor = "white";
+        }
+    }
+
+}
+
+function updateHeader(el,scalar,num){
+    el.innerText = scalar + " x " + num;
+    el.style.display = "block";
+}
+
+MatrixScalarMultiplication.prototype = {
+    makeVisual: function(){
+        var mat_container = document.createElement('div');
+        mat_container.className = "MatrixScalarVisual";
+
+        var scalar = document.createElement('h3');
+        scalar.innerText = this.scalar;
+        scalar.className = "MatrixScalar";
+
+        var mult_sign = document.createElement('h3');
+        mult_sign.innerText = "x";
+        mult_sign.className = "ScalarMultSign";
+
+        var eq_sign = document.createElement('h3');
+        eq_sign.innerText = "=";
+        eq_sign.className = "ScalarMultSign";
+
+        var matrix_div = document.createElement('div');
+        matrix_div.className = "MatrixDiv";
+        var matrix = GenerateMatrix(this.rows,this.cols,this.vals);
+        matrix_div.appendChild(matrix);
+
+        var r_matrix_div = document.createElement('div');
+        r_matrix_div.className = "MatrixDiv";
+        var r_matrix = GenerateMatrix(this.rows,this.cols,this.results, true);
+        r_matrix_div.appendChild(r_matrix);
+
+        var next_step = document.createElement('button');
+        next_step.innerText = 'Next Step';
+        next_step.className = "next-button"
+
+        var header = document.createElement('h3');
+        header.className = "MatrixScalarHeader"
+        // header.style.display = "none";
+
+
+        next_step.addEventListener('click', (e)=>{
+            if(this.clicks > this.rows*this.cols-1){
+                alert("Cogratulations, you reviewed all the steps!");
+                return;
+            }
+
+            var res_mat_text = r_matrix_div.firstChild.children[this.clicks].firstChild;
+            // console.log(r_matrix_div.firstChild.children[this.clicks].firstChild);
+            // console.log(el_text);
+            res_mat_text.style.display = "block";
+            ChangeBackgrounds(this.clicks,r_matrix_div.firstChild.children);
+            ChangeBackgrounds(this.clicks,matrix_div.firstChild.children);
+            updateHeader(header,this.scalar,this.vals[this.clicks]);
+            // scalar.style.backgroundColor = "aliceblue";
+            // res_mat_text.parentElement.style.backgroundColor = "aliceblue";
+            this.clicks+=1;
+
+        })
+
+
+        // result matrix
+        var mat_scalar_container = document.createElement('div');
+        mat_scalar_container.style.width = "40vw";
+        // mat_scalar_container.style.marginTop = "5px"
+        mat_scalar_container.style.textAlign = "center";
+        
+        mat_container.appendChild(scalar);
+        mat_container.appendChild(mult_sign);
+        mat_container.appendChild(matrix_div);
+        mat_container.appendChild(eq_sign);
+        mat_container.appendChild(r_matrix_div);
+        // mat_container.appendChild(next_step);
+
+        mat_scalar_container.appendChild(header);
+        mat_scalar_container.appendChild(mat_container);
+        mat_scalar_container.appendChild(next_step);
+        document.body.appendChild(mat_scalar_container);
+    }
+
+}
+

@@ -13,9 +13,12 @@ check.makeFractionVisual();
 // makeCatGroup(5);
 // makeCatGroup(5);
 
-const check2 = new AddSubtVisualisation([4,2],false);
+const check2 = new AddSubtVisualisation([2,4],false);
 check2.makeVisual();
-
+check2.addExplanation("when you have 2 and take away 4, you have negative 2 left")
 // deal w negatives
 // const check3 = new AddSubtVisualisation([2,4],false);
 // check3.makeVisual();
+
+const check4 = new MatrixScalarMultiplication(2,3,3,[1,2,3,4,1,2,3,4,5]);
+check4.makeVisual();

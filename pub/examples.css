@@ -20,16 +20,30 @@
 }
 
 .result-cats{
-    display: inline-block;
+    display: none;
     max-width: 12vw;
     animation: wiggle 3s linear;
 
 }
 
-.equals-button{
+.r-sign{
+    display: none;
+}
+
+.button{
     cursor: pointer;
     border: 0ch;
     background-color: white;
+}
+
+.next-button{
+    cursor: pointer;
+    /* border: 0ch; */
+    background-color: white;
+    width: fit-content;
+    height: fit-content;
+    align-self: center;
+    margin-top: 20px;
 }
 
 .AddSubtVisual{
@@ -41,12 +55,72 @@
 .AddSubtDesc{
     justify-content: center;
     margin-bottom: 2px;
+    display: none;
     /* animation-duration: 2s;
     animation-name: slidein;
     margin-left: 31%; */
 
 
 }
+
+.AddSubtExplanation{
+    display: block;
+    justify-content: space-between;
+    width: 40vw;
+    text-align: center;
+}
+
+:root {
+    --grid-cols: 1;
+    --grid-rows: 1;
+  }
+  
+.matrix {
+display: grid;
+grid-gap: 1em;
+grid-template-rows: repeat(var(--grid-rows), 1fr);
+grid-template-columns: repeat(var(--grid-cols), 1fr);
+max-width: 20vw;
+}
+  
+.grid-item {
+padding: 1em;
+border: 1px solid #ddd;
+/* text-align: center; */
+display: flex;
+flex-direction: column;
+justify-content: space-evenly;
+max-width: 34px;
+max-height: 34px;
+}
+
+.MatrixScalar{
+    display: inline-block;
+}
+
+.ScalarMultSign{
+    display: inline-block;
+}
+
+.MatrixDiv{
+    display: inline-block;
+}
+
+.MatrixScalarVisual{
+    text-align: center;
+    width: 40vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.MatrixScalarHeader{
+    width: 40vw;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    display: none;
+}
+
 
 /* Keyframes */
 @keyframes wiggle {
