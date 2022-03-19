@@ -1,0 +1,198 @@
+/* .FracValues{
+    text-align: left;
+    margin-left: 10px;
+} */
+.FracCanvas{
+    /* text-align: center; */
+}
+
+.FractionVisual{
+    text-align: center;
+}
+
+.catimg{
+    max-width: 4vw;
+}
+
+.cats{
+    position: relative;
+    display: inline-block;
+    max-width: 12vw;
+    vertical-align: top;
+}
+
+.result-cats{
+    display: inline-block;
+    visibility: hidden;
+    max-width: 12vw;
+    
+
+}
+
+.animate{
+    animation: wiggle 3s linear;
+}
+
+.r-sign{
+    display: none;
+}
+
+.button{
+    cursor: pointer;
+    border: 0ch;
+    background-color: inherit;
+}
+
+.next-button{
+    cursor: pointer;
+    /* border: 0ch; */
+    background-color: white;
+    width: fit-content;
+    height: fit-content;
+    align-self: center;
+    margin-top: 20px;
+}
+
+.addSubtResultSign{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.AddSubtVisual{
+    display: flex;
+    justify-content: space-between;
+    width: 40vw;
+}
+
+.AddSubtDesc{
+  /* position: absolute; */
+    justify-content: center;
+    margin-bottom: 2px;
+    display: flex;
+    visibility: hidden;
+    color: rgb(63, 63, 63);
+    /* animation-duration: 2s;
+    animation-name: slidein;
+    margin-left: 31%; */
+
+}
+
+.AddSubtSign{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.AddSubtExplanation{
+    display: block;
+    justify-content: space-between;
+    width: 40vw;
+    text-align: center;
+    color: rgb(63, 63, 63);
+}
+
+:root {
+    --matrix-rows: 1;
+    --matrix-cols: 1;
+    
+  }
+  
+.matrix {
+display: grid;
+grid-gap: 1em;
+grid-template-rows: repeat(var(--matrix-rows), 1fr);
+grid-template-columns: repeat(var(--matrix-cols), 1fr);
+max-width: 20vw;
+}
+  
+.matrix-element {
+padding: 1em;
+border: 1px solid #ddd;
+/* text-align: center; */
+display: flex;
+flex-direction: column;
+justify-content: space-evenly;
+max-width: 34px;
+max-height: 34px;
+}
+
+.MatrixScalar{
+    display: inline-block;
+}
+
+.ScalarMultSign{
+    display: inline-block;
+}
+
+.MatrixDiv{
+    display: inline-block;
+}
+
+.MatrixScalarVisual{
+    text-align: center;
+    width: 40vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.MainMatContainer{
+  width: 40vw;
+  text-align: center;
+
+}
+
+.MatrixMatrixVisual{
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  max-width: 60vw;
+
+}
+
+.MainMatrixHeader{
+    width: 40vw;
+    text-align: center;
+    display: block;
+    justify-content: space-between;
+    visibility: hidden;
+}
+
+
+/* Keyframes */
+@keyframes wiggle {
+    0%, 7% {
+      transform: rotateZ(0);
+    }
+    15% {
+      transform: rotateZ(-15deg);
+    }
+    20% {
+      transform: rotateZ(10deg);
+    }
+    25% {
+      transform: rotateZ(-10deg);
+    }
+    30% {
+      transform: rotateZ(6deg);
+    }
+    35% {
+      transform: rotateZ(-4deg);
+    }
+    40%, 100% {
+      transform: rotateZ(0);
+    }
+  }
+
+  /* @keyframes slidein {
+    from {
+      margin-left: 2%;
+      /* width: 300%; */
+      /* width: 100%;
+    }
+   */
+    /* to {
+      margin-left: 31%;
+      width: 50%;
+    }
+  } */

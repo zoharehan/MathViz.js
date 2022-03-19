@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <!-- canvas -->
-    <canvas id="canvas"></canvas>
+    <!-- <canvas id="canvas"></canvas> -->
     <!-- jquery script -->
     <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- add js library script here -->
@@ -13,9 +13,156 @@
     <!-- examples -->
     <script defer type="text/javascript" src='js/examples.js'></script>
     <link rel="stylesheet" href="examples.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>hi</h1>
+
+<!-- too much space above, fix it -->
+<div class="container">
+
+<h1 class="title">MathViz.js</h1>
+<h2 class="subtitle">A Mathematical Visualisation Library</h2>
+
+<p>Let's explore some of the library's features!</p>
+
+<!-- add another example for addition -->
+<h3>Addition & Subtraction Visualisation</h3>
+<!-- style this div to be inline block -->
+<div class="addSubtDemoContainer">
+
+    <div class="visual">
+
+        <div class="addSubtQuestionVisual">
+            <div class="addSubtDemoQuestion">
+                <p class="QuestionText">
+                    Imagine four kittens 
+                    were sleeping together. Now, 2 woke up and left. How many kittens do we have left?
+                </p>
+            </div>
+            <div id="addSubtDemoVisual">
+                <!-- add visual here -->
+            </div>
+        </div>
+
+    </div>
+
+    
+
+    <!-- TODO: change coloR -->
+    <div class="Visual">
+        <div class="addSubtQuestionVisual">
+            <div class="addSubtDemoQuestion">
+                <p class="QuestionText">
+                    You have two dogs, Allan and Murphy. On visiting the shelter, you can't decide
+                    and get five more. How many furry friends do you have now?
+                </p>
+            </div>
+            <div id="addSubtDemoVisual2">
+                <!-- add visual here -->
+            </div>
+        </div>
+
+    </div>
+   
+
+    <div class="addSubtInstructions">
+        <p>
+            Click on the equals sign to see results and click on it again to hide them!
+            <br>
+            You can also hover over the items to see additional information, in this case, the
+            numbers being represented :)
+        </p>
+        <p>
+            Note that the description at the bottom as well as the choice between cats and dogs can be customised
+            by the developer.
+        </p>
+        <!-- add what the developer puts in -->
+
+
+
+    </div>
+
+   
+   
+</div>
+
+<h3>Interative Fraction Visualisations</h3>
+
+<div class="fracDemoContainer">
+    <div id="fracDemoQuestion">
+        <p>
+            You and your friend just bought a pizza with 6 slices.
+            If your friend eats three slices, how much of the pizza 
+            has your friend eaten in fraction form? What if the pizza had 7 slices? 8?
+        </p>
+    </div>
+
+    <div class="FracDemoVisuals">
+        <div id="fracDemoVisual">
+            <!-- add visual here -->
+        </div>
+        <div id="fracDemoVisual1">
+
+        </div>
+        <div id="fracDemoVisual2">
+            
+        </div>
+
+
+    </div>
+  
+    <p>
+        Click on slices to see how the fraction changes :)
+    </p>
+    <p>
+        Note that the developer can customise the total slices, filled slices and fill color!
+    </p>
+</div>
+
+<h3>Matrix-Scalar Multiplication Step-by-Step Visualisations</h3>
+<p>New to Matrices? Our library's interactive animations makes the familiarisation
+    process easier!
+</p>
+<div id="matrixScalarDemoVisual">
+    <!-- add visual here -->
+</div>
+<p>
+    Click on the "Next Step" button to walk through the steps taken to multiply a scalar with
+    a matrix!
+    <br>
+    <br>
+    Once you finish going through the steps, you'll be informed through an alert. 
+    <br>
+    If you want to go over them
+    again, simply press "OK" and then click on the "Next Step" button to start the visualisation from the beginning!
+</p>
+<p>
+    Note that the developer can customise the scalar, matrix dimensions and values to better suit their task :)
+</p>
+
+<h3>Stumbling on Matrix Multiplication?</h3>
+<p>
+    Not to worry! Our library's Matrix-Matrix Multiplication Visualiser is here to help
+    and just one simple function call away!
+</p>
+<div id="matrixMatrixDemoVisual">
+    <!-- add visual here -->
+</div>
+<p>
+    Click on the "Next Step" button to walk through the steps taken to multiply two matrices!
+    <br>
+    Every click highlights the row and column being multiplied together as well as the result cell they correspond to.
+</p>
+<p>
+    Note that the developer can customise the matrices' dimensions and values to better suit their task :)
+</p>
+
+</div>
+
+
+
 </body>
+
+
 
 </html>
