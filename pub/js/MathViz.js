@@ -397,6 +397,35 @@ function GenerateMatrix(row,col,vals,res=false){
 
 }
 
+function GenerateMatrix2(row,col,vals,res=false){
+    var matrix = document.createElement('div');
+    matrix.className = "matrix";
+    matrix.style.setProperty('--grid-rows', row);
+    matrix.style.setProperty('--grid-cols', col);
+    for(let i = 0; i<row; i++){
+        for(let j = 0; j<col; j++){
+            var element = document.createElement('div');
+            var element_text = document.createElement('div');
+            element_text.innerText = vals[i][j];
+            element_text.className = "grid-text"
+            if(res){
+                element_text.style.display = "none";
+            }
+            element.appendChild(element_text);
+            element.className = 'grid-item';
+            // if(i==0){
+            //     element_text.style.display = "none";
+            // }
+            matrix.appendChild(element);
+
+        }
+       
+    }
+    // document.body.appendChild(matrix);
+    return matrix;
+
+}
+
 function GenerateRandomMatrixValues(r,c){
     var ret = []
     for(let i = 0; i<(r*c); i++){
@@ -537,6 +566,8 @@ function MatrixMatrixMultiplication(dims1, dims2, vals1=null, vals2=null){
         return;
     }
 
+    // TODO: FIX
+
     if(this.vals1 == null){
         this.vals1 = GenerateRandomMatrixValues(this.dims1[0],this.dims1[1]);
     }
@@ -544,22 +575,47 @@ function MatrixMatrixMultiplication(dims1, dims2, vals1=null, vals2=null){
         this.vals2 = GenerateRandomMatrixValues(this.dims1[0],this.dims1[1]);
     }
 
+    this.result = MatrixMatrixResult(this.dims1, this.dims2, this.vals1, this.vals2);
+
 }
 
 // write result function 
 function MatrixMatrixResult(dims1, dims2, vals1, vals2){
     // calculate the result
     var res = []
-    for(let row = 0; row<rows1; row++){
+    var temp = []
+    temp.fill(0,dims2[1]);
+    res.fill(temp,dims1[0]);
+    console.log(dims1);
+    console.log(dims2);
+
+    for(let i = 0; i<dims1[0]; i++){
+        res.push([]);
+        for(let k = 0; k < dims2[1]; k++){
+            res[i].push(0);
+        }
+    }
+
+    for(let row = 0; row<dims1[0]; row++){
         // row multiplied by every column 
         // 2x3 -> [1,2,3  
         //         4,5,6]
         // 3x2 -> [1,2  
         //         3,4  
         //         5,6]
-        var temp_row = null;
+        for(let col=0; col<dims2[1]; col++){
+            for(let j = 0; j < dims2[0]; j++){
+                res[row][col] += vals1[row][j] * vals2[j][col];
+            }
+
+        }
+        
+        
+        // var temp_row = null;
 
     }
+    console.log("res",res);
+    return res;
 }
 
 MatrixMatrixMultiplication.prototype = {
@@ -572,11 +628,11 @@ MatrixMatrixMultiplication.prototype = {
         }
 
         var mat_mat_container = document.createElement('div');
-        mat_mat_container.className = "MatrixScalarVisual";
+        mat_mat_container.className = "MatrixMatrixVisual";
 
         var matrix_div_one = document.createElement('div');
         matrix_div_one.className = "MatrixDiv";
-        var matrix_one = GenerateMatrix(this.dims1[0],this.dims1[1],this.vals1);
+        var matrix_one = GenerateMatrix2(this.dims1[0],this.dims1[1],this.vals1);
         matrix_div_one.appendChild(matrix_one);
 
         var mult_sign = document.createElement('h3');
@@ -585,17 +641,23 @@ MatrixMatrixMultiplication.prototype = {
 
         var matrix_div_two = document.createElement('div');
         matrix_div_two.className = "MatrixDiv";
-        var matrix_two = GenerateMatrix(this.dims2[0],this.dims2[1],this.vals2);
+        var matrix_two = GenerateMatrix2(this.dims2[0],this.dims2[1],this.vals2);
         matrix_div_two.appendChild(matrix_two);
 
         var eq_sign = document.createElement('h3');
         eq_sign.innerText = "=";
         eq_sign.className = "ScalarMultSign";
 
+        var matrix_div_three = document.createElement('div');
+        matrix_div_three.className = "MatrixDiv";
+        var matrix_three = GenerateMatrix2(this.dims1[0],this.dims1[1],this.result);
+        matrix_div_three.appendChild(matrix_three);
+
         mat_mat_container.appendChild(matrix_div_one);
         mat_mat_container.appendChild(mult_sign);
         mat_mat_container.appendChild(matrix_div_two);
         mat_mat_container.appendChild(eq_sign);
+        mat_mat_container.appendChild(matrix_div_three);
         document.body.appendChild(mat_mat_container);
 
 

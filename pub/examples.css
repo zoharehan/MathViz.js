@@ -113,6 +113,14 @@ max-height: 34px;
     justify-content: space-between;
 }
 
+.MatrixMatrixVisual{
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  max-width: 60vw;
+
+}
+
 .MatrixScalarHeader{
     width: 40vw;
     text-align: center;
