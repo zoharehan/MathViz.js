@@ -8,7 +8,7 @@ console.log('MathViz: Math Learning Visualisations!!')
 // 1. Fraction Pie Charts
 // 2. Addition simple circles, hover for numbers
 // 3. Subtraction " "
-// 4. either matrix mult or bar chart for conversions 
+// 4. Matrix Operations
 
 
 // 1. FRACTION PIE CHARTS
@@ -44,16 +44,6 @@ function alterFracHeader(header, num, den){
 
 }
 
-// function degreeToRadianHelper(num){
-//     var ans = num * (Math.PI / 180);
-//     return ans
-// }
-
-// function radianToDegreeHelper(num){
-//     var ans = num * (180 / Math.PI);
-//     return ans
-// }
-
 // adding interaction
 function validClick(x,y,slices,c,rad){
     // find the angle and redraw the corresponding slice 
@@ -64,7 +54,6 @@ function validClick(x,y,slices,c,rad){
         // make it positive again
         click_angle+= 2*Math.PI
     }
-    console.log("clickangle: ", click_angle)
 
     for(let i = 0; i < slices.length; i++){
         if(slices[i][1][0] <= click_angle && slices[i][1][1] > click_angle){
@@ -79,36 +68,41 @@ function validClick(x,y,slices,c,rad){
         s_idx = -1; 
     }
 
-    console.log(c);
-    console.log("idx: "+ s_idx);
+    // console.log(c);
+    // console.log("idx: "+ s_idx);
     return s_idx;
 
 }
 
-
-// can add color here 
-// color can be true or false
-
-function FractionVisual(num,den, color) {
+function FractionVisual(num, den, color) {
+    // slices: stores slices in the visual, colors stores each slice's current color
     this.slices = []
     this.colors = []
+
+    // the angle and radius of each slice in the visual
     this.angle = (1/den)*2*Math.PI
-    this.canvas = document.getElementById('canvas');
-    this.ctx = canvas.getContext('2d');
+    this.slice_rad = 0;
+    // center of the circular visual
+    this.center = [0,0]
+
+    // canvas and context for drawing
+    this.canvas = null;
+    this.ctx = null;
+
+    // fraction's numerator and denominator
     this.num = num
     this.den = den
-    this.center = [(this.canvas.width-2)/2,(this.canvas.height-2)/2]
+   
+    // the developer-picked fill color
     this.color = color;
-    this.slice_rad = 0;
+    
 }
 
 FractionVisual.prototype = {
     
-    makeFractionVisual: function() {
-        // TODO: UPDATE THIS TO WORK
+    makeFractionVisual: function(el) {
+
         const frac = document.createElement('div')
-        // // maybe add style?
-        const body = $('body')
         frac.className = 'FractionVisual'
 
         // header creation
@@ -123,6 +117,9 @@ FractionVisual.prototype = {
         var canv = document.createElement('canvas');
         canv.className = "FracCanvas";
         var ctx = canv.getContext('2d');
+        this.canvas = canv;
+        this.ctx = ctx;
+        this.center = [(this.canvas.width-2)/2,(this.canvas.height-2)/2]
         this.slice_rad = Math.min((this.canvas.width-4)/2,(this.canvas.height-4)/2);
 
         var s_angle = 0;
@@ -139,36 +136,41 @@ FractionVisual.prototype = {
         }
         this.canvas = canv;
         frac.appendChild(canv);
-        document.body.appendChild(frac);
+
+        el.appendChild(frac);
         
-        console.log(this.slices);
+        // console.log(this.slices);
         this.canvas.addEventListener('click', (e) =>{
             this.canvas.style.cursor = "pointer";
-            console.log(e);
+            
+            // identify click position
             var x = e.pageX - this.canvas.offsetLeft;
             var y = e.pageY - this.canvas.offsetTop;
+
+            // check if the position requires any action
             var slice_idx = validClick(x,y,this.slices,this.center,this.slice_rad);
+
             if(slice_idx != -1){
                 // redraw this slice with new fill and update header
                 if(this.colors[slice_idx] == true){
-                    //build one with numerator-1
-                    // this.ctx.clearRect(0,0,300,150);
                     // save angles to redraw
                     var slice_angles = this.slices[slice_idx][1]
-                    // make a white one, dont know if this works..
+                    // make a white one
                     this.slices[slice_idx] = [FracSlice(ctx,[slice_angles[0],slice_angles[1]],[(this.canvas.width-2)/2,(this.canvas.height-2)/2], Math.min((this.canvas.width-4)/2,(this.canvas.height-4)/2), "#fff"), [slice_angles[0],slice_angles[1]]];
                     this.colors[slice_idx] = false
-                    console.log("that's blue")
+
+                    // update numerator in the header
                     this.num -= 1
                     alterFracHeader(this.canvas.parentElement.firstChild,this.num,this.den)
                 } 
                 else{
                     //build one with numerator+1
                     var slice_angles = this.slices[slice_idx][1]
-                    // make a white one, dont know if this works..
+                    // make a white one
                     this.slices[slice_idx] = [FracSlice(ctx,[slice_angles[0],slice_angles[1]],[(this.canvas.width-2)/2,(this.canvas.height-2)/2], Math.min((this.canvas.width-4)/2,(this.canvas.height-4)/2), this.color), [slice_angles[0],slice_angles[1]]];
                     this.colors[slice_idx] = true
-                    console.log("that's white")
+                   
+                    // update numerator in the header
                     this.num += 1
                     alterFracHeader(this.canvas.parentElement.firstChild,this.num,this.den)
                 }
@@ -178,94 +180,63 @@ FractionVisual.prototype = {
       
     },
 
-    // onclick: function(e) {
-    //     var x = e.pageX - document.getElementById('canvas').offsetLeft;
-    //     var y = e.pageY - document.getElementById('canvas').offsetTop;
-    //     // check if the click is in the circle
-    //     // var clicked = (x - this.center[0]) * (x - this.center[0]) + (y - this.center[1]) * (y - this.center[1]);
-    //     // if (clicked <= this.radius * this.radius)
-    //     var slice_idx = validClick(x,y,this.slices,this.center);
-    //     console.log("slice idx = ", slice_idx);
-    //     if(slice_idx != -1){
-    //         // redraw this slice with new fill and update header
-    //         if(this.colors[i] == true){
-    //             //build one with numerator-1
-    //             // this.ctx.clearRect(0,0,w=300,h=150);
-    //             console.log("that's blue")
-    //         } 
-    //         else{
-    //             //build one with numerator+1
-    //             console.log("that's white")
-    //         }
-    //     }
-
-    // }
-
 }
 
 // 2. ADDITION/SUBTRACTION STUFF
-// maybe a custom choice b/w cats,dogs,stars etc?
-// for negative numbers, add crossed out cats
-// what if some addition some subtraction? maybe add a list of signs?
 
-function makeCat(){
+function makeCat(c=true){
     var cat = document.createElement('span');
     cat.className = "cat"
-    cat.innerHTML = '<img class="catimg" src="./heeheecat.png"></img>'
+    if(c){
+        cat.innerHTML = '<img class="catimg" src="./heeheecat.png"></img>'
+    }
+    else{
+        cat.innerHTML = '<img class="catimg" src="./dog.png"></img>'
+
+    }
+   
     return cat;
 }
 
-function makeCatGroup(num, res=false){
+function makeCatGroup(num, res=false, c){
+    // console.log("value of c: ", c)
     var cats = document.createElement('span');
 
     var desc = document.createElement('div')
     desc.innerText = num;
-    desc.style.display = "none";
+    // desc.style.display = "none";
     desc.className = "AddSubtDesc"
     cats.appendChild(desc)
     cats.addEventListener("mouseover", (e) => {
-        desc.style.display = "flex"
+        desc.style.visibility = "visible"
     })
     cats.addEventListener("mouseout", (e) => {
-        desc.style.display = "none"
+        desc.style.visibility = "hidden"
     })
 
     if(res){
         cats.className = "result-cats"
-        cats.style.display = "none"
-        // var desc = document.createElement('div')
-        // desc.innerText = "4 + 2 = 6";
-        // desc.style.display = "none";
-        // desc.className = "AddSubtDesc"
-        // cats.appendChild(desc)
-        // cats.addEventListener("mouseover", (e) => {
-        //     desc.style.display = "flex"
-        // })
-        // cats.addEventListener("mouseout", (e) => {
-        //     desc.style.display = "none"
-        // })
+        // cats.style.display = "none"
+        cats.style.visibility = "hidden";
     }
     else{
         cats.className = "cats"
     }
     for(let i = 0; i < Math.abs(num); i++){
-        var cat = makeCat();
+        var cat = makeCat(c);
         cats.appendChild(cat);
     }
-    // document.body.appendChild(cats);
     return cats
 }
-// group of objects needs a max width !!!
+
 
 //argument: list of numbers, add=true means addition false means subtraction
 // add a button to see results and then show six cats
-function AddSubtVisualisation(numbers, add){
+function AddSubtVisualisation(numbers, add, choice=true){
     this.numbers = numbers
     this.add = add
-    // might need might not?
-    // this.canvas = document.getElementById('canvas');
-    // this.ctx = canvas.getContext('2d');
     this.container = null
+    this.choice = choice
 
     // result calculation
     this.result = 0
@@ -282,24 +253,22 @@ function AddSubtVisualisation(numbers, add){
             }
         }
     }
-    // checking result
-    // console.log("result: ", this.result);
 
 
 }
 
 AddSubtVisualisation.prototype = {
-    makeVisual: function(){
+    makeVisual: function(el){
         const container = document.createElement('div');
         const visual = document.createElement('span');
         visual.className = "AddSubtVisual"
         //  do the last one manually bec it doesnt need a plus
-        console.log(this.numbers.length)
         for(let i = 0; i < this.numbers.length-1; i++){
-            console.log(i);
-            var cats = makeCatGroup(this.numbers[i]);
+
+            var cats = makeCatGroup(this.numbers[i],false,this.choice);
             visual.appendChild(cats);
             var sign = document.createElement('p');
+            sign.className = "AddSubtSign";
             if(this.add){
                 sign.innerText = '+'
             }
@@ -309,27 +278,31 @@ AddSubtVisualisation.prototype = {
             visual.appendChild(sign);
         }
         // last number and equalsto
-        var last_cats = makeCatGroup(this.numbers[this.numbers.length-1]);
+        var last_cats = makeCatGroup(this.numbers[this.numbers.length-1],false,this.choice);
         visual.appendChild(last_cats);
         var equals = document.createElement('button');
         equals.innerText = '=';
         equals.className = "button"
 
-
-        var result_cats = makeCatGroup(this.result, true, this.numbers);
+        var result_cats = makeCatGroup(this.result, true, this.choice);
 
         equals.addEventListener('click', (e)=>{
-            console.log(result_cats.style)
             
-            if(result_cats.style.display == "none"){
-                console.log("clik")
-                result_cats.style.display = "inline-block"
-                r_sign.style.display = "inline-block"
+            if(result_cats.style.visibility == "hidden"){
+                result_cats.style.visibility = "visible"
+                result_cats.classList.add("animate");
+                if(r_sign){
+                    r_sign.style.visibility = "visible"
+                }
+               
             }
-            else if(result_cats.style.display == "inline-block"){
-                console.log("clik block")
-                result_cats.style.display = "none"
-                r_sign.style.display = "none"
+            else if(result_cats.style.visibility == "visible"){
+                result_cats.style.visibility = "hidden"
+                result_cats.classList.remove("animate");
+                if(r_sign){
+                    r_sign.style.visibility = "hidden"
+                }
+               
 
             }
 
@@ -337,8 +310,9 @@ AddSubtVisualisation.prototype = {
         visual.appendChild(equals);
         if(this.result < 0){
             var r_sign = document.createElement('p');
+            r_sign.className = "addSubtResultSign"
             r_sign.innerText = '-';
-            r_sign.style.display = "none";
+            r_sign.style.visibility = "hidden";
             visual.appendChild(r_sign);
 
         }
@@ -352,7 +326,7 @@ AddSubtVisualisation.prototype = {
 
         this.container = container;
 
-        document.body.appendChild(container);
+        el.appendChild(container);
 
     },
 
@@ -366,53 +340,48 @@ AddSubtVisualisation.prototype = {
     }
 }
 
-
-// make matrix mult visualisation
-// make division visualisation
-
 // 3. matrix visualisation
-// add long brackets around matrix
+
+//  here vals is just a list of numbers
 function GenerateMatrix(row,col,vals,res=false){
     var matrix = document.createElement('div');
     matrix.className = "matrix";
-    matrix.style.setProperty('--grid-rows', row);
-    matrix.style.setProperty('--grid-cols', col);
+    matrix.style.setProperty('--matrix-rows', row);
+    matrix.style.setProperty('--matrix-cols', col);
     for(let i = 0; i<(row*col); i++){
         var element = document.createElement('div');
         var element_text = document.createElement('div');
         element_text.innerText = vals[i];
-        element_text.className = "grid-text"
+        element_text.className = "matrix-text"
         if(res){
             element_text.style.display = "none";
         }
         element.appendChild(element_text);
-        element.className = 'grid-item';
-        // if(i==0){
-        //     element_text.style.display = "none";
-        // }
+        element.className = 'matrix-element';
+
         matrix.appendChild(element);
     }
-    // document.body.appendChild(matrix);
     return matrix;
 
 }
 
+// this has vals as [[1,2,3], [4,5,6], ....] -> a list for each row
 function GenerateMatrix2(row,col,vals,res=false){
     var matrix = document.createElement('div');
     matrix.className = "matrix";
-    matrix.style.setProperty('--grid-rows', row);
-    matrix.style.setProperty('--grid-cols', col);
+    matrix.style.setProperty('--matrix-rows', row);
+    matrix.style.setProperty('--matrix-cols', col);
     for(let i = 0; i<row; i++){
         for(let j = 0; j<col; j++){
             var element = document.createElement('div');
             var element_text = document.createElement('div');
             element_text.innerText = vals[i][j];
-            element_text.className = "grid-text"
+            element_text.className = "matrix-text"
             if(res){
                 element_text.style.display = "none";
             }
             element.appendChild(element_text);
-            element.className = 'grid-item';
+            element.className = 'matrix-element';
             // if(i==0){
             //     element_text.style.display = "none";
             // }
@@ -426,6 +395,7 @@ function GenerateMatrix2(row,col,vals,res=false){
 
 }
 
+// TODO:MODIFY
 function GenerateRandomMatrixValues(r,c){
     var ret = []
     for(let i = 0; i<(r*c); i++){
@@ -460,10 +430,10 @@ function MatrixScalarMultiplication(scalar, mat_rows, mat_cols, mat_vals=null){
     //TODO: calculations 
 }
 
-function ChangeBackgrounds(c,el){
+function changeBackgrounds(c,el){
     for(let i = 0; i < el.length; i++){
         if(i == c){
-            el[i].style.backgroundColor = "aliceblue";
+            el[i].style.backgroundColor = "#C0EAFA";
         }
         else{
             el[i].style.backgroundColor = "white";
@@ -472,13 +442,73 @@ function ChangeBackgrounds(c,el){
 
 }
 
-function updateHeader(el,scalar,num){
-    el.innerText = scalar + " x " + num;
-    el.style.display = "block";
+function matMatHighlight(row,col,dims1,dims2,mat1,mat2){
+    var lower_bound = (row*dims1[1])-1;
+    var upper_bound = (row+1)*dims1[1];
+
+    // start from row*(num_cols) for num_cols
+    for(let i = 0; i < (dims1[0]*dims1[1]); i++){
+        
+        if(lower_bound<i && i<upper_bound){
+            mat1.firstChild.children[i].style.backgroundColor = "#C0EAFA";
+        }
+        else{
+            mat1.firstChild.children[i].style.backgroundColor = "white";
+        }
+
+    }
+
+    for(let i = 0; i < (dims2[0]*dims2[1]); i++){
+        if(i%dims2[1] == col){
+            mat2.firstChild.children[i].style.backgroundColor = "#C0EAFA";
+        }
+        else{
+            mat2.firstChild.children[i].style.backgroundColor = "white";
+        }
+    }
+
+}
+
+function updateHeader(el,scalar,num,end=false){
+    if(end){
+        el.innerText = "Finished Multiplying!"
+
+    }
+    else{
+        el.innerText = scalar + " x " + num;
+    }
+    el.style.visibility = "visible";
+}
+
+function updateMatMatHeader(el,dims1,dims2,vals1,vals2,row,col){
+    var row_str = "(";
+
+    for(let i = 0; i < dims1[1]-1; i++){
+        row_str += vals1[row][i];
+        row_str += " , "
+    }
+    // add last one
+    row_str += vals1[row][dims1[1]-1];
+    row_str += ")";
+
+    var col_str = "(";
+
+    for(let i = 0; i < dims2[0]-1; i++){
+        col_str += vals2[i][col];
+        col_str += " , "
+    }
+    // add last one
+    col_str += vals2[dims2[0]-1][col];
+    col_str += ")";
+
+    el.innerText = row_str + " . " + col_str;
+    el.style.visibility = "visible";
+
+
 }
 
 MatrixScalarMultiplication.prototype = {
-    makeVisual: function(){
+    makeVisual: function(el){
         var mat_container = document.createElement('div');
         mat_container.className = "MatrixScalarVisual";
 
@@ -509,25 +539,29 @@ MatrixScalarMultiplication.prototype = {
         next_step.className = "next-button"
 
         var header = document.createElement('h3');
-        header.className = "MatrixScalarHeader"
+        header.className = "MainMatrixHeader"
         // header.style.display = "none";
 
 
         next_step.addEventListener('click', (e)=>{
             if(this.clicks > this.rows*this.cols-1){
                 alert("Cogratulations, you reviewed all the steps!");
+                changeBackgrounds(this.clicks,r_matrix_div.firstChild.children);
+                changeBackgrounds(this.clicks,matrix_div.firstChild.children);
+
+                // print finished since steps are over now!
+                updateHeader(header,null,null,true);
+                this.clicks = 0;
                 return;
             }
 
             var res_mat_text = r_matrix_div.firstChild.children[this.clicks].firstChild;
-            // console.log(r_matrix_div.firstChild.children[this.clicks].firstChild);
-            // console.log(el_text);
+            
             res_mat_text.style.display = "block";
-            ChangeBackgrounds(this.clicks,r_matrix_div.firstChild.children);
-            ChangeBackgrounds(this.clicks,matrix_div.firstChild.children);
+            changeBackgrounds(this.clicks,r_matrix_div.firstChild.children);
+            changeBackgrounds(this.clicks,matrix_div.firstChild.children);
             updateHeader(header,this.scalar,this.vals[this.clicks]);
-            // scalar.style.backgroundColor = "aliceblue";
-            // res_mat_text.parentElement.style.backgroundColor = "aliceblue";
+            
             this.clicks+=1;
 
         })
@@ -535,44 +569,33 @@ MatrixScalarMultiplication.prototype = {
 
         // result matrix
         var mat_scalar_container = document.createElement('div');
-        mat_scalar_container.style.width = "40vw";
-        // mat_scalar_container.style.marginTop = "5px"
-        mat_scalar_container.style.textAlign = "center";
+        mat_scalar_container.className = "MainMatContainer";
         
         mat_container.appendChild(scalar);
         mat_container.appendChild(mult_sign);
         mat_container.appendChild(matrix_div);
         mat_container.appendChild(eq_sign);
         mat_container.appendChild(r_matrix_div);
-        // mat_container.appendChild(next_step);
 
         mat_scalar_container.appendChild(header);
         mat_scalar_container.appendChild(mat_container);
         mat_scalar_container.appendChild(next_step);
-        document.body.appendChild(mat_scalar_container);
+        el.appendChild(mat_scalar_container);
     }
 
 }
 
-function MatrixMatrixMultiplication(dims1, dims2, vals1=null, vals2=null){
+function MatrixMatrixMultiplication(dims1, dims2, vals1, vals2){
     this.dims1 = dims1;
     this.dims2 = dims2;
     this.vals1 = vals1;
     this.vals2 = vals2;
+    this.clicks = 0;
 
     // cols of 1st should eq. rows of 2nd
     if(this.dims1[1] != this.dims2[0]){
         alert("Invalid Dimensions: the number of columns in the first matrix must be equal to the number of rows in the second matrix!");
         return;
-    }
-
-    // TODO: FIX
-
-    if(this.vals1 == null){
-        this.vals1 = GenerateRandomMatrixValues(this.dims1[0],this.dims1[1]);
-    }
-    if(this.vals2 == null){
-        this.vals2 = GenerateRandomMatrixValues(this.dims1[0],this.dims1[1]);
     }
 
     this.result = MatrixMatrixResult(this.dims1, this.dims2, this.vals1, this.vals2);
@@ -586,8 +609,8 @@ function MatrixMatrixResult(dims1, dims2, vals1, vals2){
     var temp = []
     temp.fill(0,dims2[1]);
     res.fill(temp,dims1[0]);
-    console.log(dims1);
-    console.log(dims2);
+    // console.log(dims1);
+    // console.log(dims2);
 
     for(let i = 0; i<dims1[0]; i++){
         res.push([]);
@@ -609,17 +632,14 @@ function MatrixMatrixResult(dims1, dims2, vals1, vals2){
             }
 
         }
-        
-        
-        // var temp_row = null;
 
     }
-    console.log("res",res);
+    // console.log("res",res);
     return res;
 }
 
 MatrixMatrixMultiplication.prototype = {
-    makeVisual: function(){
+    makeVisual: function(el){
 
         // check for valid calculation
         if(this.dims1[1] != this.dims2[0]){
@@ -628,7 +648,13 @@ MatrixMatrixMultiplication.prototype = {
         }
 
         var mat_mat_container = document.createElement('div');
-        mat_mat_container.className = "MatrixMatrixVisual";
+        mat_mat_container.className = "MainMatContainer";
+
+        var header = document.createElement('h3');
+        header.className = "MainMatrixHeader"
+
+        var mat_container = document.createElement('div');
+        mat_container.className = "MatrixMatrixVisual";
 
         var matrix_div_one = document.createElement('div');
         matrix_div_one.className = "MatrixDiv";
@@ -650,15 +676,71 @@ MatrixMatrixMultiplication.prototype = {
 
         var matrix_div_three = document.createElement('div');
         matrix_div_three.className = "MatrixDiv";
-        var matrix_three = GenerateMatrix2(this.dims1[0],this.dims1[1],this.result);
+        var matrix_three = GenerateMatrix2(this.dims1[0],this.dims2[1],this.result,true);
         matrix_div_three.appendChild(matrix_three);
 
-        mat_mat_container.appendChild(matrix_div_one);
-        mat_mat_container.appendChild(mult_sign);
-        mat_mat_container.appendChild(matrix_div_two);
-        mat_mat_container.appendChild(eq_sign);
-        mat_mat_container.appendChild(matrix_div_three);
-        document.body.appendChild(mat_mat_container);
+        var next_step = document.createElement('button');
+        next_step.innerText = 'Next Step';
+        next_step.className = "next-button";
+
+        mat_container.appendChild(matrix_div_one);
+        mat_container.appendChild(mult_sign);
+        mat_container.appendChild(matrix_div_two);
+        mat_container.appendChild(eq_sign);
+        mat_container.appendChild(matrix_div_three);
+
+        mat_mat_container.appendChild(header);
+        mat_mat_container.appendChild(mat_container);
+        mat_mat_container.appendChild(next_step);
+
+        el.appendChild(mat_mat_container);
+
+        var row = 0;
+        var col = 0;
+
+        next_step.addEventListener('click', (e)=>{
+            if(this.clicks > this.dims1[0]*this.dims2[1]-1){
+                alert("Cogratulations, you reviewed all the steps!");
+                row += 1;
+                col += 1;
+                changeBackgrounds(this.clicks, matrix_div_three.firstChild.children);
+                matMatHighlight(row,col,this.dims1,this.dims2, matrix_div_one, matrix_div_two);
+                updateHeader(header,null,null,true);
+
+                // reset
+                row = 0;
+                col = 0;
+                this.clicks = 0;
+
+                return;
+            }
+
+            // 1. make numbers visible one by one
+            var res_mat_text = matrix_div_three.firstChild.children[this.clicks].firstChild;
+            res_mat_text.style.display = "block";
+
+            // 2. update header
+            if(this.clicks != 0){
+                if(this.clicks%this.dims2[1] == 0){
+                    row += 1;
+                    col = 0;
+                }
+                else{
+                    col += 1;
+                }
+            }
+
+            updateMatMatHeader(header,this.dims1,this.dims2,this.vals1,this.vals2,row,col);
+
+            changeBackgrounds(this.clicks, matrix_div_three.firstChild.children);
+
+            // 3. update highlighting: highlight row of first matrix, col of second
+            matMatHighlight(row,col,this.dims1,this.dims2, matrix_div_one, matrix_div_two);
+
+            this.clicks+=1;
+
+        })
+
 
 
 
