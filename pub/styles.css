@@ -221,3 +221,11 @@ background-color: white;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
   }
+
+  .button-text{
+    padding: 5px;
+    border: 0.4px solid grey;
+    border-radius: 2px;
+    box-shadow: 0 0.4px 0.8px rgb(0 0 0 / 26%);
+  }
+  .button-text:hover {background-color: #e7e7e7;}
