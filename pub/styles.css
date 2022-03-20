@@ -23,7 +23,7 @@
     position: relative;
     display: inline-block;
     max-width: 12vw;
-    vertical-align: top;
+    /* vertical-align: top; */
     /* padding: 5px;
     margin-left: 2px; */
 }
@@ -110,7 +110,7 @@ display: grid;
 grid-gap: 1em;
 grid-template-rows: repeat(var(--matrix-rows), 1fr);
 grid-template-columns: repeat(var(--matrix-cols), 1fr);
-max-width: 20vw;
+/* max-width: 20vw; */
 }
   
 .matrix-element {
@@ -120,9 +120,13 @@ border: 1px solid #ddd;
 display: flex;
 flex-direction: column;
 justify-content: space-evenly;
-max-width: 34px;
-max-height: 34px;
+/* max-width: 34px;
+max-height: 34px; */
 background-color: white;
+}
+
+.matrix-text{
+  display: block;
 }
 
 .MatrixScalar{
@@ -139,13 +143,13 @@ background-color: white;
 
 .MatrixScalarVisual{
     text-align: center;
-    width: 40vw;
+    /* width: 40vw; */
     display: flex;
     justify-content: space-between;
 }
 
 .MainMatContainer{
-  width: 40vw;
+  /* width: 40vw; */
   text-align: center;
   background-color: white;
   padding: 15px;
@@ -159,7 +163,7 @@ background-color: white;
   text-align: center;
   display: flex;
   justify-content: space-between;
-  max-width: 60vw;
+  /* max-width: 60vw; */
 
 }
 
