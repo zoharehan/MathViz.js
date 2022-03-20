@@ -102,15 +102,15 @@ FractionVisual.prototype = {
     
     makeFractionVisual: function(el) {
 
-        const frac = document.createElement('div')
-        frac.className = 'FractionVisual'
+        const fracComponent = document.createElement('div')
+        fracComponent.className = 'FractionVisual'
 
         // header creation
         var header = document.createElement('h2');
         var header_text = this.num + "/" + this.den;
         header.innerText = header_text;
         header.className = 'FracValues';
-        frac.appendChild(header);
+        fracComponent.appendChild(header);
 
 
         // visual
@@ -135,9 +135,9 @@ FractionVisual.prototype = {
 
         }
         this.canvas = canv;
-        frac.appendChild(canv);
+        fracComponent.appendChild(canv);
 
-        el.appendChild(frac);
+        el.appendChild(fracComponent);
         
         // console.log(this.slices);
         this.canvas.addEventListener('click', (e) =>{
@@ -259,7 +259,8 @@ function AddSubtVisualisation(numbers, add, choice=true){
 
 AddSubtVisualisation.prototype = {
     makeVisual: function(el){
-        const container = document.createElement('div');
+        const addSubtVisualComponent = document.createElement('div');
+        addSubtVisualComponent.className = "AddSubtVisualComponent"
         const visual = document.createElement('span');
         visual.className = "AddSubtVisual"
         //  do the last one manually bec it doesnt need a plus
@@ -322,11 +323,11 @@ AddSubtVisualisation.prototype = {
        
         visual.appendChild(result_cats);
 
-        container.appendChild(visual);
+        addSubtVisualComponent.appendChild(visual);
 
-        this.container = container;
+        this.container = addSubtVisualComponent;
 
-        el.appendChild(container);
+        el.appendChild(addSubtVisualComponent);
 
     },
 
@@ -540,6 +541,7 @@ MatrixScalarMultiplication.prototype = {
 
         var header = document.createElement('h3');
         header.className = "MainMatrixHeader"
+        header.innerText = "Placeholder"
         // header.style.display = "none";
 
 
@@ -568,8 +570,8 @@ MatrixScalarMultiplication.prototype = {
 
 
         // result matrix
-        var mat_scalar_container = document.createElement('div');
-        mat_scalar_container.className = "MainMatContainer";
+        var matScalarContainer = document.createElement('div');
+        matScalarContainer.className = "MainMatContainer";
         
         mat_container.appendChild(scalar);
         mat_container.appendChild(mult_sign);
@@ -577,10 +579,10 @@ MatrixScalarMultiplication.prototype = {
         mat_container.appendChild(eq_sign);
         mat_container.appendChild(r_matrix_div);
 
-        mat_scalar_container.appendChild(header);
-        mat_scalar_container.appendChild(mat_container);
-        mat_scalar_container.appendChild(next_step);
-        el.appendChild(mat_scalar_container);
+        matScalarContainer.appendChild(header);
+        matScalarContainer.appendChild(mat_container);
+        matScalarContainer.appendChild(next_step);
+        el.appendChild(matScalarContainer);
     }
 
 }
@@ -647,11 +649,12 @@ MatrixMatrixMultiplication.prototype = {
             return;
         }
 
-        var mat_mat_container = document.createElement('div');
-        mat_mat_container.className = "MainMatContainer";
+        var matMatContainer = document.createElement('div');
+        matMatContainer.className = "MainMatContainer";
 
         var header = document.createElement('h3');
         header.className = "MainMatrixHeader"
+        header.innerText = "Placeholder"
 
         var mat_container = document.createElement('div');
         mat_container.className = "MatrixMatrixVisual";
@@ -689,11 +692,11 @@ MatrixMatrixMultiplication.prototype = {
         mat_container.appendChild(eq_sign);
         mat_container.appendChild(matrix_div_three);
 
-        mat_mat_container.appendChild(header);
-        mat_mat_container.appendChild(mat_container);
-        mat_mat_container.appendChild(next_step);
+        matMatContainer.appendChild(header);
+        matMatContainer.appendChild(mat_container);
+        matMatContainer.appendChild(next_step);
 
-        el.appendChild(mat_mat_container);
+        el.appendChild(matMatContainer);
 
         var row = 0;
         var col = 0;
@@ -740,9 +743,6 @@ MatrixMatrixMultiplication.prototype = {
             this.clicks+=1;
 
         })
-
-
-
 
     }
 }

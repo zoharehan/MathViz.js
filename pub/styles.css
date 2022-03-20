@@ -8,6 +8,11 @@
 
 .FractionVisual{
     text-align: center;
+    background-color: white;
+    padding: 10px;
+    border: 0.5px solid black;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
 }
 
 .catimg{
@@ -19,6 +24,8 @@
     display: inline-block;
     max-width: 12vw;
     vertical-align: top;
+    /* padding: 5px;
+    margin-left: 2px; */
 }
 
 .result-cats{
@@ -140,6 +147,11 @@ background-color: white;
 .MainMatContainer{
   width: 40vw;
   text-align: center;
+  background-color: white;
+  padding: 15px;
+  border: 0.5px solid black;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
 
 }
 
@@ -197,3 +209,11 @@ background-color: white;
       width: 50%;
     }
   } */
+
+  .AddSubtVisualComponent{
+    background-color: white;
+    padding: 10px;
+    border: 0.5px solid black;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
+  }
