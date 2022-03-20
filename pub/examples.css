@@ -28,6 +28,7 @@
 
 .container{
   background-color: aliceblue;
+  margin: 20px;
 }
 
 .title{
@@ -55,4 +56,8 @@
 #matrixMatrixDemoVisual{
   display: flex;
   justify-content: center;
+}
+
+body{
+  background-color: aliceblue;
 }

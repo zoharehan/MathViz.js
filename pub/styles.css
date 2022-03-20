@@ -115,6 +115,7 @@ flex-direction: column;
 justify-content: space-evenly;
 max-width: 34px;
 max-height: 34px;
+background-color: white;
 }
 
 .MatrixScalar{

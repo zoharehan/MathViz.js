@@ -16,18 +16,11 @@ const frac2 = new FractionVisual(3,8,"#D7F4D2");
 const fracDiv2 = document.querySelector('#fracDemoVisual2');
 frac2.makeFractionVisual(fracDiv2);
 
-// // const check3 = new FractionVisual(3,7,"#C4D8F3");
-// // check3.makeFractionVisual();
-
-// // makeCatGroup(5);
-// // makeCatGroup(5);
 const subtDiv = document.querySelector('#addSubtDemoVisual');
 const check2 = new AddSubtVisualisation([4,2],false);
 check2.makeVisual(subtDiv);
 check2.addExplanation("when you have 4 and 2 leave, 2 are left");
-// // deal w negatives
-// // const check3 = new AddSubtVisualisation([2,4],false);
-// // check3.makeVisual();
+
 const addDiv = document.querySelector('#addSubtDemoVisual2');
 const addVisual = new AddSubtVisualisation([2,5],true,false);
 addVisual.makeVisual(addDiv);
