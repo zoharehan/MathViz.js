@@ -56,7 +56,7 @@ function validClick(x,y,slices,c,rad){
     }
 
     for(let i = 0; i < slices.length; i++){
-        if(slices[i][1][0] <= click_angle && slices[i][1][1] > click_angle){
+        if(slices[i][0] <= click_angle && slices[i][1] > click_angle){
             s_idx = i;
             break;
         }
@@ -74,113 +74,115 @@ function validClick(x,y,slices,c,rad){
 
 }
 
-function FractionVisual(num, den, color) {
-    // slices: stores slices in the visual, colors stores each slice's current color
-    this.slices = []
-    this.colors = []
+class FractionVisual {
+    constructor(num, den, color) {
+        // slices: stores slices in the visual, colors stores each slice's current color
+        this.slices = [];
+        this.colors = [];
 
-    // the angle and radius of each slice in the visual
-    this.angle = (1/den)*2*Math.PI
-    this.slice_rad = 0;
-    // center of the circular visual
-    this.center = [0,0]
+        // the angle and radius of each slice in the visual
+        this.angle = (1 / den) * 2 * Math.PI;
+        this.slice_rad = 0;
+        // center of the circular visual
+        this.center = [0, 0];
 
-    // canvas and context for drawing
-    this.canvas = null;
-    this.ctx = null;
+        // canvas and context for drawing
+        // this.canvas = null;
+        // this.ctx = null;
 
-    // fraction's numerator and denominator
-    this.num = num
-    this.den = den
-   
-    // the developer-picked fill color
-    this.color = color;
-    
-}
+        // fraction's numerator and denominator
+        this.num = num;
+        this.den = den;
 
-FractionVisual.prototype = {
-    
-    makeFractionVisual: function(el) {
+        // the developer-picked fill color
+        this.color = color;
 
-        const frac = document.createElement('div')
-        frac.className = 'FractionVisual'
+    }
+    makeFractionVisual(el) {
+
+        const fracComponent = document.createElement('div');
+        fracComponent.className = 'FractionVisual';
 
         // header creation
         var header = document.createElement('h2');
         var header_text = this.num + "/" + this.den;
         header.innerText = header_text;
         header.className = 'FracValues';
-        frac.appendChild(header);
+        fracComponent.appendChild(header);
 
 
         // visual
         var canv = document.createElement('canvas');
         canv.className = "FracCanvas";
         var ctx = canv.getContext('2d');
-        this.canvas = canv;
-        this.ctx = ctx;
-        this.center = [(this.canvas.width-2)/2,(this.canvas.height-2)/2]
-        this.slice_rad = Math.min((this.canvas.width-4)/2,(this.canvas.height-4)/2);
+        this.center = [(canv.width - 2) / 2, (canv.height - 2) / 2];
+        this.slice_rad = Math.min((canv.width - 4) / 2, (canv.height - 4) / 2);
 
         var s_angle = 0;
-        for(let i = 0; i < this.num; i++){
-            this.slices[i] = [FracSlice(ctx,[s_angle,s_angle+this.angle],[(this.canvas.width-2)/2,(this.canvas.height-2)/2], Math.min((this.canvas.width-4)/2,(this.canvas.height-4)/2), this.color),[s_angle,s_angle+this.angle]];
+        for (let i = 0; i < this.num; i++) {
+
+            FracSlice(ctx, [s_angle, s_angle + this.angle], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), this.color)
+
+            this.slices[i] = [s_angle, s_angle + this.angle];
             this.colors[i] = true;
             s_angle += this.angle;
         }
-        for(let i = this.num; i < this.den; i++){
-            this.slices[i] = [FracSlice(ctx,[s_angle,s_angle+this.angle],[(this.canvas.width-2)/2,(this.canvas.height-2)/2], Math.min((this.canvas.width-4)/2,(this.canvas.height-4)/2), "#fff"), [s_angle,s_angle+this.angle]];
+        for (let i = this.num; i < this.den; i++) {
+            FracSlice(ctx, [s_angle, s_angle + this.angle], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), "#fff"),
+            this.slices[i] = [s_angle, s_angle + this.angle];
             this.colors[i] = false;
             s_angle += this.angle;
 
         }
-        this.canvas = canv;
-        frac.appendChild(canv);
+        fracComponent.appendChild(canv);
 
-        el.appendChild(frac);
-        
+        el.appendChild(fracComponent);
+
         // console.log(this.slices);
-        this.canvas.addEventListener('click', (e) =>{
-            this.canvas.style.cursor = "pointer";
-            
+        canv.addEventListener('click', (e) => {
+            canv.style.cursor = "pointer";
+
             // identify click position
-            var x = e.pageX - this.canvas.offsetLeft;
-            var y = e.pageY - this.canvas.offsetTop;
+            var x = e.pageX - canv.offsetLeft;
+            var y = e.pageY - canv.offsetTop;
 
             // check if the position requires any action
-            var slice_idx = validClick(x,y,this.slices,this.center,this.slice_rad);
+            var slice_idx = validClick(x, y, this.slices, this.center, this.slice_rad);
 
-            if(slice_idx != -1){
+            if (slice_idx != -1) {
                 // redraw this slice with new fill and update header
-                if(this.colors[slice_idx] == true){
+                if (this.colors[slice_idx] == true) {
                     // save angles to redraw
-                    var slice_angles = this.slices[slice_idx][1]
+                    var slice_angles = this.slices[slice_idx];
                     // make a white one
-                    this.slices[slice_idx] = [FracSlice(ctx,[slice_angles[0],slice_angles[1]],[(this.canvas.width-2)/2,(this.canvas.height-2)/2], Math.min((this.canvas.width-4)/2,(this.canvas.height-4)/2), "#fff"), [slice_angles[0],slice_angles[1]]];
-                    this.colors[slice_idx] = false
+                    FracSlice(ctx, [slice_angles[0], slice_angles[1]], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), "#fff")
+                    this.slices[slice_idx] = [slice_angles[0], slice_angles[1]];
+                    this.colors[slice_idx] = false;
 
                     // update numerator in the header
-                    this.num -= 1
-                    alterFracHeader(this.canvas.parentElement.firstChild,this.num,this.den)
-                } 
-                else{
+                    this.num -= 1;
+                    alterFracHeader(canv.parentElement.firstChild, this.num, this.den);
+                }
+                else {
                     //build one with numerator+1
-                    var slice_angles = this.slices[slice_idx][1]
+                    var slice_angles = this.slices[slice_idx];
                     // make a white one
-                    this.slices[slice_idx] = [FracSlice(ctx,[slice_angles[0],slice_angles[1]],[(this.canvas.width-2)/2,(this.canvas.height-2)/2], Math.min((this.canvas.width-4)/2,(this.canvas.height-4)/2), this.color), [slice_angles[0],slice_angles[1]]];
-                    this.colors[slice_idx] = true
-                   
+                    FracSlice(ctx, [slice_angles[0], slice_angles[1]], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), this.color)
+                    this.slices[slice_idx] = [slice_angles[0], slice_angles[1]];
+                    this.colors[slice_idx] = true;
+
                     // update numerator in the header
-                    this.num += 1
-                    alterFracHeader(this.canvas.parentElement.firstChild,this.num,this.den)
+                    this.num += 1;
+                    alterFracHeader(canv.parentElement.firstChild, this.num, this.den);
                 }
             }
-    
-        })
-      
-    },
+            console.log(this.slices);
 
+        });
+
+    }
 }
+
 
 // 2. ADDITION/SUBTRACTION STUFF
 
@@ -232,106 +234,104 @@ function makeCatGroup(num, res=false, c){
 
 //argument: list of numbers, add=true means addition false means subtraction
 // add a button to see results and then show six cats
-function AddSubtVisualisation(numbers, add, choice=true){
-    this.numbers = numbers
-    this.add = add
-    this.container = null
-    this.choice = choice
+class AddSubtVisual {
+    constructor(numbers, add, choice = true) {
+        this.numbers = numbers;
+        this.add = add;
+        this.container = null;
+        this.choice = choice;
 
-    // result calculation
-    this.result = 0
-    for(let i = 0; i<this.numbers.length; i++){
-        if(this.add){
-            this.result += this.numbers[i]
-        }
-        else{
-            if(i == 0){
-                this.result += this.numbers[i]
+        // result calculation
+        this.result = 0;
+        for (let i = 0; i < this.numbers.length; i++) {
+            if (this.add) {
+                this.result += this.numbers[i];
             }
-            else{
-                this.result -= this.numbers[i]
+            else {
+                if (i == 0) {
+                    this.result += this.numbers[i];
+                }
+                else {
+                    this.result -= this.numbers[i];
+                }
             }
         }
+
+
     }
-
-
-}
-
-AddSubtVisualisation.prototype = {
-    makeVisual: function(el){
-        const container = document.createElement('div');
+    makeVisual(el) {
+        const addSubtVisualComponent = document.createElement('div');
+        addSubtVisualComponent.className = "AddSubtVisualComponent";
         const visual = document.createElement('span');
-        visual.className = "AddSubtVisual"
+        visual.className = "AddSubtVisual";
         //  do the last one manually bec it doesnt need a plus
-        for(let i = 0; i < this.numbers.length-1; i++){
+        for (let i = 0; i < this.numbers.length - 1; i++) {
 
-            var cats = makeCatGroup(this.numbers[i],false,this.choice);
+            var cats = makeCatGroup(this.numbers[i], false, this.choice);
             visual.appendChild(cats);
             var sign = document.createElement('p');
             sign.className = "AddSubtSign";
-            if(this.add){
-                sign.innerText = '+'
+            if (this.add) {
+                sign.innerText = '+';
             }
-            else{
-                sign.innerText = '-'
+            else {
+                sign.innerText = '-';
             }
             visual.appendChild(sign);
         }
         // last number and equalsto
-        var last_cats = makeCatGroup(this.numbers[this.numbers.length-1],false,this.choice);
+        var last_cats = makeCatGroup(this.numbers[this.numbers.length - 1], false, this.choice);
         visual.appendChild(last_cats);
         var equals = document.createElement('button');
         equals.innerText = '=';
-        equals.className = "button"
+        equals.className = "button";
 
         var result_cats = makeCatGroup(this.result, true, this.choice);
 
-        equals.addEventListener('click', (e)=>{
-            
-            if(result_cats.style.visibility == "hidden"){
-                result_cats.style.visibility = "visible"
+        equals.addEventListener('click', (e) => {
+
+            if (result_cats.style.visibility == "hidden") {
+                result_cats.style.visibility = "visible";
                 result_cats.classList.add("animate");
-                if(r_sign){
-                    r_sign.style.visibility = "visible"
+                if (r_sign) {
+                    r_sign.style.visibility = "visible";
                 }
-               
+
             }
-            else if(result_cats.style.visibility == "visible"){
-                result_cats.style.visibility = "hidden"
+            else if (result_cats.style.visibility == "visible") {
+                result_cats.style.visibility = "hidden";
                 result_cats.classList.remove("animate");
-                if(r_sign){
-                    r_sign.style.visibility = "hidden"
+                if (r_sign) {
+                    r_sign.style.visibility = "hidden";
                 }
-               
+
 
             }
 
-        })
+        });
         visual.appendChild(equals);
-        if(this.result < 0){
+        if (this.result < 0) {
             var r_sign = document.createElement('p');
-            r_sign.className = "addSubtResultSign"
+            r_sign.className = "addSubtResultSign";
             r_sign.innerText = '-';
             r_sign.style.visibility = "hidden";
             visual.appendChild(r_sign);
 
         }
-       
+
 
         // add a cat group for result here
-       
         visual.appendChild(result_cats);
 
-        container.appendChild(visual);
+        addSubtVisualComponent.appendChild(visual);
 
-        this.container = container;
+        this.container = addSubtVisualComponent;
 
-        el.appendChild(container);
+        el.appendChild(addSubtVisualComponent);
 
-    },
-
+    }
     // make sure this doesn't exceed the width of the span above
-    addExplanation: function(exp){
+    addExplanation(exp) {
         var explain = document.createElement('p');
         explain.className = "AddSubtExplanation";
         explain.innerText = exp;
@@ -339,6 +339,7 @@ AddSubtVisualisation.prototype = {
 
     }
 }
+
 
 // 3. matrix visualisation
 
@@ -354,7 +355,7 @@ function GenerateMatrix(row,col,vals,res=false){
         element_text.innerText = vals[i];
         element_text.className = "matrix-text"
         if(res){
-            element_text.style.display = "none";
+            element_text.style.visibility = "hidden";
         }
         element.appendChild(element_text);
         element.className = 'matrix-element';
@@ -378,7 +379,7 @@ function GenerateMatrix2(row,col,vals,res=false){
             element_text.innerText = vals[i][j];
             element_text.className = "matrix-text"
             if(res){
-                element_text.style.display = "none";
+                element_text.style.visibility = "hidden";
             }
             element.appendChild(element_text);
             element.className = 'matrix-element';
@@ -413,21 +414,95 @@ function CalculateMatrixScalarResults(s,r,c,vals){
 
 }
 
-function MatrixScalarMultiplication(scalar, mat_rows, mat_cols, mat_vals=null){
-    this.scalar = scalar;
-    this.rows = mat_rows;
-    this.cols = mat_cols;
-    this.vals = mat_vals;
-    this.clicks = 0;
-    this.num_steps = this.rows*this.cols;
+class MatrixScalarMultiplicationVisual {
+    constructor(scalar, mat_rows, mat_cols, mat_vals = null) {
+        this.scalar = scalar;
+        this.rows = mat_rows;
+        this.cols = mat_cols;
+        this.vals = mat_vals;
+        this.clicks = 0;
 
-    if(this.vals == null){
-        this.vals = GenerateRandomMatrixValues(this.rows,this.cols);
+        if (this.vals == null) {
+            this.vals = GenerateRandomMatrixValues(this.rows, this.cols);
+        }
+
+        this.results = CalculateMatrixScalarResults(this.scalar, this.rows, this.cols, this.vals);
+
+        //TODO: calculations 
     }
+    makeVisual(el) {
+        var mat_container = document.createElement('div');
+        mat_container.className = "MatrixScalarVisual";
 
-    this.results = CalculateMatrixScalarResults(this.scalar,this.rows,this.cols,this.vals);
+        var scalar = document.createElement('h3');
+        scalar.innerText = this.scalar;
+        scalar.className = "MatrixScalar";
 
-    //TODO: calculations 
+        var mult_sign = document.createElement('h3');
+        mult_sign.innerText = "x";
+        mult_sign.className = "ScalarMultSign";
+
+        var eq_sign = document.createElement('h3');
+        eq_sign.innerText = "=";
+        eq_sign.className = "ScalarMultSign";
+
+        var matrix_div = document.createElement('div');
+        matrix_div.className = "MatrixDiv";
+        var matrix = GenerateMatrix(this.rows, this.cols, this.vals);
+        matrix_div.appendChild(matrix);
+
+        var r_matrix_div = document.createElement('div');
+        r_matrix_div.className = "MatrixDiv";
+        var r_matrix = GenerateMatrix(this.rows, this.cols, this.results, true);
+        r_matrix_div.appendChild(r_matrix);
+
+        var next_step = document.createElement('button');
+        next_step.innerText = 'Next Step';
+        next_step.className = "next-button";
+
+        var header = document.createElement('h3');
+        header.className = "MainMatrixHeader";
+        header.innerText = "Placeholder";
+        // header.style.display = "none";
+        next_step.addEventListener('click', (e) => {
+            if (this.clicks > this.rows * this.cols - 1) {
+                alert("Cogratulations, you reviewed all the steps!");
+                changeBackgrounds(this.clicks, r_matrix_div.firstChild.children);
+                changeBackgrounds(this.clicks, matrix_div.firstChild.children);
+
+                // print finished since steps are over now!
+                updateHeader(header, null, null, true);
+                this.clicks = 0;
+                return;
+            }
+
+            var res_mat_text = r_matrix_div.firstChild.children[this.clicks].firstChild;
+
+            res_mat_text.style.visibility = "visible";
+            changeBackgrounds(this.clicks, r_matrix_div.firstChild.children);
+            changeBackgrounds(this.clicks, matrix_div.firstChild.children);
+            updateHeader(header, this.scalar, this.vals[this.clicks]);
+
+            this.clicks += 1;
+
+        });
+
+
+        // result matrix
+        var matScalarContainer = document.createElement('div');
+        matScalarContainer.className = "MainMatContainer";
+
+        mat_container.appendChild(scalar);
+        mat_container.appendChild(mult_sign);
+        mat_container.appendChild(matrix_div);
+        mat_container.appendChild(eq_sign);
+        mat_container.appendChild(r_matrix_div);
+
+        matScalarContainer.appendChild(header);
+        matScalarContainer.appendChild(mat_container);
+        matScalarContainer.appendChild(next_step);
+        el.appendChild(matScalarContainer);
+    }
 }
 
 function changeBackgrounds(c,el){
@@ -507,99 +582,128 @@ function updateMatMatHeader(el,dims1,dims2,vals1,vals2,row,col){
 
 }
 
-MatrixScalarMultiplication.prototype = {
-    makeVisual: function(el){
-        var mat_container = document.createElement('div');
-        mat_container.className = "MatrixScalarVisual";
 
-        var scalar = document.createElement('h3');
-        scalar.innerText = this.scalar;
-        scalar.className = "MatrixScalar";
+class MatrixMatrixMultiplication {
+    constructor(dims1, dims2, vals1, vals2) {
+        this.dims1 = dims1;
+        this.dims2 = dims2;
+        this.vals1 = vals1;
+        this.vals2 = vals2;
+        this.clicks = 0;
+
+        // cols of 1st should eq. rows of 2nd
+        if (this.dims1[1] != this.dims2[0]) {
+            alert("Invalid Dimensions: the number of columns in the first matrix must be equal to the number of rows in the second matrix!");
+            return;
+        }
+
+        this.result = MatrixMatrixResult(this.dims1, this.dims2, this.vals1, this.vals2);
+
+    }
+    makeVisual(el) {
+
+        // check for valid calculation
+        if (this.dims1[1] != this.dims2[0]) {
+            alert("Invalid Dimensions: the number of columns in the first matrix must be equal to the number of rows in the second matrix!");
+            return;
+        }
+
+        var matMatContainer = document.createElement('div');
+        matMatContainer.className = "MainMatContainer";
+
+        var header = document.createElement('h3');
+        header.className = "MainMatrixHeader";
+        header.innerText = "Placeholder";
+
+        var mat_container = document.createElement('div');
+        mat_container.className = "MatrixMatrixVisual";
+
+        var matrix_div_one = document.createElement('div');
+        matrix_div_one.className = "MatrixDiv";
+        var matrix_one = GenerateMatrix2(this.dims1[0], this.dims1[1], this.vals1);
+        matrix_div_one.appendChild(matrix_one);
 
         var mult_sign = document.createElement('h3');
         mult_sign.innerText = "x";
         mult_sign.className = "ScalarMultSign";
 
+        var matrix_div_two = document.createElement('div');
+        matrix_div_two.className = "MatrixDiv";
+        var matrix_two = GenerateMatrix2(this.dims2[0], this.dims2[1], this.vals2);
+        matrix_div_two.appendChild(matrix_two);
+
         var eq_sign = document.createElement('h3');
         eq_sign.innerText = "=";
         eq_sign.className = "ScalarMultSign";
 
-        var matrix_div = document.createElement('div');
-        matrix_div.className = "MatrixDiv";
-        var matrix = GenerateMatrix(this.rows,this.cols,this.vals);
-        matrix_div.appendChild(matrix);
-
-        var r_matrix_div = document.createElement('div');
-        r_matrix_div.className = "MatrixDiv";
-        var r_matrix = GenerateMatrix(this.rows,this.cols,this.results, true);
-        r_matrix_div.appendChild(r_matrix);
+        var matrix_div_three = document.createElement('div');
+        matrix_div_three.className = "MatrixDiv";
+        var matrix_three = GenerateMatrix2(this.dims1[0], this.dims2[1], this.result, true);
+        matrix_div_three.appendChild(matrix_three);
 
         var next_step = document.createElement('button');
         next_step.innerText = 'Next Step';
-        next_step.className = "next-button"
+        next_step.className = "next-button";
 
-        var header = document.createElement('h3');
-        header.className = "MainMatrixHeader"
-        // header.style.display = "none";
+        mat_container.appendChild(matrix_div_one);
+        mat_container.appendChild(mult_sign);
+        mat_container.appendChild(matrix_div_two);
+        mat_container.appendChild(eq_sign);
+        mat_container.appendChild(matrix_div_three);
 
+        matMatContainer.appendChild(header);
+        matMatContainer.appendChild(mat_container);
+        matMatContainer.appendChild(next_step);
 
-        next_step.addEventListener('click', (e)=>{
-            if(this.clicks > this.rows*this.cols-1){
+        el.appendChild(matMatContainer);
+
+        var row = 0;
+        var col = 0;
+
+        next_step.addEventListener('click', (e) => {
+            if (this.clicks > this.dims1[0] * this.dims2[1] - 1) {
                 alert("Cogratulations, you reviewed all the steps!");
-                changeBackgrounds(this.clicks,r_matrix_div.firstChild.children);
-                changeBackgrounds(this.clicks,matrix_div.firstChild.children);
+                row += 1;
+                col += 1;
+                changeBackgrounds(this.clicks, matrix_div_three.firstChild.children);
+                matMatHighlight(row, col, this.dims1, this.dims2, matrix_div_one, matrix_div_two);
+                updateHeader(header, null, null, true);
 
-                // print finished since steps are over now!
-                updateHeader(header,null,null,true);
+                // reset
+                row = 0;
+                col = 0;
                 this.clicks = 0;
+
                 return;
             }
 
-            var res_mat_text = r_matrix_div.firstChild.children[this.clicks].firstChild;
-            
-            res_mat_text.style.display = "block";
-            changeBackgrounds(this.clicks,r_matrix_div.firstChild.children);
-            changeBackgrounds(this.clicks,matrix_div.firstChild.children);
-            updateHeader(header,this.scalar,this.vals[this.clicks]);
-            
-            this.clicks+=1;
+            // 1. make numbers visible one by one
+            var res_mat_text = matrix_div_three.firstChild.children[this.clicks].firstChild;
+            res_mat_text.style.visibility = "visible";
 
-        })
+            // 2. update header
+            if (this.clicks != 0) {
+                if (this.clicks % this.dims2[1] == 0) {
+                    row += 1;
+                    col = 0;
+                }
+                else {
+                    col += 1;
+                }
+            }
 
+            updateMatMatHeader(header, this.dims1, this.dims2, this.vals1, this.vals2, row, col);
 
-        // result matrix
-        var mat_scalar_container = document.createElement('div');
-        mat_scalar_container.className = "MainMatContainer";
-        
-        mat_container.appendChild(scalar);
-        mat_container.appendChild(mult_sign);
-        mat_container.appendChild(matrix_div);
-        mat_container.appendChild(eq_sign);
-        mat_container.appendChild(r_matrix_div);
+            changeBackgrounds(this.clicks, matrix_div_three.firstChild.children);
 
-        mat_scalar_container.appendChild(header);
-        mat_scalar_container.appendChild(mat_container);
-        mat_scalar_container.appendChild(next_step);
-        el.appendChild(mat_scalar_container);
+            // 3. update highlighting: highlight row of first matrix, col of second
+            matMatHighlight(row, col, this.dims1, this.dims2, matrix_div_one, matrix_div_two);
+
+            this.clicks += 1;
+
+        });
+
     }
-
-}
-
-function MatrixMatrixMultiplication(dims1, dims2, vals1, vals2){
-    this.dims1 = dims1;
-    this.dims2 = dims2;
-    this.vals1 = vals1;
-    this.vals2 = vals2;
-    this.clicks = 0;
-
-    // cols of 1st should eq. rows of 2nd
-    if(this.dims1[1] != this.dims2[0]){
-        alert("Invalid Dimensions: the number of columns in the first matrix must be equal to the number of rows in the second matrix!");
-        return;
-    }
-
-    this.result = MatrixMatrixResult(this.dims1, this.dims2, this.vals1, this.vals2);
-
 }
 
 // write result function 
@@ -638,111 +742,4 @@ function MatrixMatrixResult(dims1, dims2, vals1, vals2){
     return res;
 }
 
-MatrixMatrixMultiplication.prototype = {
-    makeVisual: function(el){
 
-        // check for valid calculation
-        if(this.dims1[1] != this.dims2[0]){
-            alert("Invalid Dimensions: the number of columns in the first matrix must be equal to the number of rows in the second matrix!");
-            return;
-        }
-
-        var mat_mat_container = document.createElement('div');
-        mat_mat_container.className = "MainMatContainer";
-
-        var header = document.createElement('h3');
-        header.className = "MainMatrixHeader"
-
-        var mat_container = document.createElement('div');
-        mat_container.className = "MatrixMatrixVisual";
-
-        var matrix_div_one = document.createElement('div');
-        matrix_div_one.className = "MatrixDiv";
-        var matrix_one = GenerateMatrix2(this.dims1[0],this.dims1[1],this.vals1);
-        matrix_div_one.appendChild(matrix_one);
-
-        var mult_sign = document.createElement('h3');
-        mult_sign.innerText = "x";
-        mult_sign.className = "ScalarMultSign";
-
-        var matrix_div_two = document.createElement('div');
-        matrix_div_two.className = "MatrixDiv";
-        var matrix_two = GenerateMatrix2(this.dims2[0],this.dims2[1],this.vals2);
-        matrix_div_two.appendChild(matrix_two);
-
-        var eq_sign = document.createElement('h3');
-        eq_sign.innerText = "=";
-        eq_sign.className = "ScalarMultSign";
-
-        var matrix_div_three = document.createElement('div');
-        matrix_div_three.className = "MatrixDiv";
-        var matrix_three = GenerateMatrix2(this.dims1[0],this.dims2[1],this.result,true);
-        matrix_div_three.appendChild(matrix_three);
-
-        var next_step = document.createElement('button');
-        next_step.innerText = 'Next Step';
-        next_step.className = "next-button";
-
-        mat_container.appendChild(matrix_div_one);
-        mat_container.appendChild(mult_sign);
-        mat_container.appendChild(matrix_div_two);
-        mat_container.appendChild(eq_sign);
-        mat_container.appendChild(matrix_div_three);
-
-        mat_mat_container.appendChild(header);
-        mat_mat_container.appendChild(mat_container);
-        mat_mat_container.appendChild(next_step);
-
-        el.appendChild(mat_mat_container);
-
-        var row = 0;
-        var col = 0;
-
-        next_step.addEventListener('click', (e)=>{
-            if(this.clicks > this.dims1[0]*this.dims2[1]-1){
-                alert("Cogratulations, you reviewed all the steps!");
-                row += 1;
-                col += 1;
-                changeBackgrounds(this.clicks, matrix_div_three.firstChild.children);
-                matMatHighlight(row,col,this.dims1,this.dims2, matrix_div_one, matrix_div_two);
-                updateHeader(header,null,null,true);
-
-                // reset
-                row = 0;
-                col = 0;
-                this.clicks = 0;
-
-                return;
-            }
-
-            // 1. make numbers visible one by one
-            var res_mat_text = matrix_div_three.firstChild.children[this.clicks].firstChild;
-            res_mat_text.style.display = "block";
-
-            // 2. update header
-            if(this.clicks != 0){
-                if(this.clicks%this.dims2[1] == 0){
-                    row += 1;
-                    col = 0;
-                }
-                else{
-                    col += 1;
-                }
-            }
-
-            updateMatMatHeader(header,this.dims1,this.dims2,this.vals1,this.vals2,row,col);
-
-            changeBackgrounds(this.clicks, matrix_div_three.firstChild.children);
-
-            // 3. update highlighting: highlight row of first matrix, col of second
-            matMatHighlight(row,col,this.dims1,this.dims2, matrix_div_one, matrix_div_two);
-
-            this.clicks+=1;
-
-        })
-
-
-
-
-    }
-}

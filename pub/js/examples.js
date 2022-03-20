@@ -1,9 +1,6 @@
 // This is where we show usecases of our library
 "use strict";
 
-// const canvas = document.getElementById('canvas');
-// const ctx = canvas.getContext('2d');
-
 const frac = new FractionVisual(3,6,"#F8C8DC");
 const fracDiv = document.querySelector('#fracDemoVisual');
 frac.makeFractionVisual(fracDiv);
@@ -16,25 +13,19 @@ const frac2 = new FractionVisual(3,8,"#D7F4D2");
 const fracDiv2 = document.querySelector('#fracDemoVisual2');
 frac2.makeFractionVisual(fracDiv2);
 
-// // const check3 = new FractionVisual(3,7,"#C4D8F3");
-// // check3.makeFractionVisual();
-
-// // makeCatGroup(5);
-// // makeCatGroup(5);
 const subtDiv = document.querySelector('#addSubtDemoVisual');
-const check2 = new AddSubtVisualisation([4,2],false);
-check2.makeVisual(subtDiv);
-check2.addExplanation("when you have 4 and 2 leave, 2 are left");
-// // deal w negatives
-// // const check3 = new AddSubtVisualisation([2,4],false);
-// // check3.makeVisual();
+const subtVisual = new AddSubtVisual([4,2],false,false);
+subtVisual.makeVisual(subtDiv);
+subtVisual.addExplanation("when you have 4 and 2 leave, 2 are left");
+
+
 const addDiv = document.querySelector('#addSubtDemoVisual2');
-const addVisual = new AddSubtVisualisation([2,5],true,false);
+const addVisual = new AddSubtVisual([3,5],true,true);
 addVisual.makeVisual(addDiv);
-addVisual.addExplanation("Count up from 2 five times: 2..3..4..5..6..7 !")
+addVisual.addExplanation("Count up from 3 five times: 3..4..5..6..7..8 !")
 
 const matScalDiv = document.querySelector('#matrixScalarDemoVisual');
-const matScalVisual = new MatrixScalarMultiplication(2,3,3,[1,2,3,4,1,2,3,4,5]);
+const matScalVisual = new MatrixScalarMultiplicationVisual(2,3,3,[1,2,3,4,1,2,3,4,5]);
 matScalVisual.makeVisual(matScalDiv);
 
 const matMatDiv = document.querySelector('#matrixMatrixDemoVisual');

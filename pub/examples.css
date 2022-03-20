@@ -18,8 +18,7 @@
 }
 
 #addSubtDemoVisual{
-  /* background-color: white; */
-  /* padding: 20px; */
+  
 }
 
 .QuestionText{
@@ -28,6 +27,7 @@
 
 .container{
   background-color: aliceblue;
+  margin: 20px;
 }
 
 .title{
@@ -44,7 +44,7 @@
 
 .FracDemoVisuals{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 #matrixScalarDemoVisual{
@@ -55,4 +55,19 @@
 #matrixMatrixDemoVisual{
   display: flex;
   justify-content: center;
+}
+
+body{
+  background-color: aliceblue;
+  margin: 0px;
+  font-family: 'Lato', sans-serif;
+  /* font-weight: 400; */
+}
+
+.header{
+  padding: 5px;
+  background-color: #e8dbfd;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
 }
