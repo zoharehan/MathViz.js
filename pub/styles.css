@@ -193,19 +193,6 @@ background-color: white;
     }
   }
 
-  /* @keyframes slidein {
-    from {
-      margin-left: 2%;
-      /* width: 300%; */
-      /* width: 100%;
-    }
-   */
-    /* to {
-      margin-left: 31%;
-      width: 50%;
-    }
-  } */
-
   .AddSubtVisualComponent{
     background-color: white;
     padding: 10px;
