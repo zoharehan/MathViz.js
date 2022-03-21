@@ -220,9 +220,14 @@ function makeCatGroup(num, res=false, c){
         cats.className = "result-cats"
         // cats.style.display = "none"
         cats.style.visibility = "hidden";
+        // var w = String(4*row_items)+"vw"
+        // console.log(w);
+        // cats.style.maxWidth = w;
     }
     else{
         cats.className = "cats"
+        // var w = String(4*row_items)+"vw"
+        // cats.style.maxWidth = w;
     }
     for(let i = 0; i < Math.abs(num); i++){
         var cat = makeCat(c);
@@ -283,7 +288,7 @@ class AddSubtVisual {
         var last_cats = makeCatGroup(this.numbers[this.numbers.length - 1], false, this.choice);
         visual.appendChild(last_cats);
         var equals = document.createElement('button');
-        equals.innerText = '=';
+        equals.innerHTML = '<p class="button-text">=</p>';
         equals.className = "button";
 
         var result_cats = makeCatGroup(this.result, true, this.choice);
