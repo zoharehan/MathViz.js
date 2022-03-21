@@ -12,7 +12,6 @@ console.log('MathViz: Math Learning Visualisations!!')
 
 
 // 1. FRACTION PIE CHARTS
-// TODO: Mixed Numbers
 
 // this.slices = [  [slice, angles] , [slice, angles] .... ] -> angles = [start_angle, end_angle]
 
@@ -85,10 +84,6 @@ class FractionVisual {
         this.slice_rad = 0;
         // center of the circular visual
         this.center = [0, 0];
-
-        // canvas and context for drawing
-        // this.canvas = null;
-        // this.ctx = null;
 
         // fraction's numerator and denominator
         this.num = num;
@@ -401,7 +396,6 @@ function GenerateMatrix2(row,col,vals,res=false){
 
 }
 
-// TODO:MODIFY
 function GenerateRandomMatrixValues(r,c){
     var ret = []
     for(let i = 0; i<(r*c); i++){
@@ -432,8 +426,7 @@ class MatrixScalarMultiplicationVisual {
         }
 
         this.results = CalculateMatrixScalarResults(this.scalar, this.rows, this.cols, this.vals);
-
-        //TODO: calculations 
+ 
     }
     makeVisual(el) {
         var mat_container = document.createElement('div');
@@ -718,8 +711,6 @@ function MatrixMatrixResult(dims1, dims2, vals1, vals2){
     var temp = []
     temp.fill(0,dims2[1]);
     res.fill(temp,dims1[0]);
-    // console.log(dims1);
-    // console.log(dims2);
 
     for(let i = 0; i<dims1[0]; i++){
         res.push([]);
