@@ -32,3 +32,8 @@ const matMatDiv = document.querySelector('#matrixMatrixDemoVisual');
 const matMatVisual = new MatrixMatrixMultiplication([2,3], [3,2], [[1,2,3],
     [4 ,5,6]], [[7,8],[9,10],[11,12]])
 matMatVisual.makeVisual(matMatDiv);
+
+const divisionDiv = document.querySelector('#divisionDemoVisual');
+// divisor, dividend, unique identifier for block ids
+const divisionVisual = new DivisionVisual(6,2,0);
+divisionVisual.makeVisual(divisionDiv);

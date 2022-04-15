@@ -222,3 +222,99 @@ background-color: white;
     box-shadow: 0 0.4px 0.8px rgb(0 0 0 / 26%);
   }
   .button-text:hover {background-color: #e7e7e7;}
+
+
+  .matrix-form-input{
+    max-width: 100%;
+    text-align: center;
+    border-style: none;
+    font-size: medium;
+
+  }
+
+
+  /* division visual */
+  .division-visual-component{
+    /* display: flex; */
+    justify-content: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
+    text-align: center;
+
+  }
+
+  .division-visual-header{
+    padding-top: 1rem;
+
+  }
+
+  .division-visual-remainder{
+    padding-top: 1rem;
+
+  }
+
+
+  .division-visual-block{
+    /* background-color: white; */
+    display: flex;
+    margin: 3px;
+    width: 40px;
+    height: 40px;
+    background-image: url("candy.png");
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover;
+
+  }
+
+  .division-visual-bin{
+    background-color: rgb(255, 255, 205);
+    display: flex;
+    flex-wrap: wrap;
+    /* min-width: 150px; */
+    width: 40%;
+    min-height: 70px;
+    margin: 3px;
+
+  }
+
+  .division-visual-bin-group{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2rem;
+
+  }
+
+  .division-visual-count{
+    /* width: 150px; */
+    flex-grow: 1;
+    width: 0;
+    padding-bottom: 10px;
+  }
+
+  .division-visual-count-group{
+    display: flex;
+    justify-content: center;
+  }
+
+  .division-visual-block-group{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: 10px;
+    min-height: 50px;
+    
+  }
+
+  .hide{
+    display: none;
+  }
+
+  .drag-over {
+    border: solid 2px red;
+}
+
+.division-success{
+  border: solid 1px greenyellow;
+}

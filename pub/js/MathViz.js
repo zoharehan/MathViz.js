@@ -4,15 +4,7 @@ console.log('----------')
 console.log('MathViz: Math Learning Visualisations!!')
 
 
-// Core functionality we need:
-// 1. Fraction Pie Charts
-// 2. Addition simple circles, hover for numbers
-// 3. Subtraction " "
-// 4. Matrix Operations
-
-
 // 1. FRACTION PIE CHARTS
-// TODO: Mixed Numbers
 
 // this.slices = [  [slice, angles] , [slice, angles] .... ] -> angles = [start_angle, end_angle]
 
@@ -380,7 +372,30 @@ function GenerateMatrix2(row,col,vals,res=false){
     for(let i = 0; i<row; i++){
         for(let j = 0; j<col; j++){
             var element = document.createElement('div');
+           
             var element_text = document.createElement('div');
+            element_text.id = "test"
+
+            // form conversion code: start
+            // if(!res){
+            //     var element_text_form = document.createElement('form');
+            //     element_text_form.className = "matrix-text-form"
+            //     element_text_form.style.display = 'none';
+            //     // element_text_form.name = "input";
+            //     var element_text_form_label = document.createElement('input');
+            //     element_text_form_label.className = "matrix-form-input"
+            //     element_text_form_label.type = "text";
+            //     element_text_form_label.value = vals[i][j];
+                
+            //     element_text_form.appendChild(element_text_form_label);
+            //     element.appendChild(element_text_form);
+
+
+            // // form conversion code: end
+
+            // }
+            
+
             element_text.innerText = vals[i][j];
             element_text.className = "matrix-text"
             if(res){
@@ -391,6 +406,7 @@ function GenerateMatrix2(row,col,vals,res=false){
             // if(i==0){
             //     element_text.style.display = "none";
             // }
+
             matrix.appendChild(element);
 
         }
@@ -561,27 +577,45 @@ function updateHeader(el,scalar,num,end=false){
 }
 
 function updateMatMatHeader(el,dims1,dims2,vals1,vals2,row,col){
+    var total_str = "";
     var row_str = "(";
+    // store all the numbers being multiplied
+    // row_items = []
+    // col_items = []
 
     for(let i = 0; i < dims1[1]-1; i++){
         row_str += vals1[row][i];
+        // row_items.push(vals1[row][i])
         row_str += " , "
     }
     // add last one
     row_str += vals1[row][dims1[1]-1];
+    // row_items.push(vals1[row][dims1[1]-1])
     row_str += ")";
 
     var col_str = "(";
 
     for(let i = 0; i < dims2[0]-1; i++){
         col_str += vals2[i][col];
+        // col_items.push(vals2[i][col])
         col_str += " , "
     }
     // add last one
     col_str += vals2[dims2[0]-1][col];
     col_str += ")";
 
-    el.innerText = row_str + " . " + col_str;
+    for(let i = 0; i < dims1[1]-1; i++){
+        total_str += vals1[row][i];
+        total_str += "x"
+        total_str += vals2[i][col];
+        total_str += " + "
+    }
+    total_str += vals1[row][dims1[1]-1];
+    total_str += "x"
+    total_str += vals2[dims2[0]-1][col];
+
+
+    el.innerText = row_str + " . " + col_str + " = " + total_str;
     el.style.visibility = "visible";
 
 
@@ -646,6 +680,10 @@ class MatrixMatrixMultiplication {
         var matrix_three = GenerateMatrix2(this.dims1[0], this.dims2[1], this.result, true);
         matrix_div_three.appendChild(matrix_three);
 
+        // var try_own = document.createElement('button');
+        // try_own.innerText = 'Try Your Own Values!';
+        // try_own.className = "next-button";
+
         var next_step = document.createElement('button');
         next_step.innerText = 'Next Step';
         next_step.className = "next-button";
@@ -658,12 +696,38 @@ class MatrixMatrixMultiplication {
 
         matMatContainer.appendChild(header);
         matMatContainer.appendChild(mat_container);
+        // matMatContainer.appendChild(try_own);
         matMatContainer.appendChild(next_step);
 
         el.appendChild(matMatContainer);
 
         var row = 0;
         var col = 0;
+
+        // try_own.addEventListener('click', (e) => {
+        //     var elements = matrix_div_one.getElementsByClassName('matrix-element');
+        // for(var i = 0; i < elements.length; i++){
+        //     console.log(elements[i].children[0])
+        //     elements[i].children[0].style.display = 'block'
+        //     elements[i].children[1].style.display = 'none'
+        //     console.log("after");
+        //     console.log(elements[i].children[0])
+
+        // }
+
+        // var elements = matrix_div_two.getElementsByClassName('matrix-element');
+        // for(var i = 0; i < elements.length; i++){
+        //     console.log(elements[i].children[0])
+        //     elements[i].children[0].style.display = 'block'
+        //     elements[i].children[1].style.display = 'none'
+        //     console.log("after");
+        //     console.log(elements[i].children[0])
+
+        // }
+
+
+        // })
+        
 
         next_step.addEventListener('click', (e) => {
             if (this.clicks > this.dims1[0] * this.dims2[1] - 1) {
@@ -745,6 +809,323 @@ function MatrixMatrixResult(dims1, dims2, vals1, vals2){
     }
     // console.log("res",res);
     return res;
+}
+
+
+class DivisionVisual {
+    constructor(d1, d2, uid) {
+        this.divisor = d2;
+        this.dividend = d1;
+        this.uid = uid;
+        this.blocks = [];
+        this.bins = [];
+        this.counts = [];
+        this.bin_counts = [];
+        this.division_header_text = "Drag and drop " + this.dividend + " candies EQUALLY into " + this.divisor + " boxes!"
+        
+        // initialise the counts of all the bins
+        for(var i = 0; i < this.divisor; i++){
+            this.bin_counts.push(0)
+        }
+        // last element holds remainder count
+        this.bin_counts.push(this.dividend)
+
+    }
+
+    customiseHeader(el, new_header){
+        // get it through id and alter innertext
+        var header = el.getElementsByClassName("division-visual-header")[0];
+        this.division_header_text = new_header;
+        header.innerText = new_header;
+    }
+
+    makeVisual(el){
+
+        var divisionVisualComponent = document.createElement("div");
+        // drop blocks anywhere in the div
+        divisionVisualComponent.setAttribute("droppable", true);
+        // divisionVisualComponent.addEventListener("drop", dropOutside);
+        divisionVisualComponent.addEventListener("dragenter", dragEnter)
+        divisionVisualComponent.addEventListener("dragleave", dragLeave)
+        divisionVisualComponent.addEventListener("dragover", dragOver)
+
+        divisionVisualComponent.className = "division-visual-component"
+
+        // problem description header -- note: this is customisable
+        var division_header = document.createElement("h3");
+        division_header.className = "division-visual-header"
+        division_header.innerText = this.division_header_text;
+        divisionVisualComponent.appendChild(division_header);
+
+        // remainder heading
+        var division_remainder_header = document.createElement("h4");
+        division_remainder_header.className = "division-visual-remainder"
+        division_remainder_header.innerText = "Remainder: " + this.bin_counts[this.divisor];
+        divisionVisualComponent.appendChild(division_remainder_header);
+
+
+
+        // create dividend number of colorful blocks
+        // note that each block has a unique id for dragging it
+        var block_group = document.createElement('div');
+        block_group.className = "division-visual-block-group"
+        for(var i = 0; i < this.dividend; i++){
+            var block_id = this.uid + "-block-" + i
+            console.log("block id: ", block_id)
+            var block = document.createElement('div');
+            block.className = "division-visual-block";
+            block.id = block_id
+            block.setAttribute("draggable", true);
+            
+            block.addEventListener('dragstart', dragStart);
+
+            this.blocks.push(block)
+            block_group.appendChild(block)
+        }
+        // note: the height of the blockgroup is set here to avoid an increment/decrement in overall size
+        var block_group_height = (Math.ceil(this.dividend/12) * 40) + "px";
+        block_group.style.height = block_group_height;
+        divisionVisualComponent.appendChild(block_group)
+
+        // create divisor number of bins
+        var bin_group = document.createElement("div");
+        bin_group.className = "division-visual-bin-group"
+        for(var i = 0; i < this.divisor; i++){
+            var bin = document.createElement('div');
+            var bin_id = this.uid + "-bin-" + i
+            bin.className = "division-visual-bin";
+            bin.id = bin_id;
+            bin.setAttribute("droppable", true);
+            this.bins.push(bin)
+            bin_group.appendChild(bin)
+        }
+        // avoiding bin group spillover
+        var bin_group_height = (Math.ceil(this.dividend/12) * 50) + "px";
+        bin_group.style.minHeight = bin_group_height;
+
+
+        divisionVisualComponent.appendChild(bin_group);
+
+        // counter group
+        var count_group = document.createElement("div");
+        count_group.className = "division-visual-count-group"
+        for(var i = 0; i < this.divisor; i++){
+            // count for bin
+            var count_header = document.createElement("h3");
+            count_header.innerText = this.bin_counts[i];
+            count_header.className = 'division-visual-bin-count'
+
+            var count_id = this.uid + "-count-" + i
+            count_header.className = "division-visual-count";
+            count_header.id = count_id;
+            this.counts.push(count_header)
+            count_group.appendChild(count_header)
+        }
+        divisionVisualComponent.appendChild(count_group);
+
+        // adding drop listeners to the bins
+        for(var i = 0; i < this.bins.length; i++){
+            this.bins[i].addEventListener("dragenter", dragEnter)
+            this.bins[i].addEventListener("dragleave", dragLeave)
+            this.bins[i].addEventListener("dragover", dragOver)
+            this.bins[i].addEventListener('drop', (e) => {
+
+                // retrieve id
+                var block_id = e.dataTransfer.getData('text/plain');
+                var dragged_block = document.getElementById(block_id);
+
+                // check if it's in any other bin, if so, remove it!!!!!!!!
+                var in_other_bin = false;
+                for(var i = 0; i < this.bins.length; i++){
+                    if(this.bins[i] != e.target){
+                        // go over children 
+                        var children = this.bins[i].children
+                        for(var j = 0; j < children.length; j++){
+
+                            if(children[j] == dragged_block){
+                                this.bin_counts[i] -= 1;
+                                this.counts[i].innerText = this.bin_counts[i];
+                                this.bins[i].removeChild(children[j]);
+                                in_other_bin = true;
+
+                                // if correct division, apply success border
+                                // if(this.bin_counts[i] == Math.floor(this.dividend/this.divisor)){
+                                //     this.bins[i].classList.add("division-success")
+                                // }
+                                break;
+                            }
+                        }
+                    }
+                }
+
+
+                // check if already in the bin
+                for(var i = 0; i < e.target.children.length; i++){
+                    if(e.target.children[i] == dragged_block){
+                        // movement within the block, do nothing
+                        dragged_block.classList.remove('hide');
+                        return;
+                    }
+                }
+
+                // update remainder
+                if(!in_other_bin){
+                    this.bin_counts[this.divisor] -= 1;
+                    division_remainder_header.innerText = "Remainder: " + this.bin_counts[this.divisor]
+                }
+
+                // add block into the bin div
+                e.target.appendChild(dragged_block)
+                // show the block again
+                dragged_block.classList.remove('hide');
+
+                // add 1 to the count
+                for(var i = 0; i < this.bins.length; i++){
+                    if(this.bins[i].id == e.target.id){
+                        this.bin_counts[i] += 1;
+                        this.counts[i].innerText = this.bin_counts[i];
+                        console.log("counts update bin drop: ", this.bin_counts);
+
+                        // if(this.bin_counts[i] == Math.floor(this.dividend/this.divisor)){
+                        //     this.bins[i].classList.add("division-success")
+                        // }
+
+                        return;
+                    }
+                }
+
+                })
+        }
+
+        // append everything to the division visual div
+        // append that to el
+        var count = document.createElement('div')
+        count.id = "count";
+        el.appendChild(divisionVisualComponent);
+
+        // event listening functions for blocks and bins
+        function dragStart(e) {
+            // store the id of the block we picked up
+            e.dataTransfer.setData('text/plain', e.target.id);
+            // make sure the block doesnt disappear when touched
+            setTimeout(() => {
+                e.target.classList.add('hide');
+            }, 0);
+           
+        }
+
+        function dragEnter(e){
+            e.preventDefault();
+            // e.target.classList.add('drag-over');
+        }
+        function dragLeave(e){
+            return;
+        }
+        function dragOver(e){
+            e.preventDefault();
+            return;
+        }
+
+        divisionVisualComponent.addEventListener('drop', (e) => {
+            // make sure the drop is outside and NOT inside the bins
+            if(e.target.className == 'division-visual-bin'){
+                return;
+            }
+
+            // if target is another block and it's already outside, do nothing
+            if(e.target.className == 'division-visual-block' && e.target.parentElement.className == "division-visual-component"){
+                return;
+            }
+
+            // if we inserted it on top of a block, put it in the block's parent element instead
+            if(e.target.className == 'division-visual-block'){
+                var parent = e.target.parentElement
+                if(parent.className == 'division-visual-bin'){
+                    // we're going to add the element to the parent element i.e; the bin instead
+                    // retrieve id
+                    var block_id = e.dataTransfer.getData('text/plain');
+                    var dragged_block = document.getElementById(block_id);
+
+                    // check if already in the bin
+                    for(var i = 0; i < e.target.children.length; i++){
+                        if(parent.children[i] == dragged_block){
+                            // movement within the block, do nothing
+                            dragged_block.classList.remove('hide');
+                            return;
+                        }
+                    }
+                    
+
+                    // add block into the bin div
+                    parent.appendChild(dragged_block)
+                    // show the block again
+                    dragged_block.classList.remove('hide');
+
+                    // update remainder
+                    this.bin_counts[this.divisor] -= 1;
+                    console.log("remainder count: ", this.bin_counts[this.divisor])
+                    division_remainder_header.innerText = "Remainder: " + this.bin_counts[this.divisor]
+
+                    // add 1 to the count
+                    for(var i = 0; i < this.bins.length; i++){
+                        if(this.bins[i].id == parent.id){
+                            this.bin_counts[i] += 1;
+                            this.counts[i].innerText = this.bin_counts[i];
+                            console.log("counts update bin drop: ", this.bin_counts);
+
+                            // if(this.bin_counts[i] == Math.floor(this.dividend/this.divisor)){
+                            //     this.bins[i].classList.add("division-success")
+                            // }
+                            return;
+                        }
+                    }
+                    return;
+
+                }
+
+            }
+            
+            console.log("drop triggered")
+            console.log(this.bins)
+
+            var block_id = e.dataTransfer.getData('text/plain');
+            var dragged_block = document.getElementById(block_id);
+
+            // show the block again
+            dragged_block.classList.remove('hide');
+
+            // if the block isnt outside, take it out from the bins and put it back outside
+            for(var i = 0; i < this.bins.length; i++){
+                let children = this.bins[i].children
+                console.log("bin ", i, " ", children);
+                for(var j=0; j < children.length; j++){
+                    if(children[j] == dragged_block){
+                        console.log("found block")
+                        this.bin_counts[i] -= 1;
+                        this.counts[i].innerText = this.bin_counts[i];
+                        this.bins[i].removeChild(children[j]);
+
+                        // update remainder
+                        this.bin_counts[this.divisor] += 1;
+                        console.log("remainder count: ", this.bin_counts[this.divisor])
+                        division_remainder_header.innerText = "Remainder: " + this.bin_counts[this.divisor]
+
+                        // if(this.bin_counts[i] == Math.floor(this.dividend/this.divisor)){
+                        //     this.bins[i].classList.add("division-success")
+                        // }
+
+                        var block_grp = document.getElementsByClassName('division-visual-block-group')[0];
+                        block_grp.appendChild(dragged_block);
+                        return;
+                    }
+                }
+
+            }
+
+
+        })
+
+    }
 }
 
 
