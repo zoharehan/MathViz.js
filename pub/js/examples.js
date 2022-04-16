@@ -3,15 +3,16 @@
 
 const frac = new FractionVisual(3,6,"#F8C8DC");
 const fracDiv = document.querySelector('#fracDemoVisual');
-frac.makeFractionVisual(fracDiv);
+frac.makeVisual(fracDiv);
+console.log("shouldnt work:", frac.slices)
 
 const frac1 = new FractionVisual(3,7,"#BDB0D0");
 const fracDiv1 = document.querySelector('#fracDemoVisual1');
-frac1.makeFractionVisual(fracDiv1);
+frac1.makeVisual(fracDiv1);
 
 const frac2 = new FractionVisual(3,8,"#D7F4D2");
 const fracDiv2 = document.querySelector('#fracDemoVisual2');
-frac2.makeFractionVisual(fracDiv2);
+frac2.makeVisual(fracDiv2);
 
 const subtDiv = document.querySelector('#addSubtDemoVisual');
 const subtVisual = new AddSubtVisual([4,2],false,false);

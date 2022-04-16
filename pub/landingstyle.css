@@ -2,13 +2,15 @@
     width: 100vw;
     height: 100vh;
     background-image: url("bg_tumble.webp");
-    background-position: center; 
+    background-position: center bottom; 
     background-repeat: no-repeat; 
     background-size: cover;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-top: 250px;
+    /* padding-bottom: 50px; */
 }
 
 body{
@@ -56,26 +58,168 @@ body{
 
 }
 
+.landing-button:hover{
+    font-size: larger;
+    cursor: pointer;
+    background-color: rgb(198, 226, 252);
+
+}
+
 .landing-navbar{
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 10px;
     background-color: #daeaf6;
     border-radius: 7px;
     box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
+    position: fixed;
+    top: 0;
+    width: 99%;
 }
 
 .landing-nav-element{
     padding: 10px;
     font-size: large;
     text-decoration: none;
-    color: black;
+    color: gray;
+    font-family: 'Lato', sans-serif;
+    vertical-align: -webkit-baseline-middle;
 }
 
 .landing-nav-element:hover{
-    color: gray;
+    color: black;
+    font-size: larger;
 }
 
-/* .landing-nav-library-name{
-    font-size: larger;
-} */
+.landing-nav-library-name{
+    color: black;
+    font-size: x-large;
+    font-family: 'Bubblegum Sans', cursive;
+}
+
+.landing-nav-library-name:hover{
+    color: gray;
+    font-size: x-large;
+    /* font-size: larger; */
+}
+
+.landing-nav-icon{
+    vertical-align: middle;
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+    padding-bottom: 5px;
+   /* font-size: 18px !important; */
+
+}
+
+.getting-started-container{
+    margin: 4em;
+    margin-top: 6em;
+    font-family: 'Lato', sans-serif;
+
+}
+
+.examples-container{
+    margin: 4em;
+}
+
+.api-container{
+    margin: 4em;
+    margin-top: 6em;
+    font-family: 'Lato', sans-serif;
+}
+
+.getting-started-subheading{
+    margin-top: 30px;
+}
+
+.getting-started-setup{
+    display: flex;
+    justify-content: space-between;
+}
+
+.getting-started-p{
+    margin-right: 25px;
+}
+
+
+
+/* styling for codeblocks */
+.landing-code{
+    background-color: #f8f8f8;
+    /* border-radius: 10px; */
+    box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
+    padding-bottom: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 25px;
+
+}
+
+.code-comment{
+    color: green;
+}
+
+.code-keyword{
+    color: blue;
+}
+
+.code-subkeyword{
+    color: rgb(0, 132, 255);
+}
+
+.code-link{
+    color: #ff8800;
+}
+
+.code-method{
+    color: rgba(209, 173, 10);
+}
+
+.code-classname{
+    color: rgb(2, 104, 2);
+}
+
+/* getting started usage */
+.getting-started-usage{
+    display: flex;
+    justify-content: space-between;
+}
+
+.getting-started-usage-lang{
+    text-align: center;
+}
+
+.getting-started-usage-code{
+    display: flex;
+    flex-direction: column;
+}
+
+.getting-started-api-link{
+    font-weight: bolder;
+    color: rgb(0, 119, 255);
+}
+
+.getting-started-api-link:hover{
+    cursor: pointer;
+    color: gray;
+
+}
+
+/* table */
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #a09f9f;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }

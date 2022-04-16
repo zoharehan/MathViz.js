@@ -6,23 +6,30 @@
 (function(global, document, $) { 
 
 class FractionVisual {
+    #slices;
+    #colors;
+    #angle;
+    #slice_rad;
+    #center;
+    #num;
+    #den;
+    #color;
     constructor(num, den, color) {
         // slices: stores slices in the visual, colors stores each slice's current color
-        this.slices = [];
-        this.colors = [];
-
+        this.#slices = [];
+        this.#colors = [];
         // the angle and radius of each slice in the visual
-        this.angle = (1 / den) * 2 * Math.PI;
-        this.slice_rad = 0;
+        this.#angle = (1 / den) * 2 * Math.PI;
+        this.#slice_rad = 0;
         // center of the circular visual
-        this.center = [0, 0];
+        this.#center = [0, 0];
 
         // fraction's numerator and denominator
-        this.num = num;
-        this.den = den;
+        this.#num = num;
+        this.#den = den;
 
         // the developer-picked fill color
-        this.color = color;
+        this.#color = color;
 
     }
     
@@ -73,14 +80,14 @@ class FractionVisual {
 
     }
 
-    makeFractionVisual(el) {
+    makeVisual(el) {
 
         const fracComponent = document.createElement('div');
         fracComponent.className = 'FractionVisual';
 
         // header creation
         var header = document.createElement('h2');
-        var header_text = this.num + "/" + this.den;
+        var header_text = this.#num + "/" + this.#den;
         header.innerText = header_text;
         header.className = 'FracValues';
         fracComponent.appendChild(header);
@@ -90,30 +97,29 @@ class FractionVisual {
         var canv = document.createElement('canvas');
         canv.className = "FracCanvas";
         var ctx = canv.getContext('2d');
-        this.center = [(canv.width - 2) / 2, (canv.height - 2) / 2];
-        this.slice_rad = Math.min((canv.width - 4) / 2, (canv.height - 4) / 2);
+        this.#center = [(canv.width - 2) / 2, (canv.height - 2) / 2];
+        this.#slice_rad = Math.min((canv.width - 4) / 2, (canv.height - 4) / 2);
 
         var s_angle = 0;
-        for (let i = 0; i < this.num; i++) {
+        for (let i = 0; i < this.#num; i++) {
 
-            this.#FracSlice(ctx, [s_angle, s_angle + this.angle], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), this.color)
+            this.#FracSlice(ctx, [s_angle, s_angle + this.#angle], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), this.#color)
 
-            this.slices[i] = [s_angle, s_angle + this.angle];
-            this.colors[i] = true;
-            s_angle += this.angle;
+            this.#slices[i] = [s_angle, s_angle + this.#angle];
+            this.#colors[i] = true;
+            s_angle += this.#angle;
         }
-        for (let i = this.num; i < this.den; i++) {
-            this.#FracSlice(ctx, [s_angle, s_angle + this.angle], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), "#fff"),
-            this.slices[i] = [s_angle, s_angle + this.angle];
-            this.colors[i] = false;
-            s_angle += this.angle;
+        for (let i = this.#num; i < this.#den; i++) {
+            this.#FracSlice(ctx, [s_angle, s_angle + this.#angle], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), "#fff"),
+            this.#slices[i] = [s_angle, s_angle + this.#angle];
+            this.#colors[i] = false;
+            s_angle += this.#angle;
 
         }
         fracComponent.appendChild(canv);
 
         el.appendChild(fracComponent);
 
-        // console.log(this.slices);
         canv.addEventListener('click', (e) => {
             canv.style.cursor = "pointer";
 
@@ -122,33 +128,33 @@ class FractionVisual {
             var y = e.pageY - canv.offsetTop;
 
             // check if the position requires any action
-            var slice_idx = this.#validClick(x, y, this.slices, this.center, this.slice_rad);
+            var slice_idx = this.#validClick(x, y, this.#slices, this.#center, this.#slice_rad);
 
             if (slice_idx != -1) {
                 // redraw this slice with new fill and update header
-                if (this.colors[slice_idx] == true) {
+                if (this.#colors[slice_idx] == true) {
                     // save angles to redraw
-                    var slice_angles = this.slices[slice_idx];
+                    var slice_angles = this.#slices[slice_idx];
                     // make a white one
                     this.#FracSlice(ctx, [slice_angles[0], slice_angles[1]], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), "#fff")
-                    this.slices[slice_idx] = [slice_angles[0], slice_angles[1]];
-                    this.colors[slice_idx] = false;
+                    this.#slices[slice_idx] = [slice_angles[0], slice_angles[1]];
+                    this.#colors[slice_idx] = false;
 
                     // update numerator in the header
-                    this.num -= 1;
-                    this.#alterFracHeader(canv.parentElement.firstChild, this.num, this.den);
+                    this.#num -= 1;
+                    this.#alterFracHeader(canv.parentElement.firstChild, this.#num, this.#den);
                 }
                 else {
                     //build one with numerator+1
-                    var slice_angles = this.slices[slice_idx];
+                    var slice_angles = this.#slices[slice_idx];
                     // make a white one
-                    this.#FracSlice(ctx, [slice_angles[0], slice_angles[1]], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), this.color)
-                    this.slices[slice_idx] = [slice_angles[0], slice_angles[1]];
-                    this.colors[slice_idx] = true;
+                    this.#FracSlice(ctx, [slice_angles[0], slice_angles[1]], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), this.#color)
+                    this.#slices[slice_idx] = [slice_angles[0], slice_angles[1]];
+                    this.#colors[slice_idx] = true;
 
                     // update numerator in the header
-                    this.num += 1;
-                    this.#alterFracHeader(canv.parentElement.firstChild, this.num, this.den);
+                    this.#num += 1;
+                    this.#alterFracHeader(canv.parentElement.firstChild, this.#num, this.#den);
                 }
             }
 
@@ -163,24 +169,29 @@ global.FractionVisual = global.FractionVisual || FractionVisual
 // 2. ADDITION/SUBTRACTION STUFF
 //argument: list of numbers, add=true means addition false means subtraction
 class AddSubtVisual {
+    #numbers;
+    #add;
+    #container;
+    #choice;
+    #result;
     constructor(numbers, add, choice = true) {
-        this.numbers = numbers;
-        this.add = add;
-        this.container = null;
-        this.choice = choice;
+        this.#numbers = numbers;
+        this.#add = add;
+        this.#container = null;
+        this.#choice = choice;
 
         // result calculation
-        this.result = 0;
-        for (let i = 0; i < this.numbers.length; i++) {
-            if (this.add) {
-                this.result += this.numbers[i];
+        this.#result = 0;
+        for (let i = 0; i < this.#numbers.length; i++) {
+            if (this.#add) {
+                this.#result += this.#numbers[i];
             }
             else {
                 if (i == 0) {
-                    this.result += this.numbers[i];
+                    this.#result += this.#numbers[i];
                 }
                 else {
-                    this.result -= this.numbers[i];
+                    this.#result -= this.#numbers[i];
                 }
             }
         }
@@ -236,13 +247,13 @@ class AddSubtVisual {
         const visual = document.createElement('span');
         visual.className = "AddSubtVisual";
         //  do the last one manually bec it doesnt need a plus
-        for (let i = 0; i < this.numbers.length - 1; i++) {
+        for (let i = 0; i < this.#numbers.length - 1; i++) {
 
-            var cats = this.#makeCatGroup(this.numbers[i], false, this.choice);
+            var cats = this.#makeCatGroup(this.#numbers[i], false, this.#choice);
             visual.appendChild(cats);
             var sign = document.createElement('p');
             sign.className = "AddSubtSign";
-            if (this.add) {
+            if (this.#add) {
                 sign.innerText = '+';
             }
             else {
@@ -251,14 +262,14 @@ class AddSubtVisual {
             visual.appendChild(sign);
         }
         // last number and equalsto
-        var last_cats = this.#makeCatGroup(this.numbers[this.numbers.length - 1], false, this.choice);
+        var last_cats = this.#makeCatGroup(this.#numbers[this.#numbers.length - 1], false, this.#choice);
         visual.appendChild(last_cats);
         
         var equals = document.createElement('button');
         equals.innerHTML = '<p class="button-text">=</p>';
         equals.className = "button";
 
-        var result_cats = this.#makeCatGroup(this.result, true, this.choice);
+        var result_cats = this.#makeCatGroup(this.#result, true, this.#choice);
 
         equals.addEventListener('click', (e) => {
 
@@ -282,7 +293,7 @@ class AddSubtVisual {
 
         });
         visual.appendChild(equals);
-        if (this.result < 0) {
+        if (this.#result < 0) {
             var r_sign = document.createElement('p');
             r_sign.className = "addSubtResultSign";
             r_sign.innerText = '-';
@@ -297,7 +308,7 @@ class AddSubtVisual {
 
         addSubtVisualComponent.appendChild(visual);
 
-        this.container = addSubtVisualComponent;
+        this.#container = addSubtVisualComponent;
 
         el.appendChild(addSubtVisualComponent);
 
@@ -307,7 +318,7 @@ class AddSubtVisual {
         var explain = document.createElement('p');
         explain.className = "AddSubtExplanation";
         explain.innerText = exp;
-        this.container.appendChild(explain);
+        this.#container.appendChild(explain);
 
     }
 }
@@ -317,18 +328,24 @@ global.AddSubtVisual = global.AddSubtVisual || AddSubtVisual
 
 // 3. MATRIX-SCALAR MULTIPLICATION
 class MatrixScalarMultiplicationVisual {
+    #scalar;
+    #rows;
+    #cols;
+    #vals;
+    #clicks;
+    #results;
     constructor(scalar, mat_rows, mat_cols, mat_vals = null) {
-        this.scalar = scalar;
-        this.rows = mat_rows;
-        this.cols = mat_cols;
-        this.vals = mat_vals;
-        this.clicks = 0;
+        this.#scalar = scalar;
+        this.#rows = mat_rows;
+        this.#cols = mat_cols;
+        this.#vals = mat_vals;
+        this.#clicks = 0;
 
-        if (this.vals == null) {
-            this.vals = this.#generateRandomMatrixValues(this.rows, this.cols);
+        if (this.#vals == null) {
+            this.#vals = this.#generateRandomMatrixValues(this.#rows, this.#cols);
         }
 
-        this.results = this.#calculateMatrixScalarResults(this.scalar, this.rows, this.cols, this.vals);
+        this.#results = this.#calculateMatrixScalarResults(this.#scalar, this.#rows, this.#cols, this.#vals);
 
     }
 
@@ -400,7 +417,7 @@ class MatrixScalarMultiplicationVisual {
         mat_container.className = "MatrixScalarVisual";
 
         var scalar = document.createElement('h3');
-        scalar.innerText = this.scalar;
+        scalar.innerText = this.#scalar;
         scalar.className = "MatrixScalar";
 
         var mult_sign = document.createElement('h3');
@@ -413,12 +430,12 @@ class MatrixScalarMultiplicationVisual {
 
         var matrix_div = document.createElement('div');
         matrix_div.className = "MatrixDiv";
-        var matrix = this.#generateMatrix(this.rows, this.cols, this.vals);
+        var matrix = this.#generateMatrix(this.#rows, this.#cols, this.#vals);
         matrix_div.appendChild(matrix);
 
         var r_matrix_div = document.createElement('div');
         r_matrix_div.className = "MatrixDiv";
-        var r_matrix = this.#generateMatrix(this.rows, this.cols, this.results, true);
+        var r_matrix = this.#generateMatrix(this.#rows, this.#cols, this.#results, true);
         r_matrix_div.appendChild(r_matrix);
 
         var next_step = document.createElement("input");
@@ -430,25 +447,25 @@ class MatrixScalarMultiplicationVisual {
         header.className = "MainMatrixHeader";
         header.innerText = "Placeholder";
         next_step.addEventListener('click', (e) => {
-            if (this.clicks > this.rows * this.cols - 1) {
+            if (this.#clicks > this.#rows * this.#cols - 1) {
                 alert("Cogratulations, you reviewed all the steps!");
-                this.#changeBackgrounds(this.clicks, r_matrix_div.firstChild.children);
-                this.#changeBackgrounds(this.clicks, matrix_div.firstChild.children);
+                this.#changeBackgrounds(this.#clicks, r_matrix_div.firstChild.children);
+                this.#changeBackgrounds(this.#clicks, matrix_div.firstChild.children);
 
                 // print finished since steps are over now!
                 this.#updateHeader(header, null, null, true);
-                this.clicks = 0;
+                this.#clicks = 0;
                 return;
             }
 
-            var res_mat_text = r_matrix_div.firstChild.children[this.clicks].firstChild;
+            var res_mat_text = r_matrix_div.firstChild.children[this.#clicks].firstChild;
 
             res_mat_text.style.visibility = "visible";
-            this.#changeBackgrounds(this.clicks, r_matrix_div.firstChild.children);
-            this.#changeBackgrounds(this.clicks, matrix_div.firstChild.children);
-            this.#updateHeader(header, this.scalar, this.vals[this.clicks]);
+            this.#changeBackgrounds(this.#clicks, r_matrix_div.firstChild.children);
+            this.#changeBackgrounds(this.#clicks, matrix_div.firstChild.children);
+            this.#updateHeader(header, this.#scalar, this.#vals[this.#clicks]);
 
-            this.clicks += 1;
+            this.#clicks += 1;
 
         });
 
@@ -475,20 +492,26 @@ global.MatrixScalarMultiplicationVisual = global.MatrixScalarMultiplicationVisua
 
 // 4. MATRIX-MATRIX MULTIPLICATION
 class MatrixMatrixMultiplication {
+    #dims1;
+    #dims2;
+    #vals1;
+    #vals2;
+    #clicks;
+    #result;
     constructor(dims1, dims2, vals1, vals2) {
-        this.dims1 = dims1;
-        this.dims2 = dims2;
-        this.vals1 = vals1;
-        this.vals2 = vals2;
-        this.clicks = 0;
+        this.#dims1 = dims1;
+        this.#dims2 = dims2;
+        this.#vals1 = vals1;
+        this.#vals2 = vals2;
+        this.#clicks = 0;
 
         // cols of 1st should eq. rows of 2nd
-        if (this.dims1[1] != this.dims2[0]) {
+        if (this.#dims1[1] != this.#dims2[0]) {
             alert("Invalid Dimensions: the number of columns in the first matrix must be equal to the number of rows in the second matrix!");
             return;
         }
 
-        this.result = this.#matrixMatrixResult(this.dims1, this.dims2, this.vals1, this.vals2);
+        this.#result = this.#matrixMatrixResult(this.#dims1, this.#dims2, this.#vals1, this.#vals2);
 
     }
     
@@ -648,7 +671,7 @@ class MatrixMatrixMultiplication {
     makeVisual(el) {
 
         // check for valid calculation
-        if (this.dims1[1] != this.dims2[0]) {
+        if (this.#dims1[1] != this.#dims2[0]) {
             alert("Invalid Dimensions: the number of columns in the first matrix must be equal to the number of rows in the second matrix!");
             return;
         }
@@ -665,7 +688,7 @@ class MatrixMatrixMultiplication {
 
         var matrix_div_one = document.createElement('div');
         matrix_div_one.className = "MatrixDiv";
-        var matrix_one = this.#generateMatrix(this.dims1[0], this.dims1[1], this.vals1);
+        var matrix_one = this.#generateMatrix(this.#dims1[0], this.#dims1[1], this.#vals1);
         matrix_div_one.appendChild(matrix_one);
 
         var mult_sign = document.createElement('h3');
@@ -674,7 +697,7 @@ class MatrixMatrixMultiplication {
 
         var matrix_div_two = document.createElement('div');
         matrix_div_two.className = "MatrixDiv";
-        var matrix_two = this.#generateMatrix(this.dims2[0], this.dims2[1], this.vals2);
+        var matrix_two = this.#generateMatrix(this.#dims2[0], this.#dims2[1], this.#vals2);
         matrix_div_two.appendChild(matrix_two);
 
         var eq_sign = document.createElement('h3');
@@ -683,7 +706,7 @@ class MatrixMatrixMultiplication {
 
         var matrix_div_three = document.createElement('div');
         matrix_div_three.className = "MatrixDiv";
-        var matrix_three = this.#generateMatrix(this.dims1[0], this.dims2[1], this.result, true);
+        var matrix_three = this.#generateMatrix(this.#dims1[0], this.#dims2[1], this.#result, true);
         matrix_div_three.appendChild(matrix_three);
 
         var next_step = document.createElement("input");
@@ -714,29 +737,29 @@ class MatrixMatrixMultiplication {
         
 
         next_step.addEventListener('click', (e) => {
-            if (this.clicks > this.dims1[0] * this.dims2[1] - 1) {
+            if (this.#clicks > this.#dims1[0] * this.#dims2[1] - 1) {
                 alert("Cogratulations, you reviewed all the steps!");
                 row += 1;
                 col += 1;
-                this.#changeBackgrounds(this.clicks, matrix_div_three.firstChild.children);
-                this.#matMatHighlight(row, col, this.dims1, this.dims2, matrix_div_one, matrix_div_two);
+                this.#changeBackgrounds(this.#clicks, matrix_div_three.firstChild.children);
+                this.#matMatHighlight(row, col, this.#dims1, this.#dims2, matrix_div_one, matrix_div_two);
                 this.#updateHeader(header, null, null, true);
 
                 // reset
                 row = 0;
                 col = 0;
-                this.clicks = 0;
+                this.#clicks = 0;
 
                 return;
             }
 
             // 1. make numbers visible one by one
-            var res_mat_text = matrix_div_three.firstChild.children[this.clicks].firstChild;
+            var res_mat_text = matrix_div_three.firstChild.children[this.#clicks].firstChild;
             res_mat_text.style.visibility = "visible";
 
             // 2. update header
-            if (this.clicks != 0) {
-                if (this.clicks % this.dims2[1] == 0) {
+            if (this.#clicks != 0) {
+                if (this.#clicks % this.#dims2[1] == 0) {
                     row += 1;
                     col = 0;
                 }
@@ -745,48 +768,48 @@ class MatrixMatrixMultiplication {
                 }
             }
 
-            this.#updateMatMatHeader(header, this.dims1, this.dims2, this.vals1, this.vals2, row, col);
+            this.#updateMatMatHeader(header, this.#dims1, this.#dims2, this.#vals1, this.#vals2, row, col);
 
-            this.#changeBackgrounds(this.clicks, matrix_div_three.firstChild.children);
+            this.#changeBackgrounds(this.#clicks, matrix_div_three.firstChild.children);
 
             // 3. update highlighting: highlight row of first matrix, col of second
-            this.#matMatHighlight(row, col, this.dims1, this.dims2, matrix_div_one, matrix_div_two);
+            this.#matMatHighlight(row, col, this.#dims1, this.#dims2, matrix_div_one, matrix_div_two);
 
-            this.clicks += 1;
+            this.#clicks += 1;
 
         });
 
         prev_step.addEventListener('click', (e) => {
             // if first step, do nothing 
-            if(this.clicks == 0){
-                console.log("clicks value: ", this.clicks);
+            if(this.#clicks == 0){
+                console.log("clicks value: ", this.#clicks);
                 return;
             }
 
-            if(this.clicks == 1){
+            if(this.#clicks == 1){
                 alert("You are at the first step!");
                 return;
             }
 
-            if (this.clicks != 0) {
+            if (this.#clicks != 0) {
                 if (col != 0) {
                     col -= 1;
                 }
                 else if(col == 0){
-                    col = this.dims2[1]-1;
+                    col = this.#dims2[1]-1;
                     row -= 1;
                 }
             }
 
-            this.clicks -= 1;
-            console.log("clicks value: ", this.clicks);
+            this.#clicks -= 1;
+            console.log("clicks value: ", this.#clicks);
 
-            this.#updateMatMatHeader(header, this.dims1, this.dims2, this.vals1, this.vals2, row, col);
+            this.#updateMatMatHeader(header, this.#dims1, this.#dims2, this.#vals1, this.#vals2, row, col);
 
-            this.#changeBackgrounds(this.clicks-1, matrix_div_three.firstChild.children);
+            this.#changeBackgrounds(this.#clicks-1, matrix_div_three.firstChild.children);
 
             // 3. update highlighting: highlight row of first matrix, col of second
-            this.#matMatHighlight(row, col, this.dims1, this.dims2, matrix_div_one, matrix_div_two);
+            this.#matMatHighlight(row, col, this.#dims1, this.#dims2, matrix_div_one, matrix_div_two);
 
         })
 
@@ -799,29 +822,37 @@ global.MatrixMatrixMultiplication = global.MatrixMatrixMultiplication || MatrixM
 
 // 5. DIVISION VISUAL
 class DivisionVisual {
+    #divisor;
+    #dividend;
+    #uid;
+    #blocks;
+    #bins;
+    #counts;
+    #bin_counts;
+    #division_header_text;
     constructor(d1, d2, uid) {
-        this.divisor = d2;
-        this.dividend = d1;
-        this.uid = uid;
-        this.blocks = [];
-        this.bins = [];
-        this.counts = [];
-        this.bin_counts = [];
-        this.division_header_text = "Drag and drop " + this.dividend + " candies EQUALLY into " + this.divisor + " boxes!"
+        this.#divisor = d2;
+        this.#dividend = d1;
+        this.#uid = uid;
+        this.#blocks = [];
+        this.#bins = [];
+        this.#counts = [];
+        this.#bin_counts = [];
+        this.#division_header_text = "Drag and drop " + this.#dividend + " candies EQUALLY into " + this.#divisor + " boxes!"
         
         // initialise the counts of all the bins
-        for(var i = 0; i < this.divisor; i++){
-            this.bin_counts.push(0)
+        for(var i = 0; i < this.#divisor; i++){
+            this.#bin_counts.push(0)
         }
         // last element holds remainder count
-        this.bin_counts.push(this.dividend)
+        this.#bin_counts.push(this.#dividend)
 
     }
 
     customiseHeader(el, new_header){
         // get it through id and alter innertext
         var header = el.getElementsByClassName("division-visual-header")[0];
-        this.division_header_text = new_header;
+        this.#division_header_text = new_header;
         header.innerText = new_header;
     }
 
@@ -840,13 +871,13 @@ class DivisionVisual {
         // problem description header -- note: this is customisable
         var division_header = document.createElement("h3");
         division_header.className = "division-visual-header"
-        division_header.innerText = this.division_header_text;
+        division_header.innerText = this.#division_header_text;
         divisionVisualComponent.appendChild(division_header);
 
         // remainder heading
         var division_remainder_header = document.createElement("h4");
         division_remainder_header.className = "division-visual-remainder"
-        division_remainder_header.innerText = "Remainder: " + this.bin_counts[this.divisor];
+        division_remainder_header.innerText = "Remainder: " + this.#bin_counts[this.#divisor];
         divisionVisualComponent.appendChild(division_remainder_header);
 
 
@@ -855,8 +886,8 @@ class DivisionVisual {
         // note that each block has a unique id for dragging it
         var block_group = document.createElement('div');
         block_group.className = "division-visual-block-group"
-        for(var i = 0; i < this.dividend; i++){
-            var block_id = this.uid + "-block-" + i
+        for(var i = 0; i < this.#dividend; i++){
+            var block_id = this.#uid + "-block-" + i
             console.log("block id: ", block_id)
             var block = document.createElement('div');
             block.className = "division-visual-block";
@@ -865,28 +896,28 @@ class DivisionVisual {
             
             block.addEventListener('dragstart', dragStart);
 
-            this.blocks.push(block)
+            this.#blocks.push(block)
             block_group.appendChild(block)
         }
         // note: the height of the blockgroup is set here to avoid an increment/decrement in overall size
-        var block_group_height = (Math.ceil(this.dividend/12) * 40) + "px";
+        var block_group_height = (Math.ceil(this.#dividend/12) * 40) + "px";
         block_group.style.height = block_group_height;
         divisionVisualComponent.appendChild(block_group)
 
         // create divisor number of bins
         var bin_group = document.createElement("div");
         bin_group.className = "division-visual-bin-group"
-        for(var i = 0; i < this.divisor; i++){
+        for(var i = 0; i < this.#divisor; i++){
             var bin = document.createElement('div');
-            var bin_id = this.uid + "-bin-" + i
+            var bin_id = this.#uid + "-bin-" + i
             bin.className = "division-visual-bin";
             bin.id = bin_id;
             bin.setAttribute("droppable", true);
-            this.bins.push(bin)
+            this.#bins.push(bin)
             bin_group.appendChild(bin)
         }
         // avoiding bin group spillover
-        var bin_group_height = (Math.ceil(this.dividend/12) * 50) + "px";
+        var bin_group_height = (Math.ceil(this.#dividend/12) * 50) + "px";
         bin_group.style.minHeight = bin_group_height;
 
 
@@ -895,26 +926,26 @@ class DivisionVisual {
         // counter group
         var count_group = document.createElement("div");
         count_group.className = "division-visual-count-group"
-        for(var i = 0; i < this.divisor; i++){
+        for(var i = 0; i < this.#divisor; i++){
             // count for bin
             var count_header = document.createElement("h3");
-            count_header.innerText = this.bin_counts[i];
+            count_header.innerText = this.#bin_counts[i];
             count_header.className = 'division-visual-bin-count'
 
-            var count_id = this.uid + "-count-" + i
+            var count_id = this.#uid + "-count-" + i
             count_header.className = "division-visual-count";
             count_header.id = count_id;
-            this.counts.push(count_header)
+            this.#counts.push(count_header)
             count_group.appendChild(count_header)
         }
         divisionVisualComponent.appendChild(count_group);
 
         // adding drop listeners to the bins
-        for(var i = 0; i < this.bins.length; i++){
-            this.bins[i].addEventListener("dragenter", dragEnter)
-            this.bins[i].addEventListener("dragleave", dragLeave)
-            this.bins[i].addEventListener("dragover", dragOver)
-            this.bins[i].addEventListener('drop', (e) => {
+        for(var i = 0; i < this.#bins.length; i++){
+            this.#bins[i].addEventListener("dragenter", dragEnter)
+            this.#bins[i].addEventListener("dragleave", dragLeave)
+            this.#bins[i].addEventListener("dragover", dragOver)
+            this.#bins[i].addEventListener('drop', (e) => {
 
                 // retrieve id
                 var block_id = e.dataTransfer.getData('text/plain');
@@ -922,26 +953,26 @@ class DivisionVisual {
 
                 // check if it's in any other bin, if so, remove it!!!
                 var in_other_bin = false;
-                for(var i = 0; i < this.bins.length; i++){
-                    if(this.bins[i] != e.target){
+                for(var i = 0; i < this.#bins.length; i++){
+                    if(this.#bins[i] != e.target){
                         // go over children 
-                        var children = this.bins[i].children
+                        var children = this.#bins[i].children
                         for(var j = 0; j < children.length; j++){
 
                             if(children[j] == dragged_block){
-                                this.bin_counts[i] -= 1;
-                                this.counts[i].innerText = this.bin_counts[i];
-                                this.bins[i].removeChild(children[j]);
+                                this.#bin_counts[i] -= 1;
+                                this.#counts[i].innerText = this.#bin_counts[i];
+                                this.#bins[i].removeChild(children[j]);
                                 in_other_bin = true;
 
                                 // if correct division, apply success border
-                                if(this.bin_counts[i] == Math.floor(this.dividend/this.divisor)){
+                                if(this.#bin_counts[i] == Math.floor(this.#dividend/this.#divisor)){
                                     e.preventDefault();
-                                    this.bins[i].classList.add("division-success")
+                                    this.#bins[i].classList.add("division-success")
                                 }
-                                else if (this.bins[i].classList.contains('division-success')){
+                                else if (this.#bins[i].classList.contains('division-success')){
                                     e.preventDefault();
-                                    this.bins[i].classList.remove("division-success")
+                                    this.#bins[i].classList.remove("division-success")
                                 }
                                 break;
                             }
@@ -961,8 +992,8 @@ class DivisionVisual {
 
                 // update remainder
                 if(!in_other_bin){
-                    this.bin_counts[this.divisor] -= 1;
-                    division_remainder_header.innerText = "Remainder: " + this.bin_counts[this.divisor]
+                    this.#bin_counts[this.#divisor] -= 1;
+                    division_remainder_header.innerText = "Remainder: " + this.#bin_counts[this.#divisor]
                 }
 
                 // add block into the bin div
@@ -971,19 +1002,19 @@ class DivisionVisual {
                 dragged_block.classList.remove('hide');
 
                 // add 1 to the count
-                for(var i = 0; i < this.bins.length; i++){
-                    if(this.bins[i].id == e.target.id){
-                        this.bin_counts[i] += 1;
-                        this.counts[i].innerText = this.bin_counts[i];
-                        console.log("counts update bin drop: ", this.bin_counts);
+                for(var i = 0; i < this.#bins.length; i++){
+                    if(this.#bins[i].id == e.target.id){
+                        this.#bin_counts[i] += 1;
+                        this.#counts[i].innerText = this.#bin_counts[i];
+                        console.log("counts update bin drop: ", this.#bin_counts);
 
-                        if(this.bin_counts[i] == Math.floor(this.dividend/this.divisor)){
+                        if(this.#bin_counts[i] == Math.floor(this.#dividend/this.#divisor)){
                             e.preventDefault();
                             e.target.classList.add("division-success")
                         }
-                        else if (this.bins[i].classList.contains('division-success')){
+                        else if (this.#bins[i].classList.contains('division-success')){
                             e.preventDefault();
-                            this.bins[i].classList.remove("division-success")
+                            this.#bins[i].classList.remove("division-success")
                         }
 
                         return;
@@ -1059,24 +1090,24 @@ class DivisionVisual {
                     dragged_block.classList.remove('hide');
 
                     // update remainder
-                    this.bin_counts[this.divisor] -= 1;
-                    console.log("remainder count: ", this.bin_counts[this.divisor])
-                    division_remainder_header.innerText = "Remainder: " + this.bin_counts[this.divisor]
+                    this.#bin_counts[this.#divisor] -= 1;
+                    console.log("remainder count: ", this.#bin_counts[this.#divisor])
+                    division_remainder_header.innerText = "Remainder: " + this.#bin_counts[this.#divisor]
 
                     // add 1 to the count
-                    for(var i = 0; i < this.bins.length; i++){
-                        if(this.bins[i].id == parent.id){
-                            this.bin_counts[i] += 1;
-                            this.counts[i].innerText = this.bin_counts[i];
-                            console.log("counts update bin drop: ", this.bin_counts);
+                    for(var i = 0; i < this.#bins.length; i++){
+                        if(this.#bins[i].id == parent.id){
+                            this.#bin_counts[i] += 1;
+                            this.#counts[i].innerText = this.#bin_counts[i];
+                            console.log("counts update bin drop: ", this.#bin_counts);
 
-                            if(this.bin_counts[i] == Math.floor(this.dividend/this.divisor)){
+                            if(this.#bin_counts[i] == Math.floor(this.#dividend/this.#divisor)){
                                 e.preventDefault();
-                                this.bins[i].classList.add("division-success")
+                                this.#bins[i].classList.add("division-success")
                             }
-                            else if (this.bins[i].classList.contains('division-success')){
+                            else if (this.#bins[i].classList.contains('division-success')){
                                 e.preventDefault();
-                                this.bins[i].classList.remove("division-success")
+                                this.#bins[i].classList.remove("division-success")
                             }
                             return;
                         }
@@ -1086,9 +1117,6 @@ class DivisionVisual {
                 }
 
             }
-            
-            console.log("drop triggered")
-            console.log(this.bins)
 
             var block_id = e.dataTransfer.getData('text/plain');
             var dragged_block = document.getElementById(block_id);
@@ -1097,28 +1125,28 @@ class DivisionVisual {
             dragged_block.classList.remove('hide');
 
             // if the block isnt outside, take it out from the bins and put it back outside
-            for(var i = 0; i < this.bins.length; i++){
-                let children = this.bins[i].children
+            for(var i = 0; i < this.#bins.length; i++){
+                let children = this.#bins[i].children
                 console.log("bin ", i, " ", children);
                 for(var j=0; j < children.length; j++){
                     if(children[j] == dragged_block){
                         console.log("found block")
-                        this.bin_counts[i] -= 1;
-                        this.counts[i].innerText = this.bin_counts[i];
-                        this.bins[i].removeChild(children[j]);
+                        this.#bin_counts[i] -= 1;
+                        this.#counts[i].innerText = this.#bin_counts[i];
+                        this.#bins[i].removeChild(children[j]);
 
                         // update remainder
-                    this.bin_counts[this.divisor] += 1;
-                    console.log("remainder count: ", this.bin_counts[this.divisor])
-                    division_remainder_header.innerText = "Remainder: " + this.bin_counts[this.divisor]
+                    this.#bin_counts[this.#divisor] += 1;
+                    console.log("remainder count: ", this.#bin_counts[this.#divisor])
+                    division_remainder_header.innerText = "Remainder: " + this.#bin_counts[this.#divisor]
 
-                        if(this.bin_counts[i] == Math.floor(this.dividend/this.divisor)){
+                        if(this.#bin_counts[i] == Math.floor(this.#dividend/this.#divisor)){
                             e.preventDefault();
-                            this.bins[i].classList.add("division-success")
+                            this.#bins[i].classList.add("division-success")
                         }
-                        else if (this.bins[i].classList.contains('division-success')){
+                        else if (this.#bins[i].classList.contains('division-success')){
                             e.preventDefault();
-                            this.bins[i].classList.remove("division-success")
+                            this.#bins[i].classList.remove("division-success")
                         }
 
                         var block_grp = document.getElementsByClassName('division-visual-block-group')[0];
@@ -1139,12 +1167,14 @@ global.DivisionVisual = global.DivisionVisual || DivisionVisual
 
 // 6. POINT PLOT VISUAL
 class PointPlotVisual {
+    #points;
+    #ctx;
     constructor(){
-        this.points = []
-        this.ctx = null;
+        this.#points = []
+        this.#ctx = null;
     }
 
-    _initialiseGraph(ctx){
+    #initialiseGraph(ctx){
         // drawing the canvas graph
         ctx.strokeStyle = 'black';
         var padding = 20;
@@ -1195,48 +1225,48 @@ class PointPlotVisual {
     
     }
 
-    _plotGraph(){
-        // use this.points to plot a line
+    #plotGraph(){
+        // use this.#points to plot a line
         // [point1_x, point1_y, point2_x, point2_y]
         
-        var ctx = this.ctx
+        var ctx = this.#ctx
         ctx.clearRect(0, 0, 300, 300);
-        this._initialiseGraph(this.ctx);
+        this.#initialiseGraph(this.#ctx);
 
         ctx.strokeStyle = "blue";
         ctx.fillStyle = "blue";
         ctx.font = "6pt Arial";
         ctx.beginPath();
         // add rectangle for point and a label
-        ctx.moveTo(this.points[0]*25 + 150, 150 - this.points[1]*25)
-        ctx.fillRect(this.points[0]*25 + 148,148 - this.points[1]*25,5,5);
+        ctx.moveTo(this.#points[0]*25 + 150, 150 - this.#points[1]*25)
+        ctx.fillRect(this.#points[0]*25 + 148,148 - this.#points[1]*25,5,5);
 
-        ctx.lineTo(this.points[2]*25 + 150, 150 - this.points[3]*25)
-        ctx.fillRect(this.points[2]*25 + 148,148 - this.points[3]*25,5,5);
+        ctx.lineTo(this.#points[2]*25 + 150, 150 - this.#points[3]*25)
+        ctx.fillRect(this.#points[2]*25 + 148,148 - this.#points[3]*25,5,5);
         ctx.stroke();
 
         ctx.fillStyle = 'red'
 
         var p1_plotted = false;
         var p2_plotted = false;
-        if(this.points[0] == 5 || this.points[2] == 5){
-            if(this.points[0] == 5){
-                ctx.fillText("point 1", this.points[0]*25 + 148, 146 - this.points[1]*25);
+        if(this.#points[0] == 5 || this.#points[2] == 5){
+            if(this.#points[0] == 5){
+                ctx.fillText("point 1", this.#points[0]*25 + 148, 146 - this.#points[1]*25);
                 p1_plotted = true;
             }
-            if(this.points[2] == 5){
-                ctx.fillText("point 2", this.points[2]*25 + 148, 146 - this.points[3]*25);
+            if(this.#points[2] == 5){
+                ctx.fillText("point 2", this.#points[2]*25 + 148, 146 - this.#points[3]*25);
                 p2_plotted = true;
             }
         }
 
         if(!p1_plotted){
-            ctx.fillText("point 1", this.points[0]*25 + 156, 146 - this.points[1]*25);
+            ctx.fillText("point 1", this.#points[0]*25 + 156, 146 - this.#points[1]*25);
 
         }
         
         if(!p2_plotted){
-            ctx.fillText("point 2", this.points[2]*25 + 156, 146 - this.points[3]*25);
+            ctx.fillText("point 2", this.#points[2]*25 + 156, 146 - this.#points[3]*25);
         }
 
     }
@@ -1255,7 +1285,7 @@ class PointPlotVisual {
         var plot_canv = document.createElement('canvas');
         plot_canv.className = "point-plot-plot-canvas";
         var ctx = plot_canv.getContext('2d');
-        this.ctx = ctx;
+        this.#ctx = ctx;
 
         
         plotSection.appendChild(plot_canv)
@@ -1353,8 +1383,8 @@ class PointPlotVisual {
         points_form.addEventListener('submit', (e) => {
             e.preventDefault();
             // clear state
-            this.points = [];
-            // points_data and this.points has: [point1_x, point1_y, point2_x, point2_y]
+            this.#points = [];
+            // points_data and this.#points has: [point1_x, point1_y, point2_x, point2_y]
             var points_data = points_form.getElementsByClassName('point-plot-point-input');
             for(var i = 0; i < points_data.length; i++){
                 if(points_data[i].value == ""){
@@ -1365,10 +1395,9 @@ class PointPlotVisual {
                     alert("Please enter coordinates between -5 and 5!");
                     return;
                 }
-                this.points.push(parseInt(points_data[i].value));
+                this.#points.push(parseInt(points_data[i].value));
             }
-            console.log(this.points)
-            this._plotGraph();
+            this.#plotGraph();
         })
 
         // ctx lines were blurry, i used this solution: https://stackoverflow.com/questions/8696631/canvas-drawings-like-lines-are-blurry
@@ -1380,9 +1409,9 @@ class PointPlotVisual {
         plot_canv.height = size * scale;
 
         // Normalize coordinate system to use css pixels.
-        this.ctx.scale(scale, scale);
+        this.#ctx.scale(scale, scale);
         // initialise graph axes
-        this._initialiseGraph(this.ctx);
+        this.#initialiseGraph(this.#ctx);
 
     }
 }
@@ -1391,10 +1420,13 @@ global.PointPlotVisual = global.PointPlotVisual || PointPlotVisual
 
 // 7. MULTIPLICATION VISUAL
 class MultiplicationVisual {
+    #num1;
+    #num2;
+    #elements;
     constructor(num1, num2){
-        this.num1 = num1;
-        this.num2 = num2;
-        this.elements = [];
+        this.#num1 = num1;
+        this.#num2 = num2;
+        this.#elements = [];
     }
 
     updateDescription(new_desc){
@@ -1409,17 +1441,17 @@ class MultiplicationVisual {
 
         var multiplication_problem_header = document.createElement("h2");
         multiplication_problem_header.className = "multiplication-visual-problem-header"
-        multiplication_problem_header.innerText = this.num1 + " x " + this.num2;
+        multiplication_problem_header.innerText = this.#num1 + " x " + this.#num2;
 
         var multiplication_problem_description = document.createElement("h3");
         multiplication_problem_description.className = "multiplication-visual-problem-desc"
-        multiplication_problem_description.innerText = this.num1 + " groups of " + this.num2;
+        multiplication_problem_description.innerText = this.#num1 + " groups of " + this.#num2;
 
         multiplicationVisualComponent.appendChild(multiplication_problem_header)
         multiplicationVisualComponent.appendChild(multiplication_problem_description)
         
 
-        // we'll have this.num1 divs with this.num2 elements inside it
+        // we'll have this.#num1 divs with this.#num2 elements inside it
         // package that entire thing into one div
         // package that inside the larger calculation div
 
@@ -1429,8 +1461,8 @@ class MultiplicationVisual {
         var multiplication_groups = document.createElement("div")
         multiplication_groups.className = "multiplication-visual-groups"
 
-        // within this, we have this.nums1 number of divs with this.nums2 elements inside each one
-        for(var i = 0; i < this.num1; i++){
+        // within this, we have this.#nums1 number of divs with this.#nums2 elements inside each one
+        for(var i = 0; i < this.#num1; i++){
             var multiplication_group = document.createElement("div");
             multiplication_group.className = "multiplication-visual-multiplication-group"
 
@@ -1444,23 +1476,22 @@ class MultiplicationVisual {
             }
             var element_color = getColor();
 
-            for(var j = 0; j < this.num2; j++){
+            for(var j = 0; j < this.#num2; j++){
                 var element = document.createElement("div")
                 element.className = "multiplication-visual-element"
                 element.style.backgroundColor = element_color;
                 group_div.appendChild(element)
-                this.elements.push(element)
+                this.#elements.push(element)
             }
 
             var group_header = document.createElement("h4")
-            group_header.innerText = this.num2
+            group_header.innerText = this.#num2
             group_header.className = "multiplication-visual-group-header"
 
             multiplication_group.appendChild(group_header);
             multiplication_group.appendChild(group_div);
 
             multiplication_groups.appendChild(multiplication_group)
-            console.log(this.elements)
         }
 
         var multiplication_equals = document.createElement("button")
@@ -1474,13 +1505,13 @@ class MultiplicationVisual {
 
         var multiplication_result_header = document.createElement("h4")
         multiplication_result_header.className = "multiplication-result-header"
-        multiplication_result_header.innerText = this.num1*this.num2
+        multiplication_result_header.innerText = this.#num1*this.#num2
 
 
-        for(var i = 0; i < this.num1*this.num2; i++){
+        for(var i = 0; i < this.#num1*this.#num2; i++){
             var element = document.createElement("div")
             element.className = "multiplication-visual-element"
-            element.style.backgroundColor = this.elements[i].style.backgroundColor;
+            element.style.backgroundColor = this.#elements[i].style.backgroundColor;
             multiplication_result.appendChild(element)
         }
         multiplication_result.className = "multiplication-visuals-result"

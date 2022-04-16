@@ -17,15 +17,97 @@
 <body>
     <nav class="landing-navbar">
         <div>
-            <a class="landing-nav-element landing-nav-library-name" href="index.html">MathViz.js</a>
+            <a class="landing-nav-element landing-nav-library-name" href="index.html"> <img src="icon.png" class="landing-nav-icon">MathViz.js</a>
         </div>
 
         <div>
             <a class="landing-nav-element" href="getting-started.html">Getting Started</a> 
             <a class="landing-nav-element" href="api.html">API</a> 
-            <a class="landing-nav-element" href="examples.html">Examples</a>
+            <a class="landing-nav-element" href="example.html">Examples</a>
         </div>
     </nav>
 
-    <h2>Getting Started</h2>
+    <div class="getting-started-container">
+        <h1 class="getting-started-header">Getting Started</h1>
+
+        <!-- setup and load -->
+        <h2 class="getting-started-subheading">Set Up and Load</h2>
+        <div class="getting-started-setup">
+            <p class="getting-started-p">MathViz.js depends on jQuery 3.6.0. Take a look at <a class="getting-started-api-link" href="https://developers.google.com/speed/libraries#jquery">Google Developers' Hosted Libraries</a> page for the recommended copy!
+            <br> <br>
+            The first (and only!) step to loading this library is to add in the scripts for jQuery and MathViz.js and it's stylesheet to your HTML file as shown on your right. <br> <br>
+            Remember: Order matters!
+            </p>
+            <code class="landing-code">
+                <p class="code-comment">&lt;!-- jquery script --&gt;</p>
+
+                &lt;<span class="code-keyword">script</span> 
+                <span class="code-subkeyword">defer src</span> =
+                <span class="code-link">"https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"</span>
+                &gt;&lt;/<span class="code-keyword">script</span>&gt; <br>
+
+                <p class="code-comment">&lt;!-- MathViz.js library script --&gt;</p> 
+
+                &lt;<span class="code-keyword">script</span> 
+                <span class="code-subkeyword">defer type</span> =
+                <span class="code-link">"text/javascript"</span>
+                <span class="code-subkeyword">src</span> =
+                <span class="code-link">"/path/to/MathViz.js"</span>
+                &gt;&lt;/<span class="code-keyword">script</span>&gt; <br> 
+
+                <p class="code-comment">&lt;!-- MathViz.js stylesheet --&gt;</p>
+
+                &lt;<span class="code-keyword">link</span> 
+                <span class="code-subkeyword">rel</span>
+                =
+                <span class="code-link">"stylesheet"</span>
+                <span class="code-subkeyword">href</span>
+                =
+                <span class="code-link">"/path/to/mathviz-styles.css"</span>&gt; <br>
+            </code>
+
+        </div>
+        
+        <!-- basic usage -->
+        <h2 class="getting-started-subheading">Basic Usage</h2>
+        <div class="getting-started-usage">
+            <div>
+                <p>There are three <span>simple</span> steps to using this library:</p>
+                <ol>
+                    <li> Create the <code>&lt;div&gt;</code> element you want the MathViz.js visualisation to be in. We prefer
+                    giving this parent element a unique ID!</li> <br>
+
+                    <li> In your corresponding javascript file, use your preferred element-selecting method to select this parent element.</li> <br>
+
+                    <li>Instantiate a new instance of the MathViz.js visualisation of your choice and pass in the parent element as a parameter.</li> <br>
+                </ol>
+                <p>The example code demonstrates our Multiplication visualisation. Head over to <a href="api.html" class="getting-started-api-link">API</a> to explore all the other options and specifications!</p>
+            </div>
+
+            <div class="getting-started-usage-code">
+                <h3 class="getting-started-usage-lang">HTML</h3>
+                <code class="landing-code">
+                    &lt;<span class="code-keyword">div</span> <span class="code-subkeyword">id</span>=<span class="code-link">"multiplicationDemoVisual"</span>&gt;<br>
+                    <span class="code-comment">&lt;!-- add visual here --&gt;</span> <br>
+                    &lt;/<span class="code-keyword">div</span>&gt;
+                </code>
+                <h3 class="getting-started-usage-lang">JS</h3>
+                <code class="landing-code">
+                    
+                    
+                    <span class="code-keyword">const</span> multiplicationDiv = <span class="code-subkeyword">document</span>.<span class="code-method">querySelector</span>(
+                    <span class="code-link">'#multiplicationDemoVisual'</span>) <br>
+                    <span class="code-keyword">const</span> multVisual = <span class="code-keyword">new</span> <span class="code-classname">MultiplicationVisual</span>(2,3);
+                    multVisual.<span class="code-method">makeVisual</span>(multiplicationDiv);
+                </code>
+            </div>
+            
+
+        </div>
+        
+        
+
+    </div>
+
+    
 </body>
