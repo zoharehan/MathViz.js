@@ -37,3 +37,12 @@ const divisionDiv = document.querySelector('#divisionDemoVisual');
 // divisor, dividend, unique identifier for block ids
 const divisionVisual = new DivisionVisual(6,2,0);
 divisionVisual.makeVisual(divisionDiv);
+
+const pointPlotDiv = document.querySelector('#pointPlotDemoVisual')
+const pointPlotVisual = new PointPlotVisual();
+pointPlotVisual.makeVisual(pointPlotDiv);
+
+const multiplicationDiv = document.querySelector('#multiplicationDemoVisual')
+const multiplicationVisual = new MultiplicationVisual(2,3);
+multiplicationVisual.makeVisual(multiplicationDiv);
+
