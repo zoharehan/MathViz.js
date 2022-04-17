@@ -4,7 +4,6 @@
 const frac = new FractionVisual(3,6,"#F8C8DC");
 const fracDiv = document.querySelector('#fracDemoVisual');
 frac.makeVisual(fracDiv);
-console.log("shouldnt work:", frac.slices)
 
 const frac1 = new FractionVisual(3,7,"#BDB0D0");
 const fracDiv1 = document.querySelector('#fracDemoVisual1');
@@ -25,6 +24,10 @@ const addVisual = new AddSubtVisual([3,5],true,true);
 addVisual.makeVisual(addDiv);
 addVisual.addExplanation("Count up from 3 five times: 3..4..5..6..7..8 !")
 
+const multiplicationDiv = document.querySelector('#multiplicationDemoVisual')
+const multVisual = new MultiplicationVisual(2,3);
+multVisual.makeVisual(multiplicationDiv);
+
 const matScalDiv = document.querySelector('#matrixScalarDemoVisual');
 const matScalVisual = new MatrixScalarMultiplicationVisual(2,3,3,[1,2,3,4,1,2,3,4,5]);
 matScalVisual.makeVisual(matScalDiv);
@@ -43,7 +46,5 @@ const pointPlotDiv = document.querySelector('#pointPlotDemoVisual')
 const pointVisual = new PointPlotVisual();
 pointVisual.makeVisual(pointPlotDiv);
 
-const multiplicationDiv = document.querySelector('#multiplicationDemoVisual')
-const multVisual = new MultiplicationVisual(2,3);
-multVisual.makeVisual(multiplicationDiv);
+
 

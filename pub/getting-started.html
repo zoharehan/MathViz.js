@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Lato:ital@1&display=swap" rel="stylesheet">
+    <title>MathViz.js</title>
 </head>
 <body>
     <nav class="landing-navbar">
@@ -20,7 +21,7 @@
             <a class="landing-nav-element landing-nav-library-name" href="index.html"> <img src="icon.png" class="landing-nav-icon">MathViz.js</a>
         </div>
 
-        <div>
+        <div class="landing-navbar-buttons">
             <a class="landing-nav-element" href="getting-started.html">Getting Started</a> 
             <a class="landing-nav-element" href="api.html">API</a> 
             <a class="landing-nav-element" href="example.html">Examples</a>
@@ -38,6 +39,9 @@
             The first (and only!) step to loading this library is to add in the scripts for jQuery and MathViz.js and it's stylesheet to your HTML file as shown on your right. <br> <br>
             Remember: Order matters!
             </p>
+            <div class="getting-started-usage-code">
+
+            </div>
             <code class="landing-code">
                 <p class="code-comment">&lt;!-- jquery script --&gt;</p>
 
@@ -71,7 +75,7 @@
         <!-- basic usage -->
         <h2 class="getting-started-subheading">Basic Usage</h2>
         <div class="getting-started-usage">
-            <div>
+            <div class="getting-started-p">
                 <p>There are three <span>simple</span> steps to using this library:</p>
                 <ol>
                     <li> Create the <code>&lt;div&gt;</code> element you want the MathViz.js visualisation to be in. We prefer
@@ -93,7 +97,6 @@
                 </code>
                 <h3 class="getting-started-usage-lang">JS</h3>
                 <code class="landing-code">
-                    
                     
                     <span class="code-keyword">const</span> multiplicationDiv = <span class="code-subkeyword">document</span>.<span class="code-method">querySelector</span>(
                     <span class="code-link">'#multiplicationDemoVisual'</span>) <br>

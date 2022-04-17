@@ -11,8 +11,8 @@ class FractionVisual {
     #angle;
     #slice_rad;
     #center;
-    #num;
-    #den;
+    #numerator;
+    #denominator;
     #color;
     constructor(num, den, color) {
         // slices: stores slices in the visual, colors stores each slice's current color
@@ -25,8 +25,8 @@ class FractionVisual {
         this.#center = [0, 0];
 
         // fraction's numerator and denominator
-        this.#num = num;
-        this.#den = den;
+        this.#numerator = num;
+        this.#denominator = den;
 
         // the developer-picked fill color
         this.#color = color;
@@ -87,7 +87,7 @@ class FractionVisual {
 
         // header creation
         var header = document.createElement('h2');
-        var header_text = this.#num + "/" + this.#den;
+        var header_text = this.#numerator + "/" + this.#denominator;
         header.innerText = header_text;
         header.className = 'FracValues';
         fracComponent.appendChild(header);
@@ -101,7 +101,7 @@ class FractionVisual {
         this.#slice_rad = Math.min((canv.width - 4) / 2, (canv.height - 4) / 2);
 
         var s_angle = 0;
-        for (let i = 0; i < this.#num; i++) {
+        for (let i = 0; i < this.#numerator; i++) {
 
             this.#FracSlice(ctx, [s_angle, s_angle + this.#angle], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), this.#color)
 
@@ -109,7 +109,7 @@ class FractionVisual {
             this.#colors[i] = true;
             s_angle += this.#angle;
         }
-        for (let i = this.#num; i < this.#den; i++) {
+        for (let i = this.#numerator; i < this.#denominator; i++) {
             this.#FracSlice(ctx, [s_angle, s_angle + this.#angle], [(canv.width - 2) / 2, (canv.height - 2) / 2], Math.min((canv.width - 4) / 2, (canv.height - 4) / 2), "#fff"),
             this.#slices[i] = [s_angle, s_angle + this.#angle];
             this.#colors[i] = false;
@@ -141,8 +141,8 @@ class FractionVisual {
                     this.#colors[slice_idx] = false;
 
                     // update numerator in the header
-                    this.#num -= 1;
-                    this.#alterFracHeader(canv.parentElement.firstChild, this.#num, this.#den);
+                    this.#numerator -= 1;
+                    this.#alterFracHeader(canv.parentElement.firstChild, this.#numerator, this.#denominator);
                 }
                 else {
                     //build one with numerator+1
@@ -153,8 +153,8 @@ class FractionVisual {
                     this.#colors[slice_idx] = true;
 
                     // update numerator in the header
-                    this.#num += 1;
-                    this.#alterFracHeader(canv.parentElement.firstChild, this.#num, this.#den);
+                    this.#numerator += 1;
+                    this.#alterFracHeader(canv.parentElement.firstChild, this.#numerator, this.#denominator);
                 }
             }
 
@@ -830,9 +830,9 @@ class DivisionVisual {
     #counts;
     #bin_counts;
     #division_header_text;
-    constructor(d1, d2, uid) {
-        this.#divisor = d2;
-        this.#dividend = d1;
+    constructor(dividend, divisor, uid) {
+        this.#divisor = divisor;
+        this.#dividend = dividend;
         this.#uid = uid;
         this.#blocks = [];
         this.#bins = [];

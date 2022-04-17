@@ -51,15 +51,17 @@ body{
 
 .landing-button{
     border-radius: 5px;
-    font-size: large;
+    font-size: x-large;
     font-family: 'Bubblegum Sans', cursive;
     cursor: pointer;
     background-color: rgb(223, 237, 250);
+    border: none;
+    margin-left: 20px;
 
 }
 
 .landing-button:hover{
-    font-size: larger;
+    font-size: xx-large;
     cursor: pointer;
     background-color: rgb(198, 226, 252);
 
@@ -113,6 +115,10 @@ body{
 
 }
 
+.landing-navbar-buttons{
+    padding-right: 15px;
+}
+
 .getting-started-container{
     margin: 4em;
     margin-top: 6em;
@@ -122,6 +128,8 @@ body{
 
 .examples-container{
     margin: 4em;
+    margin-top: 6em;
+    font-family: 'Lato', sans-serif;
 }
 
 .api-container{
@@ -194,6 +202,7 @@ body{
 .getting-started-usage-code{
     display: flex;
     flex-direction: column;
+    /* margin-left: 3px; */
 }
 
 .getting-started-api-link{
@@ -209,17 +218,57 @@ body{
 
 /* table */
 table {
-    font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
   }
   
   td, th {
     border: 1px solid #a09f9f;
-    text-align: left;
     padding: 8px;
+  }
+
+  tr{
+    text-align: center;
   }
   
   tr:nth-child(even) {
     background-color: #dddddd;
+  }
+
+  /* api */
+  .api-code{
+      display: flex;
+      flex-direction: column;
+      margin-left: 0px;
+      padding: 20px;
+  }
+
+  /* examples */
+
+  .examples-add-subtract{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 100px;
+  }
+
+  .examples-multiplication{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+
+  }
+
+  .examples-asvisual-container{
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .examples-multvisual-container{
+      display: flex;
+      justify-content: center;
+  }
+
+  .examples-add-subtract-question{
+      text-align: center;
   }
