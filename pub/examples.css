@@ -53,17 +53,19 @@
   justify-content: center;
 }
 
-body{
-  background-color: aliceblue;
-  margin: 0px;
-  font-family: 'Lato', sans-serif;
-  /* font-weight: 400; */
-}
+/* #divisionDemoVisual{
+  width: 40vw;
+  margin-bottom: 20rem;
+} */
 
 .header{
   padding: 5px;
   background-color: #e8dbfd;
   box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
-  font-family: 'Lato', sans-serif;
+  /* font-family: 'Lato', sans-serif; */
   font-weight: 400;
+}
+
+#pointPlotDemoVisual{
+  width: 50vw;
 }

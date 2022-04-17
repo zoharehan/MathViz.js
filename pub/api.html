@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- canvas -->
+    <!-- <canvas id="canvas"></canvas> -->
+    <!-- jquery script -->
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- add js library script here -->
+    <link rel="stylesheet" href="landingstyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Lato:ital@1&display=swap" rel="stylesheet">
+    <title>MathViz.js</title>
+</head>
+<body>
+    <nav class="landing-navbar">
+        <div>
+            <a class="landing-nav-element landing-nav-library-name" href="index.html"> <img src="icon.png" class="landing-nav-icon">MathViz.js</a>
+        </div>
+        
+        <div class="landing-navbar-buttons">
+            <a class="landing-nav-element" href="getting-started.html">Getting Started</a> 
+            <a class="landing-nav-element" href="api.html">API</a> 
+            <a class="landing-nav-element" href="example.html">Examples</a>
+        </div>
+        
+    </nav>
+
+    <!-- MAKE A CONTAINER HERE AND ADD PADDING OR MARGIN, WORK IN THERE -->
+    <div class="api-container">
+        <h1 class="getting-started-header">API</h1>
+
+        <div class="api-fraction-visual">
+            <h2 class="getting-started-subheading">FractionVisual</h2>
+            <h4>Constructor Atrributes</h4>
+
+            <div class="api-class-table">
+            <table>
+                <tr>
+                  <th>Attribute</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+                <tr>
+                  <td>numerator</td>
+                  <td>Number/Integer</td>
+                  <td>Numerator of the fraction to visualise, corresponds to the number of colored slices in the (pie-chart) visualisation</td>
+                </tr>
+                <tr>
+                  <td>denominator</td>
+                  <td>Number/Integer</td>
+                  <td>Denominator of the fraction to visualise, corresponds to the total number of slices in the (pie-chart) visualisation</td>
+                </tr>
+                <tr>
+                  <td>color</td>
+                  <td>String <br>(accepts hex code, rgb or name)</td>
+                  <td>Denotes the colour of the filled-in slices of the (pie-chart) visualisation</td>
+                </tr>
+              </table>
+            </div>
+
+
+
+            <h4>Methods</h4>
+
+            <code class="landing-code api-code">
+                <span class="code-comment">/* Generates an instance of the visualisation within html_element */</span><br>
+                <span>
+                    <span class="code-keyword">FractionVisual</span>.<span class="code-method">makeVisual</span>(<span class="code-subkeyword">html_element</span>)
+                </span>
+            </code>
+            
+
+        </div>
+
+        <div class="api-addsubt-visual">
+            <h2 class="getting-started-subheading">AddSubtVisual</h2>
+            <h4>Constructor Atrributes</h4>
+
+            <div class="api-class-table">
+                <table>
+                    <tr>
+                      <th>Attribute</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>numbers</td>
+                      <td>Array of 2 Numbers/Integers</td>
+                      <td>The numbers depicted as being added(or subtracted) in the visualisation</td>
+                    </tr>
+                    <tr>
+                      <td>add</td>
+                      <td>Boolean</td>
+                      <td> <span class="code-keyword">true</span> represents addition and <span class="code-keyword">false</span> represents subtraction</td>
+                    </tr>
+                    <tr>
+                      <td>choice</td>
+                      <td>Boolean</td>
+                      <td>The developer can pick between using cat or dog icons for the visualisation - <br> <span class="code-keyword">true</span> represents cats and <span class="code-keyword">false</span> represents dogs!</td>
+                    </tr>
+                  </table>
+                </div>
+
+            <h4>Methods</h4>
+
+            <code class="landing-code api-code">
+                <span class="code-comment">/* Generates an instance of the visualisation within html_element */</span><br>
+                <span>
+                    <span class="code-keyword">AddSubtVisual</span>.<span class="code-method">makeVisual</span>(<span class="code-subkeyword">html_element</span>)
+                </span>
+                <br>
+                <span class="code-comment">/* Add a customised explanation to the visualisation */</span><br>
+                <span>
+                    <span class="code-keyword">AddSubtVisual</span>.<span class="code-method">addExplanation</span>(<span class="code-link">"count up to four on your fingers!"</span>)
+                </span>
+            </code>
+
+
+        </div>
+
+        <div class="api-multiplication-visual">
+            <h2 class="getting-started-subheading">MultiplicationVisual</h2>
+            <h4>Constructor Atrributes</h4>
+
+            <div class="api-class-table">
+                <table>
+                    <tr>
+                      <th>Attribute</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>num1</td>
+                      <td>Number/Integer</td>
+                      <td>The first number being multiplied in the visualisation</td>
+                    </tr>
+                    <tr>
+                      <td>num2</td>
+                      <td>Number/Integer</td>
+                      <td>The second number being multiplied in the visualisation</td>
+                    </tr>
+                  </table>
+                </div>
+
+            <h4>Methods</h4>
+
+            <code class="landing-code api-code">
+                <span class="code-comment">/* Generates an instance of the visualisation within html_element */</span><br>
+                <span>
+                    <span class="code-keyword">MultiplicationVisual</span>.<span class="code-method">makeVisual</span>(<span class="code-subkeyword">html_element</span>)
+                </span>
+                <br>
+                <span class="code-comment">/* Update the default description to your own customised one */</span>
+                <span class="code-comment">/* default: "Add up all the groups together!" */</span><br>
+                <span>
+                    <span class="code-keyword">MultiplicationVisual</span>.<span class="code-method">updateDescription</span>(<span class="code-link">"my new approach to explain multiplication!"</span>)
+                </span>
+            </code>
+
+        </div>
+
+        <div class="api-division-visual">
+            <h2 class="getting-started-subheading">DivisionVisual</h2>
+            <h4>Constructor Atrributes</h4>
+
+            <div class="api-class-table">
+                <table>
+                    <tr>
+                      <th>Attribute</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>dividend</td>
+                      <td>Number/Integer</td>
+                      <td>The number to be divided by the <span class="code-classname">divisor</span> in the visualisation</td>
+                    </tr>
+                    <tr>
+                      <td>divisor</td>
+                      <td>Number/Integer</td>
+                      <td>The number <span class="code-classname">dividend</span> is being divided by in the visualisation</td>
+                    </tr>
+                    <tr>
+                        <td>uid</td>
+                        <td>Number/Integer</td>
+                        <td>A unique identifier number to attach to the visualisation for it's elements' IDs. <br> 
+                            Tip: We recommend setting it equal to the total number of division visualisations you have on your webpage each time!</td>
+                      </tr>
+                  </table>
+                </div>
+
+            <h4>Methods</h4>
+            <code class="landing-code api-code">
+                <span class="code-comment">/* Generates an instance of the visualisation within html_element */</span><br>
+                <span>
+                    <span class="code-keyword">DivisionVisual</span>.<span class="code-method">makeVisual</span>(<span class="code-subkeyword">html_element</span>)
+                </span>
+            </code>
+
+        </div>
+
+        <div class="api-matscalar-visual">
+            <h2 class="getting-started-subheading">MatrixScalarMultiplicationVisual</h2>
+            <h4>Constructor Atrributes</h4>
+            <div class="api-class-table">
+                <table>
+                    <tr>
+                      <th>Attribute</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>scalar</td>
+                      <td>Number/Integer</td>
+                      <td>The scalar number being multiplied to the matrix in the visualisation</td>
+                    </tr>
+                    <tr>
+                      <td>mat_rows</td>
+                      <td>Number/Integer</td>
+                      <td>The number of rows in the matrix to be visualised</td>
+                    </tr>
+                    <tr>
+                        <td>mat_cols</td>
+                        <td>Number/Integer</td>
+                        <td>The number of columns in the matrix to be visualised</td> 
+                      </tr>
+                      <tr>
+                        <td>mat_vals</td>
+                        <td>Array of Numbers/Integers</td>
+                        <td>values of the elements in the matrix starting from top-left to bottom-right</td> 
+                      </tr>
+                  </table>
+                </div>
+
+            <h4>Methods</h4>
+            <code class="landing-code api-code">
+                <span class="code-comment">/* Generates an instance of the visualisation within html_element */</span><br>
+                <span>
+                    <span class="code-keyword">MatrixScalarMultiplicationVisual</span>.<span class="code-method">makeVisual</span>(<span class="code-subkeyword">html_element</span>)
+                </span>
+            </code>
+            
+        </div>
+
+        <div class="api-matmat-visual">
+            <h2 class="getting-started-subheading">MatrixMatrixMultiplicationVisual</h2>
+            <h4>Constructor Atrributes</h4>
+
+            <div class="api-class-table">
+                <table>
+                    <tr>
+                      <th>Attribute</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>dims1</td>
+                      <td>Array of 2 Numbers/Integers</td>
+                      <td>Dimensions of the first matrix being multiplied in the visualisation <br> Format: [num_rows, num_cols]
+                    </td>
+                    </tr>
+                    <tr>
+                      <td>dims2</td>
+                      <td>Array of 2 Numbers/Integers</td>
+                      <td>Dimensions of the second matrix being multiplied in the visualisation <br> Format: [num_rows, num_cols]</td>
+                    </tr>
+                    <tr>
+                        <td>vals1</td>
+                        <td>Nested Array of Numbers/Integers</td>
+                        <td>values of the elements in the first matrix, nested array where each row is an array <br>
+                        Format: [ [row1_col1, row1_col2, row1_col3 ...], [row2_col1, row2_col2, row2_col3 ...], ....]</td> 
+                      </tr>
+                      <tr>
+                        <td>vals2</td>
+                        <td>Nested Array of Numbers/Integers</td>
+                        <td>values of the elements in the second matrix, nested array where each row is an array <br>
+                            Format: [ [row1_col1, row1_col2, row1_col3 ...], [row2_col1, row2_col2, row2_col3 ...], ....]</td> 
+                      </tr>
+                  </table>
+                </div>
+
+            <h4>Methods</h4>
+            <code class="landing-code api-code">
+                <span class="code-comment">/* Generates an instance of the visualisation within html_element */</span><br>
+                <span>
+                    <span class="code-keyword">MatrixMatrixMultiplicationVisual</span>.<span class="code-method">makeVisual</span>(<span class="code-subkeyword">html_element</span>)
+                </span>
+            </code>
+
+        </div>
+
+        <div class="api-pointplot-visual">
+            <h2 class="getting-started-subheading">PointPlotVisual</h2>
+            <h4>Constructor Atrributes</h4>
+            <h4>This visualisation has no constructor attributes!</h4>
+            <h4>Methods</h4>
+            <code class="landing-code api-code">
+                <span class="code-comment">/* Generates an instance of the visualisation within html_element */</span><br>
+                <span>
+                    <span class="code-keyword">pointPlotVisual</span>.<span class="code-method">makeVisual</span>(<span class="code-subkeyword">html_element</span>)
+                </span>
+            </code>
+        </div>
+
+
+
+        <!-- <div class="api-class-table">
+
+            <table>
+                <tr>
+                  <th>Visualisation Class</th>
+                  <th>Methods</th>
+                  <th>Description</th>
+                </tr>
+                <tr>
+                  <td>FractionVisual</td>
+                  <td>makeVisual(html_element)</td>
+                  <td>Generates an interactive pie-chart based fraction visualisation within the html_element provided</td>
+                </tr>
+                <tr>
+                  <td>AddSubtVisual</td>
+                  <td>Francisco Chang</td>
+                  <td>Mexico</td>
+                </tr>
+                <tr>
+                  <td>Ernst Handel</td>
+                  <td>Roland Mendel</td>
+                  <td>Austria</td>
+                </tr>
+                <tr>
+                  <td>Island Trading</td>
+                  <td>Helen Bennett</td>
+                  <td>UK</td>
+                </tr>
+                <tr>
+                  <td>Laughing Bacchus Winecellars</td>
+                  <td>Yoshi Tannamuri</td>
+                  <td>Canada</td>
+                </tr>
+                <tr>
+                  <td>Magazzini Alimentari Riuniti</td>
+                  <td>Giovanni Rovelli</td>
+                  <td>Italy</td>
+                </tr>
+              </table>
+
+        </div> -->
+
+    </div>
+    
+</body>

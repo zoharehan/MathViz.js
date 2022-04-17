@@ -3,15 +3,15 @@
 
 const frac = new FractionVisual(3,6,"#F8C8DC");
 const fracDiv = document.querySelector('#fracDemoVisual');
-frac.makeFractionVisual(fracDiv);
+frac.makeVisual(fracDiv);
 
 const frac1 = new FractionVisual(3,7,"#BDB0D0");
 const fracDiv1 = document.querySelector('#fracDemoVisual1');
-frac1.makeFractionVisual(fracDiv1);
+frac1.makeVisual(fracDiv1);
 
 const frac2 = new FractionVisual(3,8,"#D7F4D2");
 const fracDiv2 = document.querySelector('#fracDemoVisual2');
-frac2.makeFractionVisual(fracDiv2);
+frac2.makeVisual(fracDiv2);
 
 const subtDiv = document.querySelector('#addSubtDemoVisual');
 const subtVisual = new AddSubtVisual([4,2],false,false);
@@ -24,6 +24,19 @@ const addVisual = new AddSubtVisual([3,5],true,true);
 addVisual.makeVisual(addDiv);
 addVisual.addExplanation("Count up from 3 five times: 3..4..5..6..7..8 !")
 
+const multDiv = document.querySelector('#multiplicationDemoVisual')
+const multVisual = new MultiplicationVisual(2,3);
+multVisual.makeVisual(multDiv);
+
+const divisionDiv = document.querySelector('#divisionDemoVisual');
+// divisor, dividend, unique identifier for block ids
+const divVisual = new DivisionVisual(6,2,0);
+divVisual.makeVisual(divisionDiv);
+
+const pointPlotDiv = document.querySelector('#pointPlotDemoVisual')
+const pointVisual = new PointPlotVisual();
+pointVisual.makeVisual(pointPlotDiv);
+
 const matScalDiv = document.querySelector('#matrixScalarDemoVisual');
 const matScalVisual = new MatrixScalarMultiplicationVisual(2,3,3,[1,2,3,4,1,2,3,4,5]);
 matScalVisual.makeVisual(matScalDiv);
@@ -32,3 +45,10 @@ const matMatDiv = document.querySelector('#matrixMatrixDemoVisual');
 const matMatVisual = new MatrixMatrixMultiplication([2,3], [3,2], [[1,2,3],
     [4 ,5,6]], [[7,8],[9,10],[11,12]])
 matMatVisual.makeVisual(matMatDiv);
+
+
+
+
+
+
+

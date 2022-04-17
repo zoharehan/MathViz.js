@@ -1,0 +1,360 @@
+.landing-container{
+    width: 100vw;
+    height: 100vh;
+    background-image: url("bg_tumble.webp");
+    background-position: center bottom; 
+    background-repeat: no-repeat; 
+    background-size: cover;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 250px;
+    /* padding-bottom: 50px; */
+}
+
+body{
+    margin: 0px;
+}
+
+.landing-text{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    padding: 10px;
+    transform: translate(-50%, -50%);
+    /* color: rgb(137, 220, 235); */
+    /* background-color: #9bd5e0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
+    border: 2px solid #F7A1B5; */
+}
+
+.landing-heading{
+   font-size: xxx-large;
+   font-family: 'Bubblegum Sans', cursive;
+   /* font-family: 'Lato', sans-serif; */
+   margin: 0px;
+}
+
+.landing-subheading{
+    margin: 0px;
+    font-weight: bolder;
+    font-size: x-large;
+    font-family: 'Bubblegum Sans', cursive;
+    /* font-family: 'Lato', sans-serif; */
+}
+
+.landing-buttons{
+    margin-top: 15px;
+}
+
+.landing-button{
+    border-radius: 5px;
+    font-size: x-large;
+    font-family: 'Bubblegum Sans', cursive;
+    cursor: pointer;
+    background-color: rgb(223, 237, 250);
+    border: none;
+    margin-left: 20px;
+
+}
+
+.landing-button:hover{
+    font-size: xx-large;
+    cursor: pointer;
+    background-color: rgb(198, 226, 252);
+
+}
+
+.landing-navbar{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #daeaf6;
+    border-radius: 7px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
+    position: fixed;
+    top: 0;
+    width: 99%;
+}
+
+.landing-nav-element{
+    padding: 10px;
+    font-size: large;
+    text-decoration: none;
+    color: gray;
+    font-family: 'Lato', sans-serif;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.landing-nav-element:hover{
+    color: black;
+    font-size: larger;
+}
+
+.landing-nav-library-name{
+    color: black;
+    font-size: x-large;
+    font-family: 'Bubblegum Sans', cursive;
+}
+
+.landing-nav-library-name:hover{
+    color: gray;
+    font-size: x-large;
+    /* font-size: larger; */
+}
+
+.landing-nav-icon{
+    vertical-align: middle;
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+    padding-bottom: 5px;
+   /* font-size: 18px !important; */
+
+}
+
+.landing-navbar-buttons{
+    padding-right: 15px;
+}
+
+.getting-started-container{
+    margin: 4em;
+    margin-top: 6em;
+    font-family: 'Lato', sans-serif;
+
+}
+
+.examples-container{
+    margin: 4em;
+    margin-top: 6em;
+    font-family: 'Lato', sans-serif;
+}
+
+.api-container{
+    margin: 4em;
+    margin-top: 6em;
+    font-family: 'Lato', sans-serif;
+}
+
+.getting-started-subheading{
+    margin-top: 30px;
+}
+
+.getting-started-setup{
+    display: flex;
+    justify-content: space-between;
+}
+
+.getting-started-p{
+    margin-right: 25px;
+}
+
+
+
+/* styling for codeblocks */
+.landing-code{
+    background-color: #f8f8f8;
+    /* border-radius: 10px; */
+    box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
+    padding-bottom: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 25px;
+
+}
+
+.code-comment{
+    color: green;
+}
+
+.code-keyword{
+    color: blue;
+}
+
+.code-subkeyword{
+    color: rgb(0, 132, 255);
+}
+
+.code-link{
+    color: #ff8800;
+}
+
+.code-method{
+    color: rgba(209, 173, 10);
+}
+
+.code-classname{
+    color: rgb(2, 104, 2);
+}
+
+/* getting started usage */
+.getting-started-usage{
+    display: flex;
+    justify-content: space-between;
+}
+
+.getting-started-usage-lang{
+    text-align: center;
+}
+
+.getting-started-usage-code{
+    display: flex;
+    flex-direction: column;
+    /* margin-left: 3px; */
+}
+
+.getting-started-api-link{
+    font-weight: bolder;
+    color: rgb(0, 119, 255);
+}
+
+.getting-started-api-link:hover{
+    cursor: pointer;
+    color: gray;
+
+}
+
+/* table */
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #a09f9f;
+    padding: 8px;
+  }
+
+  tr{
+    text-align: center;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  /* api */
+  .api-code{
+      display: flex;
+      flex-direction: column;
+      margin-left: 0px;
+      padding: 20px;
+  }
+
+  /* examples */
+
+  .examples-add-subtract{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 100px;
+  }
+
+  .examples-multiplication{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+
+  }
+
+  .examples-division{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+
+  }
+
+  .examples-fraction{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+      
+  }
+
+  .examples-pointplot{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+
+  }
+  .examples-matscalar{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+
+  }
+
+  .examples-matmat{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+
+  }
+
+  .examples-asvisual-container{
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .examples-multvisual-container{
+      display: flex;
+      justify-content: center;
+      width: 45vw;
+  }
+
+  .examples-divvisual-container{
+    display: flex;
+    justify-content: center;
+    /* width: 45vw; */
+
+  }
+
+  .examples-pointvisual-container{
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .examples-matmatvisual-container{
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .examples-matscalvisual-container{
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .examples-division-dev{
+      padding-top: 20px;
+      margin-left: 50px;
+  }
+
+  .examples-matscalar-dev{
+      margin-left: 50px;
+  }
+
+  .examples-matmat-dev{
+    margin-left: 50px;
+}
+
+  .examples-add-subtract-question{
+      text-align: center;
+  }
+
+  .examples-fraction-user{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+  }
+
+  .examples-fracvisual-container{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+
+  }
