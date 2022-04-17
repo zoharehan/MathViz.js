@@ -258,6 +258,40 @@ table {
 
   }
 
+  .examples-division{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+
+  }
+
+  .examples-fraction{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+      
+  }
+
+  .examples-pointplot{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+
+  }
+  .examples-matscalar{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+
+  }
+
+  .examples-matmat{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+
+  }
+
   .examples-asvisual-container{
     display: flex;
     justify-content: center;
@@ -267,8 +301,60 @@ table {
   .examples-multvisual-container{
       display: flex;
       justify-content: center;
+      width: 45vw;
   }
+
+  .examples-divvisual-container{
+    display: flex;
+    justify-content: center;
+    /* width: 45vw; */
+
+  }
+
+  .examples-pointvisual-container{
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .examples-matmatvisual-container{
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .examples-matscalvisual-container{
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .examples-division-dev{
+      padding-top: 20px;
+      margin-left: 50px;
+  }
+
+  .examples-matscalar-dev{
+      margin-left: 50px;
+  }
+
+  .examples-matmat-dev{
+    margin-left: 50px;
+}
 
   .examples-add-subtract-question{
       text-align: center;
+  }
+
+  .examples-fraction-user{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+  }
+
+  .examples-fracvisual-container{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+
   }

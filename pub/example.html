@@ -161,7 +161,7 @@
     
                 <h3 class="getting-started-usage-lang">HTML</h3>
                 <code class="landing-code">
-                    &lt;<span class="code-keyword">div</span> <span class="code-subkeyword">class</span>=<span class="code-link">"examples-asvisual-container"</span> <span class="code-subkeyword">id</span>=<span class="code-link">"addSubtDemoVisual2"</span>&gt;<br>
+                    &lt;<span class="code-keyword">div</span> <span class="code-subkeyword">class</span>=<span class="code-link">"examples-multvisual-container"</span> <span class="code-subkeyword">id</span>=<span class="code-link">"multiplicationDemoVisual"</span>&gt;<br>
                     <span class="code-comment">&lt;!-- add visual here --&gt;</span> <br>
                     &lt;/<span class="code-keyword">div</span>&gt;
                 </code>
@@ -169,20 +169,20 @@
                 <code class="landing-code">
                     
                     
-                    <span class="code-keyword">const</span> addDiv = <span class="code-subkeyword">document</span>.<span class="code-method">querySelector</span>(
-                    <span class="code-link">'#addSubtDemoVisual2'</span>) <br>
-                    <span class="code-keyword">const</span> addVisual = <span class="code-keyword">new</span> <span class="code-classname">AddSubVisual</span>([3,5],<span class="code-keyword">true</span>,<span class="code-keyword">true</span>);
-                    addVisual.<span class="code-method">makeVisual</span>(addDiv); <br>
-                    addVisual.<span class="code-method">addExplanation</span>(<span class="code-link">"Count up from 3 five times: 3..4..5..6..7..8 !"</span>);
+                    <span class="code-keyword">const</span> multDiv = <span class="code-subkeyword">document</span>.<span class="code-method">querySelector</span>(
+                    <span class="code-link">'#multiplicationDemoVisual'</span>) <br>
+                    <span class="code-keyword">const</span> multVisual = <span class="code-keyword">new</span> <span class="code-classname">MultiplicationVisual</span>(2,3);
+                    <br>multVisual.<span class="code-method">makeVisual</span>(multDiv);
                 </code>
     
                 <h3 class="getting-started-usage-lang">CSS</h3>
                 <code class="landing-code">
-                    <span class="code-method">.examples-asvisual-container</span>
+                    <span class="code-method">.examples-multvisual-container</span>
                     
                     { <br>
                         &emsp; <span class="code-keyword">display</span>: flex; <br>
                         &emsp; <span class="code-keyword">justify-content</span>: center; <br>
+                        &emsp; <span class="code-keyword">width</span>: 45vw; <br>
                     }
                     
                 </code>
@@ -195,21 +195,241 @@
 
 
         <h2 class="getting-started-subheading">Visualisation for Division</h2>
-        <h2 class="getting-started-subheading">Visualisation for Fractions</h2>
-        <div>
-            <div id="fracDemoVisual">
-                <!-- add visual here -->
+        <div class="examples-division">
+            <div class="examples-division-user">
+                <h4 class="examples-add-subtract-question">
+                    Divide 6 by 2 and calculate the remainder! <br>
+                    Hint: Use the visualisation by dragging and dropping candies into the boxes. 
+                    At the correct amount, the box will
+                    be outlined <span class="code-classname">green</span>!
+                    <br>
+                    <br>
+                    Click the "=" sign to see the results!
+                </h4>
+
+                <div class="examples-divvisual-container" id="divisionDemoVisual">
+                    <!-- add visual here -->
+                </div>
+
             </div>
-            <div id="fracDemoVisual1">
+            <div class="examples-division-dev getting-started-usage-code">
+
+                <h3 class="getting-started-usage-lang">HTML</h3>
+                <code class="landing-code">
+                    &lt;<span class="code-keyword">div</span> <span class="code-subkeyword">class</span>=<span class="code-link">"examples-divvisual-container"</span> <span class="code-subkeyword">id</span>=<span class="code-link">"divisionDemoVisual"</span>&gt;<br>
+                    <span class="code-comment">&lt;!-- add visual here --&gt;</span> <br>
+                    &lt;/<span class="code-keyword">div</span>&gt;
+                </code>
+                <h3 class="getting-started-usage-lang">JS</h3>
+                <code class="landing-code">
+                    
+                    
+                    <span class="code-keyword">const</span> divisionDiv = <span class="code-subkeyword">document</span>.<span class="code-method">querySelector</span>(
+                    <span class="code-link">'#divisionDemoVisual'</span>) <br>
+                    <span class="code-keyword">const</span> divVisual = <span class="code-keyword">new</span> <span class="code-classname">DivisionVisual</span>(6,2,0);
+                    <br>divVisual.<span class="code-method">makeVisual</span>(divisionDiv);
+                </code>
     
-            </div>
-            <div id="fracDemoVisual2">
-                
+                <h3 class="getting-started-usage-lang">CSS</h3>
+                <code class="landing-code">
+                    <span class="code-method">.examples-divvisual-container</span>
+                    
+                    { <br>
+                        &emsp; <span class="code-keyword">display</span>: flex; <br>
+                        &emsp; <span class="code-keyword">justify-content</span>: center; <br>
+                        &emsp; <span class="code-keyword">width</span>: 45vw; <br>
+                    }
+                    
+                </code>
+
+
             </div>
         </div>
+
+
+        <h2 class="getting-started-subheading">Visualisation for Fractions</h2>
+        <div class="examples-fraction">
+            <div class="examples-fraction-user">
+                <div class="examples-fracvisual-container" id="fracDemoVisual">
+                    <!-- add visual here -->
+                </div>
+                <div class="examples-fracvisual-container" id="fracDemoVisual1">
+                    <!-- add visual here -->
+                </div>
+                <div class="examples-fracvisual-container" id="fracDemoVisual2">
+                    <!-- add visual here -->
+                </div>
+            </div>
+
+            <div class="examples-fraction-dev getting-started-usage-code">
+
+                <h3 class="getting-started-usage-lang">HTML</h3>
+                <code class="landing-code">
+                    &lt;<span class="code-keyword">div</span> <span class="code-subkeyword">class</span>=<span class="code-link">"examples-fracvisual-container"</span> <span class="code-subkeyword">id</span>=<span class="code-link">"fracDemoVisual"</span>&gt;<br>
+                    <span class="code-comment">&lt;!-- add visual here --&gt;</span> <br>
+                    &lt;/<span class="code-keyword">div</span>&gt;
+                </code>
+                <h3 class="getting-started-usage-lang">JS</h3>
+                <code class="landing-code">
+                    
+                    
+                    <span class="code-keyword">const</span> fracDiv = <span class="code-subkeyword">document</span>.<span class="code-method">querySelector</span>(
+                    <span class="code-link">'#fracDemoVisual'</span>) <br>
+                    <span class="code-comment">/* for the second, use: (3,7,"#BDB0D0"), for the third, use: (3,8,"#D7F4D2") */</span> <br>
+                    <span class="code-keyword">const</span> fracVisual = <span class="code-keyword">new</span> <span class="code-classname">FractionVisual</span>(3,6,<span class="code-link">"#F8C8DC"</span>);
+                    <br>divVisual.<span class="code-method">makeVisual</span>(divisionDiv);
+                </code>
+    
+                <h3 class="getting-started-usage-lang">CSS</h3>
+                <code class="landing-code">
+                    <span class="code-method">.examples-fracvisual-container</span>
+                    
+                    { <br>
+                        &emsp; <span class="code-keyword">display</span>: flex; <br>
+                        &emsp; <span class="code-keyword">justify-content</span>: center; <br>
+                        &emsp; <span class="code-keyword">margin</span>: 10px; <br>
+                    }
+                    
+                </code>
+
+            </div>
+        </div>
+
+        <div>
+        </div>
         <h2 class="getting-started-subheading">Visualisation for Plotting a Line Given Two Points</h2>
+        <div class="examples-pointplot">
+            <div class="examples-pointplot-user">
+                <h4 class="examples-add-subtract-question">
+                    Pick co-ordinates between -5 and +5 for two points and press submit to learn how to plot them and connect them with a line!
+                </h4>
+                <div class="examples-pointvisual-container" id="pointPlotDemoVisual">
+                    <!-- add visual here -->
+                </div>
+            </div>
+            <div class="examples-pointplot-dev getting-started-usage-code">
+
+                <h3 class="getting-started-usage-lang">HTML</h3>
+                <code class="landing-code">
+                    &lt;<span class="code-keyword">div</span> <span class="code-subkeyword">class</span>=<span class="code-link">"examples-pointvisual-container"</span> <span class="code-subkeyword">id</span>=<span class="code-link">"pointPlotDemoVisual"</span>&gt;<br>
+                    <span class="code-comment">&lt;!-- add visual here --&gt;</span> <br>
+                    &lt;/<span class="code-keyword">div</span>&gt;
+                </code>
+                <h3 class="getting-started-usage-lang">JS</h3>
+                <code class="landing-code">
+                    
+                    
+                    <span class="code-keyword">const</span> pointPlotDiv = <span class="code-subkeyword">document</span>.<span class="code-method">querySelector</span>(
+                    <span class="code-link">'#pointPlotDemoVisual'</span>) <br>
+                    <span class="code-keyword">const</span> pointVisual = <span class="code-keyword">new</span> <span class="code-classname">PointPlotVisual</span>();
+                    <br>pointVisual.<span class="code-method">makeVisual</span>(pointPlotDiv);
+                </code>
+    
+                <h3 class="getting-started-usage-lang">CSS</h3>
+                <code class="landing-code">
+                    <span class="code-method">.examples-pointvisual-container</span>
+                    
+                    { <br>
+                        &emsp; <span class="code-keyword">display</span>: flex; <br>
+                        &emsp; <span class="code-keyword">justify-content</span>: center; <br>
+                    }
+                    
+                </code>
+
+
+            </div>
+
+        </div>
+
+
         <h2 class="getting-started-subheading">Visualisation for Multiplying a Scalar to a Matrix</h2>
+        <div class="examples-matscalar">
+            <div class="examples-matscalar-user">
+                <h4 class="examples-add-subtract-question">
+                    Click the "Next Step" button to learn Matrix-Scalar Multiplication step-by-step!
+                </h4>
+                <div class="examples-matscalvisual-container" id="matrixScalarDemoVisual">
+                    <!-- add visual here -->
+                </div>
+            </div>
+            <div class="examples-matscalar-dev getting-started-usage-code">
+
+                <h3 class="getting-started-usage-lang">HTML</h3>
+                <code class="landing-code">
+                    &lt;<span class="code-keyword">div</span> <span class="code-subkeyword">class</span>=<span class="code-link">"examples-matscalvisual-container"</span> <span class="code-subkeyword">id</span>=<span class="code-link">"matrixScalarDemoVisual"</span>&gt;<br>
+                    <span class="code-comment">&lt;!-- add visual here --&gt;</span> <br>
+                    &lt;/<span class="code-keyword">div</span>&gt;
+                </code>
+                <h3 class="getting-started-usage-lang">JS</h3>
+                <code class="landing-code">
+                    
+                    
+                    <span class="code-keyword">const</span> matScalDiv = <span class="code-subkeyword">document</span>.<span class="code-method">querySelector</span>(
+                    <span class="code-link">'#matrixScalarDemoVisual'</span>) <br>
+                    <span class="code-keyword">const</span> matScalarVisual = <span class="code-keyword">new</span> <span class="code-classname">MatrixScalarMultiplicationVisual</span>(2,3,3,[1,2,3,4,1,2,3,4,5]);
+                    <br>matScalarVisual.<span class="code-method">makeVisual</span>(matScalDiv);
+                </code>
+    
+                <h3 class="getting-started-usage-lang">CSS</h3>
+                <code class="landing-code">
+                    <span class="code-method">.examples-matscalvisual-container</span>
+                    
+                    { <br>
+                        &emsp; <span class="code-keyword">display</span>: flex; <br>
+                        &emsp; <span class="code-keyword">justify-content</span>: center; <br>
+                    }
+                    
+                </code>
+
+
+            </div>
+        </div>
+
+
         <h2 class="getting-started-subheading">Visualisation for Multiplying two Matrices</h2>
+        <div class="examples-matmat">
+            <div class="examples-matmat-user">
+                <h4 class="examples-add-subtract-question">
+                    Click the "Next Step" button to learn Matrix-Matrix Multiplication step-by-step! <br>
+                    Stuck? Click the "Prev Step" button to review the previous step in the process!
+                </h4>
+                <div class="examples-matmatvisual-container" id="matrixMatrixDemoVisual">
+                    <!-- add visual here -->
+                </div>
+            </div>
+            <div class="examples-matmat-dev getting-started-usage-code">
+
+                <h3 class="getting-started-usage-lang">HTML</h3>
+                <code class="landing-code">
+                    &lt;<span class="code-keyword">div</span> <span class="code-subkeyword">class</span>=<span class="code-link">"examples-matmatvisual-container"</span> <span class="code-subkeyword">id</span>=<span class="code-link">"matrixMatrixDemoVisual"</span>&gt;<br>
+                    <span class="code-comment">&lt;!-- add visual here --&gt;</span> <br>
+                    &lt;/<span class="code-keyword">div</span>&gt;
+                </code>
+                <h3 class="getting-started-usage-lang">JS</h3>
+                <code class="landing-code">
+                    
+                    
+                    <span class="code-keyword">const</span> matMatDiv = <span class="code-subkeyword">document</span>.<span class="code-method">querySelector</span>(
+                    <span class="code-link">'#matrixMatrixDemoVisual'</span>) <br>
+                    <span class="code-keyword">const</span> matMatVisual = <span class="code-keyword">new</span> <span class="code-classname">MatrixMatrixMultiplicationVisual</span>([2,3], [3,2], [[1,2,3],
+                    [4 ,5,6]], [[7,8],[9,10],[11,12]]);
+                    <br>matMatVisual.<span class="code-method">makeVisual</span>(matMatDiv);
+                </code>
+    
+                <h3 class="getting-started-usage-lang">CSS</h3>
+                <code class="landing-code">
+                    <span class="code-method">.examples-matmatvisual-container</span>
+                    
+                    { <br>
+                        &emsp; <span class="code-keyword">display</span>: flex; <br>
+                        &emsp; <span class="code-keyword">justify-content</span>: center; <br>
+                    }
+                    
+                </code>
+
+
+            </div>
+        </div>
 
     </div>
     

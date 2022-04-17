@@ -5,6 +5,8 @@
     border: 0.5px solid black;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
+    height: fit-content;
+    padding-bottom: 40px;
 }
 
 .catimg{
@@ -14,9 +16,6 @@
 .cats{
     display: inline-block;
     max-width: 12vw;
-    /* vertical-align: top; */
-    /* padding: 5px;
-    margin-left: 2px; */
 }
 
 .result-cats{
@@ -244,6 +243,7 @@ background-color: white;
     text-align: center;
     margin: 1rem;
     border: 0.5px solid black;
+    width: 100%;
 
   }
 
