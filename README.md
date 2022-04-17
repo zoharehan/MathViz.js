@@ -24,7 +24,7 @@ Remember: Order matters!
 
 There are three simple steps to using this library:
 
-1. Create the <div> element you want the MathViz.js visualisation to be in. We prefer giving this parent element a unique ID!
+1. Create the ```<div>``` element you want the MathViz.js visualisation to be in. We prefer giving this parent element a unique ID!
 
 2. In your corresponding javascript file, use your preferred element-selecting method to select this parent element.
 
