@@ -46,4 +46,4 @@ const multiplicationDiv = document.querySelector( '#multiplicationDemoVisual')
 const multVisual = new MultiplicationVisual(2,3); multVisual.makeVisual(multiplicationDiv);
   ```
   
-  Head over to our [Named Link](https://math-viz-js.herokuapp.com/api.html "API") to explore more!
+  Head over to our [API](https://math-viz-js.herokuapp.com/api.html "API") to explore more!
